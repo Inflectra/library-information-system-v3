@@ -1,0 +1,189 @@
+// libraries
+import React from 'react';
+import { BrowserRouter, useNavigate } from 'react-router-dom'
+
+// components
+import Header from './Header.jsx';
+import Main from './Main.jsx';
+
+import {setToken,dataLoad} from './http-common'
+
+// data
+import permissions from './permissions';
+
+
+
+const baseApiUrl = 'http://localhost:5000/';
+
+/*
+ * =============
+ * APP COMPONENT
+ * =============
+ * 
+ * state manager for application and simple wrapper for UI components
+ * 
+ */
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      // user login information, permissions enum val, and authentication message
+      // permissions initially set to none (0) to ensure not logged in
+      permission: permissions.none,
+      authMessage: "",
+      user: {}
+    };
+
+    // bind all of the state management functions
+    // auth
+    this.authHandler = this.authHandler.bind(this);
+    this.logout = this.logout.bind(this);
+    this.keepalive = this.keepalive.bind(this);
+  }
+
+  /*
+   * ==============
+   * AUTHENTICATION
+   * ==============
+   */
+
+  // manages getting login info from form, verifying it, setting relevant state
+  // @param: - formData - object of username and password from login form
+  authHandler(formData) {
+    // first make sure form is fully filled in
+    if (!formData.username && !formData.password) {
+      this.setState({ authMessage: "Please provide login details" });
+    } else if (formData.username && !formData.password) {
+      this.setState({ authMessage: "Password required" });
+    } else if (!formData.username && formData.password) {
+      this.setState({ authMessage: "Username required" });
+    
+    // then look for a username match
+    } else if (formData.username && formData.password) {
+      const url = `${baseApiUrl}users/login`;
+      fetch(url,{
+        headers: {
+          'Authorization': 'Basic ' + btoa(formData.username + ":" + formData.password)
+        },
+        credentials:'include'
+      })
+      .then((res) => {
+        if(res.ok) {
+          return res.json()
+        } else {
+          return res.text().then(e => {throw new Error('Login Failed - invalid credentials')})
+        } 
+      })
+      .then((json)=> {
+        console.log('Got user: ', json)
+        setToken(json.token);
+        this.setState({
+          authMessage: '',
+          user: json,
+          permission: json.permission
+        })
+      })
+      .catch((e)=>{
+        if(e.loginFailed) {
+          this.setState({
+            authMessage: e.loginFailed,
+            user: null,
+            permission: permissions.none
+          })
+        } else {
+          this.setState({
+            authMessage: ''+e.message,
+            user: null,
+            permission: permissions.none
+          })
+        }
+      });
+    }
+
+  }
+
+  // manages logout of a logged in user
+  // all that is needed is to reset the permissions enum and user object
+  logout() {
+    dataLoad(`users/logout`)
+    .catch(()=>{})
+    .finally(()=>{
+      setToken('');
+      this.setState({ 
+        authMessage: '',
+        permission: permissions.none,
+        user: {}
+       });
+    });
+
+  }
+
+  keepalive() {
+      dataLoad(`users/keepalive`)
+      .then((res) => {
+        if(res) {
+          return res;
+        } else {
+          throw new Error('Session finished or expired');
+        } 
+      })
+      .catch((_e)=>{
+        this.logout();
+      });
+  }
+
+  dataLoad(url,cb)
+  {
+    fetch(url,{
+      headers:{
+        'Authorization': 'Bearer '+this.state.user.token
+      },
+      credentials: 'include'
+    })
+    .then((res)=>{
+      if(res.ok)
+        res.json().then((v)=>cb(v));
+      else
+        res.text().then((text)=>{throw new Error('Error loading books '+text)})
+    })
+    .catch((e)=>{
+      console.log('Error fetching: '+url,e)
+    })
+  }
+
+  
+  /*
+   * =========
+   * RENDERING
+   * =========
+   * 
+   * Header: handles nav, routing links, and displays login information
+   * Main: routing switch for the pages - hence requires lots of props passed through
+   * 
+   */
+
+  render() {
+    return (
+  <BrowserRouter>
+      <div>
+        <Header 
+          logout={this.logout}
+          keepalive={this.keepalive}
+          permission={this.state.permission} 
+          user={this.state.user}
+          />
+        <Main 
+          // used by all pages
+          permission={this.state.permission} 
+          keepalive={this.keepalive}
+
+          // for home page
+          authHandler={this.authHandler} 
+          authMessage={this.state.authMessage}
+          />
+      </div>
+  </BrowserRouter>
+    );
+  }
+}
+
