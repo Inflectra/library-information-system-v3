@@ -77,12 +77,17 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 	const url = _req.url;
 	let m;
 	let client = '';
+	let reset = false;
 	if ((m = regex.exec(url)) !== null) {
 		client = m[1];
 		const tail = m[2];
 		if( !['docs','redoc','swagger.json','users','books','authors','genres'].includes(client) ) {
-			console.log('using tenant: '+_req.url);
+			console.log('using tenant: '+client);
 			_req.url = tail;
+			if(tail=='/reset'){
+				reset = true;
+				_req.url = '/users/test'
+			}
 		} else {
 			client = '';
 		}
@@ -95,8 +100,9 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 			fs.mkdirSync(dbdir);
 		}
 		const dbpath = join(dbdir,client+'.json');
-		if(fs.existsSync(dbpath)) {
-			db = new LowT(new JSONT(dbpath), getDefaultDbData()) as LowSync<JSONFileSync<Database>>;
+		if(fs.existsSync(dbpath)&&!reset) {
+			db = new LowT(new JSONT(dbpath), {}) as LowSync<JSONFileSync<Database>>;
+			db.read();
 		} else {
 			db = new LowT(new JSONT(dbpath), getDefaultDbData()) as LowSync<JSONFileSync<Database>>;
 			db.write();

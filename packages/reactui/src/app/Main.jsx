@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams } from 'react-router-dom'
 
 // components
 import Home from './Home.jsx';
@@ -11,6 +11,7 @@ import AuthorsList from './pages/AuthorList';
 import AuthorEdit from './pages/AuthorEdit';
 import AuthorShow from './pages/AuthorShow';
 
+import {getTenant} from './http-common';
 
 // Main page has routes to show different 'pages'
 // To ensure authentication stops pages being accessed when logged out, render function in some routes have a ternary operator checking for logged in status
@@ -25,6 +26,9 @@ const Main = (props) => {
       }
   }/>
   );
+
+  const tenant = getTenant();
+  
 
   return (
     <main className="container">
@@ -48,7 +52,7 @@ const Main = (props) => {
         <Route path='authors' 
           element={ props.permission ? <AuthorsList {...props}/> : revert}/>
 				<Route path="*" 
-          element={ <Navigate to="/" replace={true} />}
+          element={ <Navigate to={tenant} replace={true} />}
 				/>
       </Routes>
     </main>

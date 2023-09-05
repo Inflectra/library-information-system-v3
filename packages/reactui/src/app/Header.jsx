@@ -1,14 +1,23 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 
-const Header = (props) => (
+import {getTenant,setTenant} from './http-common';
+
+const Header = (props) =>{
+  const tt = useParams().tenant
+
+  setTenant(tt?'/'+tt:'')
+
+  const tenant = getTenant()
+
+  return (
   <header>
     <nav className="navbar navbar-default">
       <div className="container-fluid">
 
         <div className="navbar-header">
           <NavLink 
-            to='/' 
+            to={tenant+'/'}
             exact='true'
             className="navbar-brand"
             activestyle={{
@@ -16,6 +25,8 @@ const Header = (props) => (
             }}
             >
             Library Information System
+
+            {tenant}
           </NavLink>
         </div>
 
@@ -23,7 +34,7 @@ const Header = (props) => (
           <ul className="nav navbar-nav">
             <li>
               <NavLink 
-                to='/books' 
+                to={tenant+'/books'}
                 activestyle={{
                   color: 'red'
                 }}
@@ -33,7 +44,7 @@ const Header = (props) => (
             </li>
             <li>
               <NavLink 
-                to='/authors' 
+                to={tenant+'/authors'}
                 activestyle={{
                   color: 'red'
                 }}
@@ -45,7 +56,7 @@ const Header = (props) => (
 
           {props.permission ?
             <p className="navbar-text navbar-right">
-              Logged in as {props.user.name}, <a href="/#" onClick={props.logout}>Logout</a>
+              Logged in as {props.user.name}, <a href={getTenant()+"/"} onClick={props.logout}>Logout</a>
             </p>
             : null
           }
@@ -57,5 +68,6 @@ const Header = (props) => (
 
   </header>
 )
+        }
 
 export default Header

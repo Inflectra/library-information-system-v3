@@ -1,19 +1,17 @@
 // libraries
 import React from 'react';
-import { BrowserRouter, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 // components
 import Header from './Header.jsx';
 import Main from './Main.jsx';
 
-import {setToken,dataLoad} from './http-common'
+import {setToken,dataLoad,getTenant,baseApiUrl} from './http-common'
 
 // data
 import permissions from './permissions';
 
 
-
-const baseApiUrl = 'http://localhost:5000/';
 
 /*
  * =============
@@ -60,7 +58,7 @@ export default class App extends React.Component {
     
     // then look for a username match
     } else if (formData.username && formData.password) {
-      const url = `${baseApiUrl}users/login`;
+      const url = `${baseApiUrl}${getTenant()}/users/login`;
       fetch(url,{
         headers: {
           'Authorization': 'Basic ' + btoa(formData.username + ":" + formData.password)
@@ -165,23 +163,27 @@ export default class App extends React.Component {
   render() {
     return (
   <BrowserRouter>
-      <div>
-        <Header 
-          logout={this.logout}
-          keepalive={this.keepalive}
-          permission={this.state.permission} 
-          user={this.state.user}
-          />
-        <Main 
-          // used by all pages
-          permission={this.state.permission} 
-          keepalive={this.keepalive}
+    <Routes>
+      <Route path='/:tenant?/*' element={
+        <div>
+          <Header 
+            logout={this.logout}
+            keepalive={this.keepalive}
+            permission={this.state.permission} 
+            user={this.state.user}
+            />
+          <Main 
+            // used by all pages
+            permission={this.state.permission} 
+            keepalive={this.keepalive}
 
-          // for home page
-          authHandler={this.authHandler} 
-          authMessage={this.state.authMessage}
-          />
-      </div>
+            // for home page
+            authHandler={this.authHandler} 
+            authMessage={this.state.authMessage}
+            />
+        </div>}
+      />
+    </Routes>
   </BrowserRouter>
     );
   }

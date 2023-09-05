@@ -1,17 +1,30 @@
 
 
-export let baseApiUrl = 'http://localhost:5000/';
+export let baseApiUrl = 'http://localhost:5000';
 
 let token = '';
+
 
 export function setToken(tok) 
 {
     token = tok;
 }
 
+let tenant = '';
+
+export function setTenant(t) {
+    tenant = t;
+}
+
+export function getTenant() {
+    return tenant;
+}
+
 export async function dataLoad(url,method,body)
 {
-    return fetch(baseApiUrl+url,{
+    const addr = baseApiUrl+tenant+'/'+url;
+    console.log(addr);
+    return fetch(addr,{
         headers:{
             'Authorization': 'Bearer ' + token,
             'Content-type': 'application/json'
@@ -44,7 +57,6 @@ export async function dataLoad(url,method,body)
         }
     })
 }
-
 
 const replacer = function(key, value) {
 

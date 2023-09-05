@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from './components/Button.jsx'
+import { getTenant } from './http-common.js';
 
 // have local functions to manage on change events of the form - these don't need to be in the state
 // just need the fields to be up to date when form submitted so fields can be passed on to the App and verified
@@ -18,8 +19,8 @@ function passwordChange(e) {
 const Home = (props) => (
   <div className="row well">
     <div className="col-md-6">
-      <h1>Welcome to the Library Information System</h1>
-      <p>This sample application lets you view, create and edit books in a libary catalog as well as view, create and edit authors.</p>
+      <h1>Welcome to the Library Information System {getTenant()}</h1>
+      <p>This sample application lets you view, create and edit books in a library catalog as well as view, create and edit authors.</p>
       <p>To view the library catalog or the authors list you will need to login as a borrower and to make changes to the list of books or authors you will need to login as a librarian.</p>
       <p>Note: This is not a real application, but is just a sample application used in the popular <a href="http://www.inflectra.com/SpiraTest">SpiraTest</a> test management system and <a href="http://www.inflectra.com/Rapise">Rapise</a> test automation system. Both of these products are created by <a href="http://www.inflectra.com/">Inflectra Corporation</a>.</p>
     </div>
