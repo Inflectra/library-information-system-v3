@@ -1,6 +1,6 @@
 // libraries
 import React from 'react'
-import { Routes, Route, Navigate, useParams } from 'react-router-dom'
+import {Routes, Route, Navigate} from 'react-router-dom'
 
 // components
 import Home from './Home.jsx';
@@ -10,6 +10,7 @@ import BookShow from './pages/BookShow';
 import AuthorsList from './pages/AuthorList';
 import AuthorEdit from './pages/AuthorEdit';
 import AuthorShow from './pages/AuthorShow';
+import AdminShow from './pages/AdminShow'
 
 import {getTenant} from './http-common';
 
@@ -49,8 +50,10 @@ const Main = (props) => {
           element={ props.permission ? <AuthorShow {...props}/> : revert}/>
         <Route path='/books' exact='true'
           element={ props.permission ? <BookList {...props}/> : revert}/>
-        <Route path='authors' 
+        <Route path='/authors' 
           element={ props.permission ? <AuthorsList {...props}/> : revert}/>
+        <Route path='/admin' 
+          element={ props.permission ? <AdminShow {...props}/> : revert}/>
 				<Route path="*" 
           element={ <Navigate to={tenant} replace={true} />}
 				/>

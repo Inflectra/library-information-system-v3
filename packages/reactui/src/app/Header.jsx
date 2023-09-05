@@ -1,12 +1,13 @@
 import React from 'react'
-import { NavLink, useParams } from 'react-router-dom'
-
+import {NavLink, useParams} from 'react-router-dom'
+import permissions from './permissions';
 import {getTenant,setTenant} from './http-common';
 
 const Header = (props) =>{
   const tt = useParams().tenant
 
   setTenant(tt?'/'+tt:'')
+  const isAdmin = props.permission==permissions.admin;
 
   const tenant = getTenant()
 
@@ -52,6 +53,18 @@ const Header = (props) =>{
                 Authors
               </NavLink>
             </li>
+            {isAdmin && 
+            <li>
+              <NavLink 
+                to={tenant+'/admin'}
+                activestyle={{
+                  color: 'red'
+                }}
+                >
+                Admin
+              </NavLink>
+            </li>
+            }
           </ul>
 
           {props.permission ?

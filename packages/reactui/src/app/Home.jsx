@@ -9,9 +9,11 @@ let formData = {
   username: "",
   password: ""
 };
+
 function nameChange(e) {
   formData.username = e.target.value;
 }
+
 function passwordChange(e) {
   formData.password = e.target.value;
 }
