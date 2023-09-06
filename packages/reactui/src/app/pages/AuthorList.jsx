@@ -74,12 +74,12 @@ function AuthorList(props) {
            <div className="container">
             <h2 className="text-center mt-5 mb-3">Author Manager</h2>
                 <div className="card">
-                    <div className="card-header">
+                    {isEdit&&<div className="card-header">
                         <Link 
                             className="btn btn-outline-primary"
                             to="/authors/create">Create New Author
                         </Link>
-                    </div>
+                    </div>}
                     <div className="table-responsive">
               
                         <table className="table table-condensed">

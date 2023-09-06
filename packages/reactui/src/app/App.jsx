@@ -1,15 +1,22 @@
 // libraries
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 // components
 import Header from './Header.jsx';
-import Main from './Main.jsx';
 
-import {setToken,dataLoad,getTenant,baseApiUrl} from './http-common'
+import Home from './Home.jsx';
+import BookList from './pages/BookList';
+import BookEdit from './pages/BookEdit';
+import BookShow from './pages/BookShow';
+import AuthorList from './pages/AuthorList';
+import AuthorEdit from './pages/AuthorEdit';
+import AuthorShow from './pages/AuthorShow';
+import AdminShow from './pages/AdminShow'
 
 // data
 import permissions from './permissions';
+import {setToken,dataLoad,getTenant,setTenant,baseApiUrl} from './http-common'
 
 
 
@@ -161,28 +168,70 @@ export default class App extends React.Component {
    */
 
   render() {
-    return (
-  <BrowserRouter>
-    <Routes>
-      <Route path='/:tenant?/*' element={
-        <div>
-          <Header 
-            logout={this.logout}
-            keepalive={this.keepalive}
-            permission={this.state.permission} 
-            user={this.state.user}
-            />
-          <Main 
-            // used by all pages
-            permission={this.state.permission} 
-            keepalive={this.keepalive}
+    let locPath = window.location.pathname;
+    const regex = /(\/[\w\d]+)(\/.+)?/gm;
+    const m = regex.exec(locPath);
+    // detect base URL
+    if (m !== null) {
+      const client = m[1];
+      if( !['/books','/authors','/admin'].includes(client) ) {
+        console.log('using tenant: '+client);
+        locPath = client;
+        setTenant(locPath)
+      } else {
+        locPath = '';
+      }
+    } else {
+      locPath = '';
+    }
 
-            // for home page
-            authHandler={this.authHandler} 
-            authMessage={this.state.authMessage}
-            />
-        </div>}
+    const revert = (
+      <Navigate to='/'/>
+    );
+
+    const props = {
+      permission:this.state.permission,
+      keepalive: this.keepalive,
+
+      // for home page
+      authHandler: this.authHandler,
+      authMessage: this.state.authMessage
+    }
+
+    return (
+  <BrowserRouter basename={locPath}>
+    <Header 
+      logout={this.logout}
+      keepalive={this.keepalive}
+      permission={this.state.permission} 
+      user={this.state.user}
       />
+    <Routes>
+      <Route path='/books' >
+        <Route index element={props.permission ? <BookList {...props}/> : revert}/>
+        <Route path='create'
+          element={ props.permission ? <BookEdit {...props}/> : revert }/>
+        <Route path='edit/:id'
+          element={ props.permission ? <BookEdit {...props}/> : revert}/>
+        <Route path='show/:id'
+          element={ props.permission ? <BookShow {...props}/> : revert}/>
+      </Route>
+      <Route path='/authors' >
+        <Route index element={props.permission ? <AuthorList {...props}/> : revert}/>
+        <Route path='create'
+          element={ props.permission ? <AuthorEdit {...props}/> : revert }/>
+        <Route path='edit/:id'
+          element={ props.permission ? <AuthorEdit {...props}/> : revert}/>
+        <Route path='show/:id'
+          element={ props.permission ? <AuthorShow {...props}/> : revert}/>
+      </Route>
+      <Route path='/admin' 
+          element={ props.permission ? <AdminShow {...props}/> : revert}/>
+      <Route path='/' 
+          element={ <Home {...props}/> } loader={({ params }) => {return setTenant('');}}/>
+      <Route path="*" 
+          element={ <Navigate to='/' replace={true} />}
+				/>
     </Routes>
   </BrowserRouter>
     );

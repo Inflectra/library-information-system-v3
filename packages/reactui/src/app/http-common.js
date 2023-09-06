@@ -20,6 +20,12 @@ export function getTenant() {
     return tenant;
 }
 
+export function getTenantName() {
+    if(tenant && tenant.startsWith('/')) return tenant.substring(1);
+    return tenant;
+}
+
+
 export async function dataLoad(url,method,body)
 {
     const addr = baseApiUrl+tenant+'/'+url;

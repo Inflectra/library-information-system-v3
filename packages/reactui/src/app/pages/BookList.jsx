@@ -91,12 +91,12 @@ function BookList(props) {
            <div className="container">
             <h2 className="text-center mt-5 mb-3">Book Manager</h2>
                 <div className="card">
-                    <div className="card-header">
+                    {isEdit&&<div className="card-header">
                         <Link 
                             className="btn btn-outline-primary"
                             to="/books/create">Create New Book
                         </Link>
-                    </div>
+                    </div>}
                     <div className="table-responsive">
               
                         <table className="table table-condensed">

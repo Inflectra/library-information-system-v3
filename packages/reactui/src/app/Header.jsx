@@ -1,15 +1,15 @@
 import React from 'react'
 import {NavLink, useParams} from 'react-router-dom'
 import permissions from './permissions';
-import {getTenant,setTenant} from './http-common';
+import {getTenant,setTenant,getTenantName} from './http-common';
 
 const Header = (props) =>{
-  const tt = useParams().tenant
-
-  setTenant(tt?'/'+tt:'')
+  const tt = useParams().tenant;
   const isAdmin = props.permission==permissions.admin;
 
   const tenant = getTenant()
+
+  const tenantName = tenant?` (${getTenantName()})`:``;
 
   return (
   <header>
@@ -18,7 +18,7 @@ const Header = (props) =>{
 
         <div className="navbar-header">
           <NavLink 
-            to={tenant+'/'}
+            to='/'
             exact='true'
             className="navbar-brand"
             activestyle={{
@@ -27,7 +27,7 @@ const Header = (props) =>{
             >
             Library Information System
 
-            {tenant}
+            {tenantName}
           </NavLink>
         </div>
 
@@ -35,7 +35,7 @@ const Header = (props) =>{
           <ul className="nav navbar-nav">
             <li>
               <NavLink 
-                to={tenant+'/books'}
+                to='/books'
                 activestyle={{
                   color: 'red'
                 }}
@@ -45,7 +45,7 @@ const Header = (props) =>{
             </li>
             <li>
               <NavLink 
-                to={tenant+'/authors'}
+                to='/authors'
                 activestyle={{
                   color: 'red'
                 }}
@@ -56,7 +56,7 @@ const Header = (props) =>{
             {isAdmin && 
             <li>
               <NavLink 
-                to={tenant+'/admin'}
+                to='/admin'
                 activestyle={{
                   color: 'red'
                 }}
