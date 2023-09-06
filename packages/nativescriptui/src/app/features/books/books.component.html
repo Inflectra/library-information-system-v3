@@ -1,0 +1,73 @@
+<ActionBar title="Library Information System"></ActionBar>
+<StackLayout>
+    <label text=""></label>
+    <label text="Book Management" class="title"></label>
+    <ListView
+    height="80%"
+    separatorColor="transparent"
+    [items]="books"
+    (itemTap)="onBookTap($event)">
+    <ng-template let-item="item">
+        <!-- The item template can only have a single root view container (e.g. GridLayout, StackLayout, etc.)-->
+        <GridLayout
+            height="280"
+            borderRadius="10"
+            class="bg-secondary"
+            rows="*, auto, auto"
+            columns="*, 32, 32"
+            margin="5 10"
+            padding="0">
+          <label
+            row="0"
+            col="0"
+            margin="10 10 0 10"
+            fontWeight="700"
+            class="text-primary"
+            fontSize="20"
+            [text]="item.name"></label>
+          <image
+            row="0"
+            col="1"
+            width="24" height="24" stretch="aspectFill"
+            src="~/assets/Edit.png" #button1 (tap)="onEditButton(button1, item)"></image>            
+          <image
+            row="0"
+            col="2"
+            width="24" height="24" stretch="aspectFill"
+            src="~/assets/Delete.png" #button2 (tap)="onDeleteButton(button2, item)"></image>                 
+          <label
+            row="1"
+            margin="0 10 0 10"
+            class="text-danger"
+            fontSize="18"
+            textWrap="true"
+            [text]="item.author"></label>
+          <label
+            row="2"
+            margin="0 0 0 10"
+            class="text-secondary"
+            fontSize="16"
+            textWrap="true"
+            [text]="item.genre"></label>            
+        </GridLayout>
+      </ng-template>
+    </ListView>
+    <TabView selectedIndex="1" tabTextColor="black" selectedTabTextColor="red"  (selectedIndexChanged)="onSelectedIndexChanged($event)" androidTabsPosition="bottom">
+        <StackLayout *tabItem="{title: 'Home', iconSource: '~/assets/Home.png'}">
+          <StackLayout>
+          </StackLayout>
+        </StackLayout>
+        <StackLayout *tabItem="{title: 'Books', iconSource: '~/assets/Book.png'}">
+          <StackLayout>
+          </StackLayout>
+        </StackLayout>
+        <StackLayout *tabItem="{title: 'Authors', iconSource: '~/assets/Author.png'}">
+            <StackLayout>
+            </StackLayout>
+        </StackLayout>
+        <StackLayout *tabItem="{title: 'Account', iconSource: '~/assets/Account.png'}">
+            <StackLayout>
+            </StackLayout>
+        </StackLayout>        
+    </TabView>      
+</StackLayout>

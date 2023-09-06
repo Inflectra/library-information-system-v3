@@ -11,6 +11,7 @@
   "workspaces": [
     "packages/common",
     "packages/api",
-    "packages/reactui"
+    "packages/reactui",
+    "packages/nativescriptui"
   ]
 }

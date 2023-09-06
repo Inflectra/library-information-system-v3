@@ -1,0 +1,39 @@
+<ActionBar title="Library Information System"></ActionBar>
+<StackLayout>
+    <label text=""></label>
+    <label text="Edit Book" class="title"></label>
+    <label text=""></label>
+    <StackLayout backgroundColor="#3c495e">
+        <label text="Name" class="label"></label>
+        <TextField
+        class="main"
+        secure="false"
+        autocorrect="false"
+        [text]="bookName"
+        (textChange)="onBookNameChange($event)"
+        >
+        </TextField>
+        <label text="Author" class="label"></label>
+        <DropDown #add
+            class="dropdown"
+            backgroundColor="gray"
+            itemsTextAlignment="center"
+            [items]="authors"
+            [selectedIndex]="selectedAuthorIndex"
+            (selectedIndexChanged)="onAuthorChange($event)"
+        ></DropDown> 
+        <label text="Genre" class="label"></label>
+        <DropDown #gdd
+            class="dropdown"
+            backgroundColor="gray"
+            itemsTextAlignment="center"
+            [items]="genres"
+            [selectedIndex]="selectedGenreIndex"
+            (selectedIndexChanged)="onGenreChange($event)"
+        ></DropDown>        
+        <label text="" class="main"></label>
+        <button text="Update" class="main" (tap)="onUpdate($event)"></button>
+        <button text="Cancel" class="main" (tap)="onCancel($event)"></button>
+        <label text="" class="main"></label>
+    </StackLayout>  
+</StackLayout>

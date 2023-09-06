@@ -1,0 +1,52 @@
+<ActionBar title="Library Information System"></ActionBar>
+<StackLayout>
+    <label text=""></label>
+    <label text="Account Information" class="title"></label>
+    <label text=""></label>
+    <StackLayout backgroundColor="#3c495e" *ngIf="!loginService.isAuthenticated()">
+        <TextField
+        class="main"
+        hint="Username"
+        secure="false"
+        autocorrect="false"
+        keyboardType="email"
+        [text]="username"
+        >
+        </TextField>
+        <TextField
+        class="main"
+        hint="Password"
+        secure="true"
+        autocorrect="false"
+        [text]="password"
+        >
+        </TextField>
+        <label text="" class="main"></label>
+        <button text="Login" class="main" (tap)="onLogin($event)"></button>
+        <label text="" class="main"></label>
+    </StackLayout>
+    <label *ngIf="invalidLogin" [text]="errorMessage" class="error"></label>
+    <StackLayout backgroundColor="#3c495e" *ngIf="loginService.isAuthenticated()">
+        <label text="" class="main"></label>
+        <button text="Logout" class="main" (tap)="onLogout($event)"></button>
+        <label text="" class="main"></label>
+    </StackLayout>        
+    <TabView selectedIndex="3" tabTextColor="black" selectedTabTextColor="red"  (selectedIndexChanged)="onSelectedIndexChanged($event)" androidTabsPosition="bottom">
+        <StackLayout *tabItem="{title: 'Home', iconSource: '~/assets/Home.png'}">
+          <StackLayout>
+          </StackLayout>
+        </StackLayout>
+        <StackLayout *tabItem="{title: 'Books', iconSource: '~/assets/Book.png'}">
+          <StackLayout>
+          </StackLayout>
+        </StackLayout>
+        <StackLayout *tabItem="{title: 'Authors', iconSource: '~/assets/Author.png'}">
+            <StackLayout>
+            </StackLayout>
+        </StackLayout>
+        <StackLayout *tabItem="{title: 'Account', iconSource: '~/assets/Account.png'}">
+            <StackLayout>
+            </StackLayout>
+        </StackLayout>        
+    </TabView>      
+</StackLayout>

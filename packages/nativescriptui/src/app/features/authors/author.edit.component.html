@@ -1,0 +1,30 @@
+<ActionBar title="Library Information System"></ActionBar>
+<StackLayout>
+    <label text=""></label>
+    <label text="Edit Author" class="title"></label>
+    <label text=""></label>
+    <StackLayout backgroundColor="#3c495e">
+        <label text="Name" class="label"></label>
+        <TextField
+        class="main"
+        secure="false"
+        autocorrect="false"
+        [text]="author.name"
+        (textChange)="onAuthorNameChange($event)"
+        >
+        </TextField>
+        <label text="Age" class="label"></label>
+        <TextField
+        class="main"
+        secure="false"
+        autocorrect="false"
+        [text]="author.age"
+        (textChange)="onAuthorAgeChange($event)"
+        >
+        </TextField>        
+        <label text="" class="main"></label>
+        <button text="Update" class="main" (tap)="onUpdate($event)"></button>
+        <button text="Cancel" class="main" (tap)="onCancel($event)"></button>
+        <label text="" class="main"></label>
+    </StackLayout>  
+</StackLayout>
