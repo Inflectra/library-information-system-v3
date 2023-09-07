@@ -39,21 +39,21 @@
       </ng-template>
     </ListView>
     <TabView selectedIndex="2" tabTextColor="black" selectedTabTextColor="red"  (selectedIndexChanged)="onSelectedIndexChanged($event)" androidTabsPosition="bottom">
-      <StackLayout *tabItem="{title: 'Home', iconSource: '~/assets/Home.png'}">
+      <StackLayout *tabItem="{title: 'Home', iconSource: 'res://home'}">
         <StackLayout>
         </StackLayout>
       </StackLayout>
-      <StackLayout *tabItem="{title: 'Books', iconSource: '~/assets/Book.png'}">
+      <StackLayout *tabItem="{title: 'Books', iconSource: 'res://books'}">
         <StackLayout>
         </StackLayout>
       </StackLayout>
-      <StackLayout *tabItem="{title: 'Authors', iconSource: '~/assets/Author.png'}">
+      <StackLayout *tabItem="{title: 'Authors', iconSource: 'res://authors'}">
           <StackLayout>
           </StackLayout>
       </StackLayout>
-      <StackLayout *tabItem="{title: 'Account', iconSource: '~/assets/Account.png'}">
+      <StackLayout *tabItem="{title: 'Account', iconSource: 'res://account'}">
           <StackLayout>
           </StackLayout>
-      </StackLayout>        
+      </StackLayout>      
   </TabView>      
 </StackLayout>

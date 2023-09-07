@@ -2,7 +2,7 @@
 3rd generation of LibraryInformationSystem sample application
 
 
-## Starting
+## Building
 
 
 ```
@@ -13,7 +13,11 @@ npm run build -w @lis/common
 npm run build -w @lis/api
 ```
 
+## Starting
 
+```
+npm run start -w @lis/api
+```
 
 ## Trying API
 
