@@ -5,7 +5,7 @@ import { AuthorsComponent } from "./authors.component";
 
 export const routes: Routes = [
   {
-    path: "",
+    path: "default",
     component: AuthorsComponent
   }
 ];

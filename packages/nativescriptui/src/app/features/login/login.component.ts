@@ -1,7 +1,6 @@
 import { Component } from '@angular/core'
 import { RouterExtensions } from "@nativescript/angular";
 import { LoginService } from '~/app/core';
-import { TabService } from '~/app/core';
 
 @Component({
   moduleId: module.id,
@@ -21,8 +20,7 @@ export class LoginComponent {
 
   constructor(
     private routerExtensions: RouterExtensions,
-    public loginService: LoginService,
-    private tabService: TabService
+    public loginService: LoginService
   ) {
   }
 
@@ -32,20 +30,7 @@ export class LoginComponent {
 
     this.loginService.login(this.username, this.password).then((result) =>
     {
-      if (result)
-      {
-        var nextTab = this.tabService.getNextTab();
-        if (nextTab)
-        {
-          this.tabService.setNextTab(null);
-          this.routerExtensions.navigate([nextTab], { replaceUrl: true });
-        }
-      }
-      else
-      {
-        this.invalidLogin = true;
-        setTimeout(() => { this.invalidLogin = false; }, 5000);
-      }
+      console.log("Logged in successfully");
     },
     (error) => {
       this.errorMessage = error;
@@ -57,10 +42,5 @@ export class LoginComponent {
   onLogout(event)
   {
     this.loginService.logout();
-  }  
-
-  onSelectedIndexChanged(event)
-  {
-    this.tabService.onSelectedIndexChanged(event);
   }  
 }

@@ -28,23 +28,5 @@
         <label text="" class="main"></label>
         <button text="Logout" class="main" (tap)="onLogout($event)"></button>
         <label text="" class="main"></label>
-    </StackLayout>        
-    <TabView selectedIndex="3" tabTextColor="black" selectedTabTextColor="red"  (selectedIndexChanged)="onSelectedIndexChanged($event)" androidTabsPosition="bottom">
-        <StackLayout *tabItem="{title: 'Home', iconSource: 'res://home'}">
-            <StackLayout>
-            </StackLayout>
-          </StackLayout>
-          <StackLayout *tabItem="{title: 'Books', iconSource: 'res://books'}">
-            <StackLayout>
-            </StackLayout>
-          </StackLayout>
-          <StackLayout *tabItem="{title: 'Authors', iconSource: 'res://authors'}">
-              <StackLayout>
-              </StackLayout>
-          </StackLayout>
-          <StackLayout *tabItem="{title: 'Account', iconSource: 'res://account'}">
-              <StackLayout>
-              </StackLayout>
-          </StackLayout>    
-    </TabView>      
+    </StackLayout>
 </StackLayout>

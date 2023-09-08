@@ -1,7 +1,8 @@
 <ActionBar title="Book Management"></ActionBar>
-<StackLayout>
-    <ListView
-    height="80%"
+<StackLayout (loaded)="onLoaded()">
+    <label class="text" textWrap="true" text="Please login to view books." *ngIf="!loginService.isAuthenticated()"></label>
+    <ListView  *ngIf="loginService.isAuthenticated()"
+    height="100%"
     separatorColor="transparent"
     [items]="books"
     (itemTap)="onBookTap($event)">
@@ -49,23 +50,5 @@
             [text]="item.genre"></label>            
         </GridLayout>
       </ng-template>
-    </ListView>
-    <TabView selectedIndex="1" tabTextColor="black" selectedTabTextColor="red"  (selectedIndexChanged)="onSelectedIndexChanged($event)" androidTabsPosition="bottom">
-      <StackLayout *tabItem="{title: 'Home', iconSource: 'res://home'}">
-        <StackLayout>
-        </StackLayout>
-      </StackLayout>
-      <StackLayout *tabItem="{title: 'Books', iconSource: 'res://books'}">
-        <StackLayout>
-        </StackLayout>
-      </StackLayout>
-      <StackLayout *tabItem="{title: 'Authors', iconSource: 'res://authors'}">
-          <StackLayout>
-          </StackLayout>
-      </StackLayout>
-      <StackLayout *tabItem="{title: 'Account', iconSource: 'res://account'}">
-          <StackLayout>
-          </StackLayout>
-      </StackLayout>       
-    </TabView>      
+    </ListView>  
 </StackLayout>

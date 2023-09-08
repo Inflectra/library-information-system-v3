@@ -4,10 +4,7 @@ import { NativeScriptRouterModule } from "@nativescript/angular";
 import { BooksComponent } from "./books.component";
 
 export const routes: Routes = [
-  {
-    path: "",
-    component: BooksComponent
-  }
+  { path: "default", component: BooksComponent }
 ];
 
 @NgModule({

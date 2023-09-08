@@ -46,13 +46,13 @@ export class AuthorEditComponent {
   {
     console.log("Updated author: " + JSON.stringify(this.author));
     this.authorService.updateAuthor(this.author).then(() => {
-      this.routerExtensions.navigate(["authors"]);
+      this.routerExtensions.navigate([{ outlets: { authorsTab: [ "authors", "default" ] }}]);
     });
   }
 
   onCancel(event)
   {
-    this.routerExtensions.navigate(["authors"]);
+    this.routerExtensions.navigate([{ outlets: { authorsTab: [ "authors", "default" ] }}]);
   }
 
 }

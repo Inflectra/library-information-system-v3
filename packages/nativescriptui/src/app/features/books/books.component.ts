@@ -1,8 +1,9 @@
 import { Component } from '@angular/core'
 import { ItemEventData, Dialogs } from "@nativescript/core";
+import { ActivatedRoute } from '@angular/router'
 import { RouterExtensions } from "@nativescript/angular";
 import { BookModel, BookService } from "~/app/core";
-import { TabService } from '~/app/core';
+import { TabService, LoginService } from '~/app/core';
 
 @Component({
   moduleId: module.id,
@@ -15,20 +16,33 @@ export class BooksComponent {
   books = [];
 
   constructor(
+    private route: ActivatedRoute,
     private routerExtensions: RouterExtensions,
     private bookService: BookService,
-    private tabService: TabService
+    private tabService: TabService,
+    public loginService: LoginService
   ) {}
 
   ngOnInit(): void {
-    this.bookService.loadBooks().then((books) => {
-      this.books = books;
-    });
+    console.log("Init Books");
+  }
+
+  onLoaded() {
+    if (this.loginService.isAuthenticated())
+    {
+      console.log("Load Books");
+      this.bookService.loadBooks().then((books) => {
+        this.books = books;
+      });    
+    }
+    else
+    {
+      this.books = [];
+    }
   }
 
   onBookTap(args: ItemEventData): void {
     console.log("BOOK TAP");
-    //this.routerExtensions.navigate(["details", this.books[args.index].id]);
   }
 
   onEditButton(button, item: BookModel) {
@@ -36,7 +50,7 @@ export class BooksComponent {
     console.log(msg);
     button.className = "";
     button.className = "highlighted";
-    this.routerExtensions.navigate(["books", item.id]);
+    this.routerExtensions.navigate([{ outlets: { booksTab: [ "book", item.id ] }}]);
   }
 
   onDeleteButton(button, item: BookModel) {
@@ -60,11 +74,6 @@ export class BooksComponent {
     Dialogs.alert(alertOptions).then(() => {
       console.log("Alert dialog closed")
     })
-  }  
-
-  onSelectedIndexChanged(event)
-  {
-    this.tabService.onSelectedIndexChanged(event);
   }  
 
 }

@@ -1,3 +1,17 @@
-<GridLayout>
-  <page-router-outlet></page-router-outlet>
-</GridLayout>
+<TabView tabTextColor="black" selectedTabTextColor="red" androidTabsPosition="bottom">
+  <GridLayout *tabItem="{ title: 'Home', iconSource: 'res://home' }">
+    <page-router-outlet name="homeTab"></page-router-outlet>
+  </GridLayout>
+
+  <GridLayout *tabItem="{ title: 'Books', iconSource: 'res://books' }">
+    <page-router-outlet name="booksTab"></page-router-outlet>
+  </GridLayout>
+  
+  <GridLayout *tabItem="{ title: 'Authors', iconSource: 'res://authors' }">
+    <page-router-outlet name="authorsTab"></page-router-outlet>
+  </GridLayout>
+
+  <GridLayout *tabItem="{ title: 'Account', iconSource: 'res://account' }">
+    <page-router-outlet name="accountTab"></page-router-outlet>
+  </GridLayout>
+</TabView>  

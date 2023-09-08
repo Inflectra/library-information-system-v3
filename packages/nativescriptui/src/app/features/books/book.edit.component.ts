@@ -91,13 +91,13 @@ export class BookEditComponent {
 
     console.log("Updated book: " + JSON.stringify(_book));
     this.bookService.updateBook(_book).then(() => {
-      this.routerExtensions.navigate(["books"]);
+      this.routerExtensions.navigate([{ outlets: { booksTab: [ "books", "default" ] }}]);
     });
   }
 
   onCancel(event)
   {
-    this.routerExtensions.navigate(["books"]);
+    this.routerExtensions.navigate([{ outlets: { booksTab: [ "books", "default" ] }}]);
   }
 
 }

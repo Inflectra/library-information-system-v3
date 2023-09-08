@@ -1,10 +1,11 @@
 <ActionBar title="Author Management"></ActionBar>
-<StackLayout>
+<StackLayout (loaded)="onLoaded()">
+    <label class="text" textWrap="true" text="Please login to view authors." *ngIf="!loginService.isAuthenticated()"></label>
     <ListView
-    height="80%"
+    height="100%"
     separatorColor="transparent"
     [items]="authors"
-    (itemTap)="onAuthorTap($event)">
+    (itemTap)="onAuthorTap($event)" *ngIf="loginService.isAuthenticated()">
     <ng-template let-item="item">
         <!-- The item template can only have a single root view container (e.g. GridLayout, StackLayout, etc.)-->
         <GridLayout
@@ -37,23 +38,5 @@
             [text]="item.age"></label>        
         </GridLayout>
       </ng-template>
-    </ListView>
-    <TabView selectedIndex="2" tabTextColor="black" selectedTabTextColor="red"  (selectedIndexChanged)="onSelectedIndexChanged($event)" androidTabsPosition="bottom">
-      <StackLayout *tabItem="{title: 'Home', iconSource: 'res://home'}">
-        <StackLayout>
-        </StackLayout>
-      </StackLayout>
-      <StackLayout *tabItem="{title: 'Books', iconSource: 'res://books'}">
-        <StackLayout>
-        </StackLayout>
-      </StackLayout>
-      <StackLayout *tabItem="{title: 'Authors', iconSource: 'res://authors'}">
-          <StackLayout>
-          </StackLayout>
-      </StackLayout>
-      <StackLayout *tabItem="{title: 'Account', iconSource: 'res://account'}">
-          <StackLayout>
-          </StackLayout>
-      </StackLayout>      
-  </TabView>      
+    </ListView>  
 </StackLayout>

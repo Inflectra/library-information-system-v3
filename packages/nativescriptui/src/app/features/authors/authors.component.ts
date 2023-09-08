@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { ItemEventData } from "@nativescript/core";
 import { RouterExtensions } from "@nativescript/angular";
-import { AuthorService, TabService } from "~/app/core";
+import { AuthorService, TabService, LoginService } from "~/app/core";
 import { AuthorModel } from '~/app/core';
 
 @Component({
@@ -17,17 +17,30 @@ export class AuthorsComponent {
   constructor(
     private routerExtensions: RouterExtensions,
     private authorService: AuthorService,
-    private tabService: TabService
+    private tabService: TabService,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
-    this.authorService.loadAuthors().then((authors) => {
-      this.authors = authors;
-    });
-  }  
+    console.log("Init Authors");
+  }
+
+  onLoaded() {
+    if (this.loginService.isAuthenticated())
+    {
+      console.log("Load Authors");
+      this.authorService.loadAuthors().then((authors) => {
+        this.authors = authors;
+      });    
+    }
+    else 
+    {
+      this.authors = [];      
+    }
+  }
 
   onAuthorTap(args: ItemEventData): void {
-    this.routerExtensions.navigate(["details", this.authors[args.index].id]);
+    console.log("AUTHOR TAP");
   }
 
   onEditButton(button, item: AuthorModel) {
@@ -35,12 +48,7 @@ export class AuthorsComponent {
     console.log(msg);
     button.className = "";
     button.className = "highlighted";
-    this.routerExtensions.navigate(["authors", item.id]);
+    this.routerExtensions.navigate([{ outlets: { authorsTab: [ "author", item.id ] }}]);
   }
-
-  onSelectedIndexChanged(event)
-  {
-    this.tabService.onSelectedIndexChanged(event);
-  }  
 
 }
