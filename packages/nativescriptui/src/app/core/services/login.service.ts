@@ -38,6 +38,16 @@ export class LoginService {
     return false;
   }  
 
+  getUsername(): string
+  {
+    if(this.user && this.user.username)
+    {
+      return this.user.username;
+    }
+
+    return "TBD";
+  }
+
   login(username: string, password: string) : Promise<boolean>
   {
     return new Promise<boolean>((resolve, reject) => {

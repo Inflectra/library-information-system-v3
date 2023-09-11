@@ -55,7 +55,9 @@ export class LoginComponent {
   {
     this.errorMessage = LoginComponent.INVALID_LOGIN;
 
-    this.loginService.login(this.username, this.password).then((result) =>
+    var _username = ("" + this.username).toLowerCase();
+
+    this.loginService.login(_username, this.password).then((result) =>
     {
       console.log("Logged in successfully");
       this.routerExtensions.navigate([{ outlets: { booksTab: [ "books", "default" ] }}]);
