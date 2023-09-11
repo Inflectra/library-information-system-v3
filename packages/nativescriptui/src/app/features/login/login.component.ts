@@ -24,6 +24,15 @@ export class LoginComponent {
   ) {
   }
 
+  ngOnInit(): void {
+    console.log("Init Account");
+  }
+
+  onLoaded() {
+    console.log("Load Account");
+  }
+
+
   onLogin(event)
   {
     this.errorMessage = LoginComponent.INVALID_LOGIN;
@@ -31,6 +40,7 @@ export class LoginComponent {
     this.loginService.login(this.username, this.password).then((result) =>
     {
       console.log("Logged in successfully");
+      this.routerExtensions.navigate([{ outlets: { booksTab: [ "books", "default" ] }}]);
     },
     (error) => {
       this.errorMessage = error;

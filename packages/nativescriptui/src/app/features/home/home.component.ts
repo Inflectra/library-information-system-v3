@@ -8,13 +8,21 @@ import { Application, AndroidActivityBackPressedEventData } from '@nativescript/
 })
 export class HomeComponent {
 
-  constructor() { }
+  constructor() { 
+  }
 
   ngOnInit(): void {
+    console.log("Init Home");
     if (Application.android) {
       Application.android.on(Application.android.activityBackPressedEvent, (data: AndroidActivityBackPressedEventData) => {
         data.cancel = true;
       });
     }
   }
+
+  onLoaded()
+  {
+    console.log("Load Home");    
+  }
+
 }

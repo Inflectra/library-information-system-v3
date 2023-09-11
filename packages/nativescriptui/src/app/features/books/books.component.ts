@@ -1,9 +1,8 @@
-import { Component } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { ItemEventData, Dialogs } from "@nativescript/core";
-import { ActivatedRoute } from '@angular/router'
 import { RouterExtensions } from "@nativescript/angular";
 import { BookModel, BookService } from "~/app/core";
-import { TabService, LoginService } from '~/app/core';
+import { LoginService } from '~/app/core';
 
 @Component({
   moduleId: module.id,
@@ -13,13 +12,11 @@ import { TabService, LoginService } from '~/app/core';
 
 export class BooksComponent {
 
-  books = [];
+  @Input() books = [];
 
   constructor(
-    private route: ActivatedRoute,
     private routerExtensions: RouterExtensions,
     private bookService: BookService,
-    private tabService: TabService,
     public loginService: LoginService
   ) {}
 
@@ -28,9 +25,10 @@ export class BooksComponent {
   }
 
   onLoaded() {
+    console.log("Load Books");
+
     if (this.loginService.isAuthenticated())
     {
-      console.log("Load Books");
       this.bookService.loadBooks().then((books) => {
         this.books = books;
       });    

@@ -43,7 +43,20 @@ const routes: Routes = [
     path: "author/:id",
     component: AuthorEditComponent,
     outlet: "authorsTab"
-  },   
+  },
+  {
+    path: "emptyBooks",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
+    outlet: "booksTab"
+  }, 
+  {
+    path: "emptyAuthors",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
+    outlet: "authorsTab"
+  }
+  
 ]
 
 @NgModule({

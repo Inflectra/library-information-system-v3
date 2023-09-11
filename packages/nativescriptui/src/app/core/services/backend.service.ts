@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, finalize } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+import { isAndroid, isIOS } from "@nativescript/core";
 
 @Injectable({
   providedIn: "root"
@@ -78,7 +79,20 @@ export class BackendService {
 
   private getBackendUrl()
   {
-    var url = "http://10.0.2.2:5000/";
+    var androidLocalhost = "http://10.0.2.2:5000/";
+    var iosLocalhost = "http://0.0.0.0:5000/";
+
+    var url = androidLocalhost;
+
+    if (isIOS)
+    {
+      url = iosLocalhost;
+    }
+    else if (isAndroid)
+    {
+
+    }
+
     return url;
   }
 

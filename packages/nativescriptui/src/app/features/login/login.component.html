@@ -1,5 +1,5 @@
 <ActionBar title="Account Information"></ActionBar>
-<StackLayout>
+<StackLayout (loaded)="onLoaded()">
     <label text=""></label>
     <StackLayout backgroundColor="#3c495e" *ngIf="!loginService.isAuthenticated()">
         <TextField
