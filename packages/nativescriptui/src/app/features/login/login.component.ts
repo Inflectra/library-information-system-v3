@@ -1,6 +1,7 @@
 import { Component } from '@angular/core'
 import { RouterExtensions } from "@nativescript/angular";
-import { LoginService } from '~/app/core';
+import { BackendService, LoginService } from '~/app/core';
+import { setString } from '@nativescript/core/application-settings';
 
 @Component({
   moduleId: module.id,
@@ -14,14 +15,17 @@ export class LoginComponent {
 
   username: string = "librarian";
   password: string = "librarian";
+  serverUrl: string;
   state: any;
   invalidLogin: boolean = false;
   errorMessage: string = LoginComponent.INVALID_LOGIN;
 
   constructor(
     private routerExtensions: RouterExtensions,
-    public loginService: LoginService
+    public loginService: LoginService,
+    private backendService: BackendService
   ) {
+      this.serverUrl = this.backendService.getBackendUrl();
   }
 
   ngOnInit(): void {
@@ -32,6 +36,20 @@ export class LoginComponent {
     console.log("Load Account");
   }
 
+  onUsernameChange(event)
+  {
+    this.username = event.value;
+  }
+
+  onPasswordChange(event)
+  {
+    this.password = event.value;    
+  }
+
+  onServerUrlChange(event)
+  {
+      this.serverUrl = event.value;
+  }
 
   onLogin(event)
   {
@@ -53,4 +71,10 @@ export class LoginComponent {
   {
     this.loginService.logout();
   }  
+
+  onSave(event)
+  {
+    setString("ServerURL", this.serverUrl);
+  }
+
 }

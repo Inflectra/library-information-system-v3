@@ -1,11 +1,12 @@
 <ActionBar title="Author Management"></ActionBar>
 <StackLayout (loaded)="onLoaded()">
     <label class="text" textWrap="true" text="Please login to view authors." *ngIf="!loginService.isAuthenticated()"></label>
+    <label class="text" textWrap="true" text="You do not have permission to view authors." *ngIf="!loginService.isEditor()"></label>
     <ListView
     height="100%"
     separatorColor="transparent"
     [items]="authors"
-    (itemTap)="onAuthorTap($event)" *ngIf="loginService.isAuthenticated()">
+    (itemTap)="onAuthorTap($event)" *ngIf="loginService.isAuthenticated() && loginService.isEditor()">
     <ng-template let-item="item">
         <!-- The item template can only have a single root view container (e.g. GridLayout, StackLayout, etc.)-->
         <GridLayout

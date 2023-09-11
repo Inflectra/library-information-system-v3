@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, finalize } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { isAndroid, isIOS } from "@nativescript/core";
+import { getString } from '@nativescript/core/application-settings';
 
 @Injectable({
   providedIn: "root"
@@ -77,23 +78,23 @@ export class BackendService {
     }
   }
 
-  private getBackendUrl()
+  public getBackendUrl()
   {
-    var androidLocalhost = "http://10.0.2.2:5000/";
-    var iosLocalhost = "http://0.0.0.0:5000/";
-
-    var url = androidLocalhost;
-
-    if (isIOS)
+    var _serverUrl = getString("ServerURL", "");
+    if (!_serverUrl)
     {
-      url = iosLocalhost;
-    }
-    else if (isAndroid)
-    {
+      var androidLocalhost = "http://10.0.2.2:5000/";
+      var iosLocalhost = "http://0.0.0.0:5000/";
+      
+      _serverUrl = androidLocalhost;
 
+      if (isIOS)
+      {
+        _serverUrl = iosLocalhost;
+      }
     }
 
-    return url;
+    return _serverUrl;
   }
 
   private handleError(error: HttpErrorResponse) 
