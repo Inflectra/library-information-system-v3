@@ -21,25 +21,10 @@ export class AppComponent {
 
     var outlets = {};
 
-    if (_index != 1)
-    {
-      outlets["booksTab"] = ['emptyBooks'];
-    }
-
-    if (_index != 2)
-    {
-      outlets["authorsTab"] = ['emptyAuthors'];
-    }
-
-    if (_index == 1)
-    {
-      outlets["booksTab"] = [ "books", "default" ] 
-    }
-
-    if (_index == 2)
-    {
-      outlets["authorsTab"] = ["authors", "default"];
-    }    
+    outlets["homeTab"] = _index == 0 ? [ "home", "default" ] :  ['emptyHome'];
+    outlets["booksTab"] = _index == 1 ? [ "books", "default" ] :  ['emptyBooks'];
+    outlets["authorsTab"] = _index == 2 ? [ "authors", "default" ] :  ['emptyAuthors'];
+    outlets["accountTab"] = _index == 3 ? [ "login", "default" ] :  ['emptyAccount'];
 
     this.routerExtensions.navigate([{outlets: outlets}]);   
   }

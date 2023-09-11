@@ -1,6 +1,6 @@
 <ActionBar title="Account Information"></ActionBar>
 <StackLayout (loaded)="onLoaded()">
-    <label text=""></label>
+    <label text=" "></label>
     <StackLayout backgroundColor="#3c495e" *ngIf="!loginService.isAuthenticated()">
         <TextField
         class="main"
@@ -21,12 +21,12 @@
         </TextField>
         <label text="" class="main"></label>
         <button text="Login" class="main" (tap)="onLogin($event)"></button>
-        <label text="" class="main"></label>
+        <label text=" " class="main"></label>
     </StackLayout>
     <label *ngIf="invalidLogin" [text]="errorMessage" class="error"></label>
     <StackLayout backgroundColor="#3c495e" *ngIf="loginService.isAuthenticated()">
-        <label text="" class="main"></label>
+        <label text=" " class="main"></label>
         <button text="Logout" class="main" (tap)="onLogout($event)"></button>
-        <label text="" class="main"></label>
+        <label text=" " class="main"></label>
     </StackLayout>
 </StackLayout>

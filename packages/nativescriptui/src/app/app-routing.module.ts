@@ -45,6 +45,12 @@ const routes: Routes = [
     outlet: "authorsTab"
   },
   {
+    path: "emptyHome",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
+    outlet: "homeTab"
+  },  
+  {
     path: "emptyBooks",
     component: NSEmptyOutletComponent,
     loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
@@ -55,7 +61,13 @@ const routes: Routes = [
     component: NSEmptyOutletComponent,
     loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
     outlet: "authorsTab"
-  }
+  },
+  {
+    path: "emptyAccount",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
+    outlet: "accountTab"
+  }  
   
 ]
 

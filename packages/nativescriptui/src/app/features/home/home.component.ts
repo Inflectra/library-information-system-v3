@@ -8,8 +8,7 @@ import { Application, AndroidActivityBackPressedEventData } from '@nativescript/
 })
 export class HomeComponent {
 
-  constructor() { 
-  }
+  constructor() { }
 
   ngOnInit(): void {
     console.log("Init Home");
