@@ -1,4 +1,4 @@
-<TabView tabTextColor="black" selectedTabTextColor="red" androidTabsPosition="bottom">
+<TabView tabTextColor="black" selectedTabTextColor="red" androidTabsPosition="bottom" androidOffscreenTabLimit="0" (selectedIndexChanged)="onSelectedIndexChanged($event)">
   <GridLayout *tabItem="{ title: 'Home', iconSource: 'res://home' }">
     <page-router-outlet name="homeTab"></page-router-outlet>
   </GridLayout>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { ItemEventData } from "@nativescript/core";
 import { RouterExtensions } from "@nativescript/angular";
-import { AuthorService, TabService, LoginService } from "~/app/core";
+import { AuthorService, LoginService } from "~/app/core";
 import { AuthorModel } from '~/app/core';
 
 @Component({
@@ -17,8 +17,7 @@ export class AuthorsComponent {
   constructor(
     private routerExtensions: RouterExtensions,
     private authorService: AuthorService,
-    private tabService: TabService,
-    private loginService: LoginService
+    public loginService: LoginService
   ) {}
 
   ngOnInit(): void {
@@ -26,9 +25,11 @@ export class AuthorsComponent {
   }
 
   onLoaded() {
+    console.log("Load Authors");
+
     if (this.loginService.isAuthenticated())
     {
-      console.log("Load Authors");
+
       this.authorService.loadAuthors().then((authors) => {
         this.authors = authors;
       });    
@@ -36,7 +37,7 @@ export class AuthorsComponent {
     else 
     {
       this.authors = [];      
-    }
+    }    
   }
 
   onAuthorTap(args: ItemEventData): void {

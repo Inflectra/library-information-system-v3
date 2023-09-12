@@ -36,10 +36,22 @@ Label.label {
   color: lightgray;
 }
 
+Label.settings {
+  font-size: 20;
+  margin: 10 10 0 10;
+  color: gray;
+}
+
 TextField.main {
   font-size: 24;
   color: white;
   placeholder-color: white;
+}
+
+TextField.settings {
+  font-size: 24;
+  color: black;
+  placeholder-color: gray;
 }
 
 Image.highlighted {

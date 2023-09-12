@@ -7,6 +7,7 @@ import { BackendService } from "~/app/core/services";
 
 export class LoginService {
 
+  user: any;
   authenticated: boolean = false;
 
   constructor(private backendService: BackendService) 
@@ -17,6 +18,36 @@ export class LoginService {
     return this.authenticated;
   }
 
+  isAdmin(): boolean
+  {
+    if (this.user && this.user.permission  == Permissions.admin)
+    {
+      return true;
+
+    }
+    return false;
+  }
+
+  isEditor(): boolean
+  {
+    if (this.user && (this.user.permission  == Permissions.edit || this.user.permission == Permissions.admin))
+    {
+      return true;
+
+    }
+    return false;
+  }  
+
+  getUsername(): string
+  {
+    if(this.user && this.user.username)
+    {
+      return this.user.username;
+    }
+
+    return "TBD";
+  }
+
   login(username: string, password: string) : Promise<boolean>
   {
     return new Promise<boolean>((resolve, reject) => {
@@ -25,7 +56,12 @@ export class LoginService {
         console.log(JSON.stringify(data));
         this.authenticated = true;
         this.backendService.setToken(data.token);
-        resolve(true);
+
+        this.backendService.getDataFromBackend("users/" + username).subscribe((user) => {
+          console.log(JSON.stringify(user));
+          this.user = user;
+          resolve(true);
+        });
       },
       error => reject(error));
     });
@@ -40,3 +76,10 @@ export class LoginService {
     });
   }
 }
+
+export enum Permissions {
+  none = 0,
+  view = 1,
+  edit = 2,
+  admin = 3
+} 

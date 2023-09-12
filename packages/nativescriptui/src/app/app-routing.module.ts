@@ -43,7 +43,32 @@ const routes: Routes = [
     path: "author/:id",
     component: AuthorEditComponent,
     outlet: "authorsTab"
-  },   
+  },
+  {
+    path: "emptyHome",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
+    outlet: "homeTab"
+  },  
+  {
+    path: "emptyBooks",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
+    outlet: "booksTab"
+  }, 
+  {
+    path: "emptyAuthors",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
+    outlet: "authorsTab"
+  },
+  {
+    path: "emptyAccount",
+    component: NSEmptyOutletComponent,
+    loadChildren: () => import('./features/dummy/dummy.module').then((m) => m.DummyModule),
+    outlet: "accountTab"
+  }  
+  
 ]
 
 @NgModule({

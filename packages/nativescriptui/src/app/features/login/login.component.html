@@ -1,6 +1,6 @@
 <ActionBar title="Account Information"></ActionBar>
-<StackLayout>
-    <label text=""></label>
+<StackLayout (loaded)="onLoaded()">
+    <label text=" "></label>
     <StackLayout backgroundColor="#3c495e" *ngIf="!loginService.isAuthenticated()">
         <TextField
         class="main"
@@ -9,6 +9,7 @@
         autocorrect="false"
         keyboardType="email"
         [text]="username"
+        (textChange)="onUsernameChange($event)"
         >
         </TextField>
         <TextField
@@ -17,16 +18,31 @@
         secure="true"
         autocorrect="false"
         [text]="password"
+        (textChange)="onPasswordChange($event)"
         >
         </TextField>
-        <label text="" class="main"></label>
+        <label text=" " class="main"></label>
         <button text="Login" class="main" (tap)="onLogin($event)"></button>
-        <label text="" class="main"></label>
+        <label text=" " class="main"></label>
     </StackLayout>
-    <label *ngIf="invalidLogin" [text]="errorMessage" class="error"></label>
+    <label *ngIf="invalidLogin" [text]="errorMessage" class="error" textWrap="true"></label>
     <StackLayout backgroundColor="#3c495e" *ngIf="loginService.isAuthenticated()">
-        <label text="" class="main"></label>
+        <label text=" " class="main"></label>
         <button text="Logout" class="main" (tap)="onLogout($event)"></button>
-        <label text="" class="main"></label>
+        <label text=" " class="main"></label>
     </StackLayout>
+    <StackLayout>
+        <label text="Settings" class="title"></label>
+        <label text="Server URL" class="settings"></label>
+        <TextField
+        class="settings"
+        hint=""
+        secure="false"
+        autocorrect="false"
+        keyboardType="email"
+        [text]="serverUrl"
+        (textChange)="onServerUrlChange($event)"
+        ></TextField>
+        <button text="Save" class="main" (tap)="onSave($event)"></button>
+    </StackLayout>   
 </StackLayout>

@@ -9,7 +9,7 @@
     <ng-template let-item="item">
         <!-- The item template can only have a single root view container (e.g. GridLayout, StackLayout, etc.)-->
         <GridLayout
-            height="280"
+            height="120"
             borderRadius="10"
             class="bg-secondary"
             rows="*, auto, auto"
@@ -28,12 +28,12 @@
             row="0"
             col="1"
             width="24" height="24" stretch="aspectFill"
-            src="~/assets/Edit.png" #button1 (tap)="onEditButton(button1, item)"></image>            
+            src="~/assets/Edit.png" #button1 (tap)="onEditButton(button1, item)"  *ngIf="loginService.isEditor()"></image>            
           <image
             row="0"
             col="2"
             width="24" height="24" stretch="aspectFill"
-            src="~/assets/Delete.png" #button2 (tap)="onDeleteButton(button2, item)"></image>                 
+            src="~/assets/Delete.png" #button2 (tap)="onDeleteButton(button2, item)"  *ngIf="loginService.isEditor()"></image>                 
           <label
             row="1"
             margin="0 10 0 10"
