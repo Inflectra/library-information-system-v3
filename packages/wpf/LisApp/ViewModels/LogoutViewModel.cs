@@ -20,16 +20,20 @@ namespace LisApp.ViewModels;
 
 public partial class LogoutViewModel: ViewModelBase
 {
-    private readonly INavigationService navigation;
+    private readonly DataService dataService;
 
     [ObservableProperty]
     string _message = "Logout";
 
-    public LogoutViewModel(INavigationService navigation)
+    public LogoutViewModel(DataService dataService)
     {
-        this.navigation = navigation;
+        this.dataService = dataService;
     }
 
-
+    [RelayCommand]
+    public void LogoutShown()
+    {
+        dataService.Disconnect();
+    }
 
 }

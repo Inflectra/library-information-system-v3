@@ -102,6 +102,15 @@ import {
        {
          return notFoundResponse(405, { errorMessage: `Author not found by id: ${requestBody.id}` });
        }
+       if(requestBody.name) {
+        const foundByName = 
+          new AuthorsService()
+          .find(_req.app.db, requestBody.name)
+          .filter((a)=>(a.id!=requestBody.id)&&(a.name==requestBody.name));
+        if( foundByName.length ) {
+          return notFoundResponse(405, { errorMessage: `Another author with same name already exists: ${requestBody.name}` });
+        }
+       }
  
        return new AuthorsService().update(_req.app.db,requestBody);
      }

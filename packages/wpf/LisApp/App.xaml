@@ -9,6 +9,9 @@
             <DataTemplate DataType="{x:Type TypeName=viewmodel:LoginViewModel}">
                 <view:LoginView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type TypeName=viewmodel:LogoutViewModel}">
+                <view:LogoutView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:AdminViewModel}">
                 <view:AdminView/>
             </DataTemplate>
@@ -33,8 +36,8 @@
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:MahAppsBundledTheme BaseTheme="Inherit"
-                                            PrimaryColor="DeepPurple"
-                                            SecondaryColor="Purple" />
+                                            PrimaryColor="Blue"
+                                            SecondaryColor="LightBlue" />
 
                 <!-- MahApps -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
@@ -48,6 +51,9 @@
 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
 
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
 

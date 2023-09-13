@@ -8,20 +8,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:domain="clr-namespace:LisApp.ViewModels" d:DataContext="{d:DesignInstance Type=domain:MainViewModel}"
         mc:Ignorable="d"
-        Title="Library Information System" Height="450" Width="800"
-                      
-                      
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto"
-                      
-        Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}"
-        Style="{StaticResource MaterialDesignWindow}"
-             
-                      
+        Title="Library Information System"
+        Height="550" Width="950"
         Icon="favicon.ico"
         ShowIconOnTitleBar="True"
                       
@@ -33,13 +21,23 @@
         <controls:WindowCommands>
             <wpf:PopupBox Style="{StaticResource WindowCommandsPopupBoxStyle}">
                 <StackPanel>
-                    <Button Content="About..." />
-                    <Button Content="Settings..." />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,10,0" Text="Light" />
+                        <ToggleButton x:Name="DarkModeToggleButton"
+                                  Style="{StaticResource MaterialDesignSwitchLightToggleButton}"
+                                  Command="{Binding Path=ToggleDarkModeCommand}" 
+                                  CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"
+                                  />
+                        <TextBlock
+                             Margin="10,0,0,0"
+                             Text="Dark" />
+                    </StackPanel>
+                    <Button Content="About" Command="{Binding DataContext.AboutBoxCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
                 </StackPanel>
             </wpf:PopupBox>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
-
+    <materialDesign:DialogHost Identifier="RootDialog">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -50,7 +48,24 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding AppTitle}" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+                <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding CurrentView.Message}" 
+                       HorizontalAlignment="Center"
+                       Padding="0,16"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource MaterialDesignTitleMediumTextBlock}"
+                       />
+                    <TextBlock Grid.Column="1" Text="{Binding WelcomeMessage}"
+                               Margin="4"
+                               HorizontalAlignment="Left" 
+                               VerticalAlignment="Center"
+                               Style="{StaticResource MaterialDesignLabelLargeTextBlock}"
+                               />
+                </Grid>
             <StackPanel Grid.Column="0" Grid.Row="1">
                 <Viewbox VerticalAlignment="Top"
                      Stretch="Uniform">
@@ -59,8 +74,6 @@
                        SelectedValue="{Binding SelectedItem}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesign3.NavigationRailPrimaryListBoxItem}">
-                                <Setter Property="materialDesign:BadgedAssist.BadgeBackground" Value="#930006" />
-                                <Setter Property="materialDesign:BadgedAssist.BadgeForeground" Value="#FFDAD4" />
                                 <Setter Property="materialDesign:NavigationRailAssist.IsTextVisible" Value="True" />
                                 <Setter Property="materialDesign:NavigationRailAssist.SelectedIcon" Value="{Binding SelectedIcon}" />
                                 <Setter Property="materialDesign:NavigationRailAssist.UnselectedIcon" Value="{Binding UnselectedIcon}" />
@@ -77,9 +90,9 @@
                 </Viewbox>
             </StackPanel>
 
-            <ContentControl Grid.Column="1" Grid.Row="1"
-            Content="{Binding Content, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"
-            DataContext="{Binding SelectedItem}" />
+            <ContentControl Name="CurrentView" Grid.Column="1" Grid.Row="1"
+                Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"
+                />
 
         </Grid>
         <materialDesign:DialogHost IsOpen="{Binding DialogIsOpen}">
@@ -94,7 +107,7 @@
                     </StackPanel>
                     <Button x:Name="CloseButton"
                 Command="{Binding CloseDialogCommand}"
-                Content="Close" />
+                Content="OK" />
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
 
@@ -118,6 +131,7 @@
 
     </Grid>
 
-    
-    
+    </materialDesign:DialogHost>
+
+
 </controls:MetroWindow>

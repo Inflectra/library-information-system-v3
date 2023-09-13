@@ -4,7 +4,7 @@ import {Db} from "../common"
 import {pull,merge} from "lodash";
 
 // A post request should not contain an id.
-export type BookCreationParams = Omit<Book, "id">;
+export type BookCreationParams = Omit<Book, "id">&Partial<Pick<Book,"id">>;
 
 export type BookUpdateParams = Partial<Book>&Pick<Book,"id">
 
@@ -33,8 +33,8 @@ export class BooksService {
   public create(db:Db, bookCreationParams: BookCreationParams): Book {
     console.log('books count before', db.data.books.length)
     const newOne = <Book>{
-      id: this.nextId(db),
       ...bookCreationParams,
+      id: this.nextId(db),
     };
     db.data.books.push(newOne);
     console.log('books count after', db.data.books.length)

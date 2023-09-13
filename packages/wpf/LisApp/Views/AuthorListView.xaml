@@ -3,10 +3,110 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LisApp.Views"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Name="AuthorList"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" SourceName="">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
-        <TextBlock>Author List</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Command="{Binding CreateAuthorCommand}"
+                    Style="{StaticResource MaterialDesignFlatLightButton}"
+                    ToolTip="Add new Author to the System"
+                    HorizontalAlignment="Left"
+                    Visibility="{Binding IsEditEnabled, Converter={StaticResource BoolToVis}}"
+                >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                      Width="24"
+                      Height="24"
+                      Kind="Plus" />
+                    <TextBlock Text="Create New Author"/>
+                </StackPanel>
+            </Button>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Grid.Column="1" Name="txtDisplaying" Text="{Binding AuthorsView.Count}"/>
+                <TextBlock Grid.Column="1" Text="/"/>
+                <TextBlock Grid.Column="1" Name="txtDisplayingTotal" Text="{Binding Authors.Count}"/>
+            </StackPanel>
+            <TextBox
+                  Grid.Column="2"
+                  Width="250"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center"
+                  materialDesign:TextFieldAssist.HasClearButton="True"
+                  materialDesign:HintAssist.Hint="Find an Author"
+                  Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
+                />
+        </Grid>
+
+        <DataGrid x:Name="dgAuthors"
+                  Grid.Row="1"
+                  xmlns:my="http://schemas.microsoft.com/wpf/2008/tookit"
+                  ItemsSource="{Binding AuthorsView}" 
+                  IsSynchronizedWithCurrentItem="True"
+                  AutoGenerateColumns="False"
+                  SelectionMode="Single"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  CanUserAddRows="false"
+                  SelectionChanged="dgAuthors_SelectionChanged"
+                  >
+            <DataGrid.InputBindings>
+                <MouseBinding
+                        MouseAction="LeftDoubleClick"
+                        Command="{Binding DoubleClickCommand}"
+                        CommandParameter="{Binding AuthorsView/}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Name" Width="Auto" Binding="{Binding Path=Name, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Age" Binding="{Binding Path=Age, Mode=OneWay}"/>
+
+
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Command="{Binding DataContext.EditAuthorCommand, ElementName=AuthorList}"
+                                        CommandParameter="{Binding Path=DataContext.AuthorsView/, ElementName=AuthorList}"
+                                        Height="16" Width="16" Margin="2"
+                                        Style="{StaticResource MaterialDesignIconButton}"
+                                        ToolTip="Edit Author"
+                                        Visibility="{Binding DataContext.IsEditEnabled, ElementName=AuthorList, Converter={StaticResource BoolToVis}}"
+                                    >
+                                    <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                </Button>
+                                <Button Command="{Binding DataContext.ShowAuthorCommand, ElementName=AuthorList}"
+                                        CommandParameter="{Binding Path=DataContext.AuthorsView/, ElementName=AuthorList}"
+                                        Height="16" Width="16" Margin="2"
+                                        Style="{StaticResource MaterialDesignIconButton}"
+                                        ToolTip="View Author"
+                                    >
+                                    <materialDesign:PackIcon Kind="EllipsisHorizontal" Width="16" Height="16"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

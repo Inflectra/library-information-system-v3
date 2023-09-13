@@ -24,5 +24,13 @@ namespace LisApp.Views
         {
             InitializeComponent();
         }
+
+        private void dgBooks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((dgBooks.SelectedItem != null) && (e.OriginalSource?.Equals(dgBooks) ?? false))
+            {
+                dgBooks.ScrollIntoView(dgBooks.SelectedItem);
+            }
+        }
     }
 }

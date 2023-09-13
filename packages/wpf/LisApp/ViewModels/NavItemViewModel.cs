@@ -15,8 +15,7 @@ namespace LisApp.ViewModels;
 
 public partial class NavItemViewModel: ObservableObject
 {
-    private object? _content;
-    private readonly Type _contentType;
+    public Type ContentType { get; }
 
     [ObservableProperty]
     private string _title;
@@ -29,16 +28,9 @@ public partial class NavItemViewModel: ObservableObject
     public NavItemViewModel(string title, Type contentType, PackIconKind selectedIcon, PackIconKind unselectedIcon)
     {
         _title = title;
-        _contentType = contentType;
+        ContentType = contentType;
         _selectedIcon = selectedIcon;
         _unselectedIcon = unselectedIcon;
-    }
-
-    public object? Content => _content??=CreateContent();
-
-    private object? CreateContent()
-    {
-        return Ioc.Default.GetService(_contentType);
     }
 
 }

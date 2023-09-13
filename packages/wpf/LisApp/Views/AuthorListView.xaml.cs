@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LisApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,15 @@ namespace LisApp.Views
         public AuthorListView()
         {
             InitializeComponent();
+        }
+
+        private void dgAuthors_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((dgAuthors.SelectedItem != null) && (e.OriginalSource?.Equals(dgAuthors) ?? false))
+            {
+                dgAuthors.ScrollIntoView(dgAuthors.SelectedItem);
+            }
+
         }
     }
 }

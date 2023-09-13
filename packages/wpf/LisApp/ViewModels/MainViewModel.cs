@@ -14,23 +14,19 @@ using System.ComponentModel;
 using System.Windows.Data;
 using MahApps.Metro.IconPacks;
 using LisApp.Views;
+using LisApp.Models;
 
 namespace LisApp.ViewModels;
 
 public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMessage<bool>>, IRecipient<DataErrorMessage>
 {
-    private INavigationService navigation;
-    private readonly ICollectionView _navItemsView;
+    private readonly INavigationService navigation;
+    private readonly DataService dataService;
+    private readonly ICollectionView navItemsView;
     public ObservableCollection<NavItemViewModel> NavItems { get; }
 
     [ObservableProperty]
-    private string appTitle = "The App";
-
-    [ObservableProperty]
-    private int selectedIndex;
-
-    [ObservableProperty]
-    private NavItemViewModel? selectedItem;
+    private string welcomeMessage = "";
 
     [ObservableProperty]
     private bool dialogIsOpen = false;
@@ -39,11 +35,19 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
     private string dialogMessage = "";
 
     [ObservableProperty]
-    private bool _isInProgress = false;
+    private bool isInProgress = false;
 
-    public MainViewModel(INavigationService  _navigation)
+    [ObservableProperty]
+    private NavItemViewModel? selectedItem;
+
+    [ObservableProperty]
+    private ViewModelBase? currentView;
+
+
+    public MainViewModel(INavigationService  _navigation, DataService dataService)
     {
         navigation = _navigation;
+        this.dataService = dataService;
         WeakReferenceMessenger.Default.RegisterAll(this);
 
         NavItems = new ObservableCollection<NavItemViewModel>()
@@ -56,7 +60,7 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
             ),
             new NavItemViewModel(
                 "Books",
-                typeof(AuthorListViewModel),
+                typeof(BookListViewModel),
                 selectedIcon: PackIconKind.Books,
                 unselectedIcon: PackIconKind.Books
             ),
@@ -68,16 +72,34 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
             ),
             new NavItemViewModel(
                 "Logout",
-                typeof(AuthorListViewModel),
+                typeof(LogoutViewModel),
                 selectedIcon: PackIconKind.LanDisconnect,
                 unselectedIcon: PackIconKind.LanDisconnect
             )
         };
-        SelectedItem = NavItems[0];
-        SelectedIndex = 0;
+        navItemsView = CollectionViewSource.GetDefaultView(NavItems);
+        navItemsView.Filter = LoggedOutNavItemsFilter;
 
-        _navItemsView = CollectionViewSource.GetDefaultView(NavItems);
-        _navItemsView.Filter = LoggedOutNavItemsFilter;
+        PropertyChanged += MainViewModel_PropertyChanged;
+        navigation.PropertyChanged += Navigation_PropertyChanged;
+
+        SelectedItem = NavItems[0];
+    }
+
+    private void Navigation_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if(e.PropertyName=="CurrentView")
+        {
+            this.CurrentView = navigation.CurrentView;
+        }
+    }
+
+    private void MainViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if(e.PropertyName=="SelectedItem" && SelectedItem!=null)
+        {
+            navigation.NavigateTo(selectedItem.ContentType); ;
+        }
     }
 
     private bool LoggedOutNavItemsFilter(object obj) => obj is NavItemViewModel item &&
@@ -94,12 +116,14 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
 
             if(message.NewValue)
             {
-                _navItemsView.Filter = LoggedInNavItemsFilter;
+                navItemsView.Filter = LoggedInNavItemsFilter;
+                this.WelcomeMessage = "Welcome, " + dataService.User.Name+"!";
             } else
             {
-                _navItemsView.Filter = LoggedOutNavItemsFilter;
+                navItemsView.Filter = LoggedOutNavItemsFilter;
+                this.WelcomeMessage = "";
             }
-            SelectedIndex = 0;
+            SelectedItem = (NavItemViewModel?)navItemsView.CurrentItem;
 
         }
         if (message.Sender.GetType() == typeof(DataService) &&
@@ -125,6 +149,29 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
     public void CloseDialog()
     {
         DialogIsOpen = false;
+    }
+
+
+    private static void ModifyTheme(bool isDarkTheme)
+    {
+        var paletteHelper = new PaletteHelper();
+        var theme = paletteHelper.GetTheme();
+
+        theme.SetBaseTheme(isDarkTheme ? Theme.Dark : Theme.Light);
+        paletteHelper.SetTheme(theme);
+    }
+
+    [RelayCommand]
+    public void ToggleDarkMode(bool isDarkTheme)
+    {
+        ModifyTheme(isDarkTheme);
+    }
+
+    [RelayCommand]
+    public void AboutBox()
+    {
+        DialogMessage = "Library Information System Demo Application 3.1";
+        DialogIsOpen = true;
     }
 }
 

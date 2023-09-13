@@ -9,10 +9,11 @@ using LisApp.ViewModels;
 
 namespace LisApp.Services;
 
-public interface INavigationService
+public interface INavigationService: INotifyPropertyChanged
 {
     ViewModelBase? CurrentView { get; }
     void NavigateTo<T>() where T : ViewModelBase;
+    void NavigateTo(Type viewType);
 }
 public partial class NavigationService : ObservableObject, INavigationService
 {
@@ -35,7 +36,12 @@ public partial class NavigationService : ObservableObject, INavigationService
 
     public void NavigateTo<T>() where T : ViewModelBase
     {
-        var model = factory.Invoke(typeof(T));
+        NavigateTo(typeof(T));
+    }
+
+    public void NavigateTo(Type viewType)
+    {
+        var model = factory.Invoke(viewType);
         CurrentView = model;
     }
 }

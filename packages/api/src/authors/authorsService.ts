@@ -5,7 +5,7 @@ import {Db} from "../common"
 import {pull,merge} from "lodash"
 
 // A post request should not contain an id.
-export type AuthorCreationParams = Omit<Author, "id">;
+export type AuthorCreationParams = Omit<Author, "id">&Partial<Pick<Author,"id">>;;
 
 export type AuthorUpdateParams = Partial<Author>&Pick<Author,"id">
 
@@ -33,8 +33,8 @@ export class AuthorsService {
 
   public create(db:Db, authorCreationParams: AuthorCreationParams): Author {
     const newOne = <Author>{
-      id: this.nextId(db),
       ...authorCreationParams,
+      id: this.nextId(db),
     };
     db.data.authors.push(newOne);
     db.write();
@@ -54,7 +54,7 @@ export class AuthorsService {
     if(author)
     {
       // Check that no books use this author
-      const found = db.data.books.find(book=>book.genre==id) as Book;
+      const found = db.data.books.find(book=>book.author==id) as Book;
       if(found) {
         return `Unable to remove an author: it is used by '${found.name}'`;
       }

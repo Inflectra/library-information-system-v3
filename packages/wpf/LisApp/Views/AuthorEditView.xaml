@@ -3,16 +3,98 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LisApp.Views"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <d:DesignerProperties.DesignStyle>
-        <Style TargetType="UserControl">
-            <Setter Property="Background" Value="White" />
-        </Style>
-    </d:DesignerProperties.DesignStyle>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" SourceName="">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
-    <Grid>
-        <TextBlock>Author Edit</TextBlock>
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <Button Name="BackButton"
+                Command="{Binding BackCommand}"
+                Style="{StaticResource MaterialDesignFlatLightButton}"
+                ToolTip="Back"
+                HorizontalAlignment="Left"
+                >
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon
+                      Margin="0,0,10,0"
+                      VerticalAlignment="Center"
+                      Width="24"
+                      Height="24"
+                      Kind="ArrowLeft" />
+                <TextBlock Text="Return to Authors" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+            <TextBox x:Name="Name" 
+                     Margin="10" 
+                     materialDesign:HintAssist.Hint="Name"
+                     materialDesign:ValidationAssist.HorizontalAlignment="Right"
+                     >
+                <TextBox.Text>
+                    <Binding
+                         Path="Author.Name"
+                         UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <domain:NotEmptyValidationRule
+                                ValidatesOnTargetUpdated="True" xmlns:domain="clr-namespace:LisApp.Domain" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox x:Name="Age" 
+                     Margin="10" 
+                     materialDesign:HintAssist.Hint="Name"
+                     materialDesign:ValidationAssist.HorizontalAlignment="Right"
+                     >
+                <TextBox.Text>
+                    <Binding
+                         Path="Author.Age"
+                         UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <domain:PositiveNumberValidationRule
+                                ValidatesOnTargetUpdated="True" xmlns:domain="clr-namespace:LisApp.Domain" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Name="SaveButton"
+                Command="{Binding SaveCommand}"
+                ToolTip="Back"
+                HorizontalAlignment="Center"
+                >
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatLightButton}">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Name}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Age}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                      Margin="0,0,10,0"
+                      VerticalAlignment="Center"
+                      Width="24"
+                      Height="24"
+                      Kind="{Binding MainActionIcon}" />
+                    <TextBlock Text="{Binding MainAction}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+
+
 </UserControl>
