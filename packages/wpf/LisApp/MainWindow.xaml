@@ -9,7 +9,7 @@
         xmlns:domain="clr-namespace:LisApp.ViewModels" d:DataContext="{d:DesignInstance Type=domain:MainViewModel}"
         mc:Ignorable="d"
         Title="Library Information System"
-        Height="550" Width="950"
+        Height="550" Width="1024"
         Icon="favicon.ico"
         ShowIconOnTitleBar="True"
                       
@@ -24,9 +24,8 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Margin="0,0,10,0" Text="Light" />
                         <ToggleButton x:Name="DarkModeToggleButton"
+                                  IsChecked="{Binding DarkMode, Mode=TwoWay}"
                                   Style="{StaticResource MaterialDesignSwitchLightToggleButton}"
-                                  Command="{Binding Path=ToggleDarkModeCommand}" 
-                                  CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"
                                   />
                         <TextBlock
                              Margin="10,0,0,0"
@@ -48,23 +47,38 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
+                <Grid Name="TopTitleGrid" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding ActualWidth, ElementName=WecolmeNameColumn}"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Name="WecolmeNameColumn" Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="{Binding CurrentView.Message}" 
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentView.Message}" 
                        HorizontalAlignment="Center"
                        Padding="0,16"
                        VerticalAlignment="Center"
                        Style="{StaticResource MaterialDesignTitleMediumTextBlock}"
                        />
-                    <TextBlock Grid.Column="1" Text="{Binding WelcomeMessage}"
-                               Margin="4"
-                               HorizontalAlignment="Left" 
-                               VerticalAlignment="Center"
-                               Style="{StaticResource MaterialDesignLabelLargeTextBlock}"
+                    <StackPanel Grid.Column="2" 
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}"
+                        >
+                        <TextBlock Text="Welcome, " Style="{StaticResource MaterialDesignLabelLargeTextBlock}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding WelcomeName}"
+                                   Margin="4"
+                                   FontWeight="Bold"
+                                   Style="{StaticResource MaterialDesignLabelLargeTextBlock}"
+                                   VerticalAlignment="Center"
                                />
+                        <Button Name="BackButton"
+                            Command="{Binding LogoutCommand}"
+                            Margin="4"
+                            ToolTip="Disconnect"
+                            Content="{materialDesign:PackIcon Kind=LanDisconnect}"
+                            />
+                    </StackPanel>
                 </Grid>
             <StackPanel Grid.Column="0" Grid.Row="1">
                 <Viewbox VerticalAlignment="Top"

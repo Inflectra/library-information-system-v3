@@ -26,29 +26,29 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0"
                     Command="{Binding CreateAuthorCommand}"
-                    Style="{StaticResource MaterialDesignFlatLightButton}"
                     ToolTip="Add new Author to the System"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
                     Visibility="{Binding IsEditEnabled, Converter={StaticResource BoolToVis}}"
                 >
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon
-                      Width="24"
-                      Height="24"
                       Kind="Plus" />
                     <TextBlock Text="Create New Author"/>
                 </StackPanel>
             </Button>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Grid.Column="1" Name="txtDisplaying" Text="{Binding AuthorsView.Count}"/>
-                <TextBlock Grid.Column="1" Text="/"/>
-                <TextBlock Grid.Column="1" Name="txtDisplayingTotal" Text="{Binding Authors.Count}"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Name="txtDisplaying" 
+                           Text="{Binding AuthorsView.Count}"/>
+                <TextBlock Text="/"/>
+                <TextBlock Name="txtDisplayingTotal" 
+                           Text="{Binding Authors.Count}"/>
             </StackPanel>
             <TextBox
                   Grid.Column="2"
                   Width="250"
                   HorizontalAlignment="Right"
-                  VerticalAlignment="Center"
+                  VerticalAlignment="Top"
                   materialDesign:TextFieldAssist.HasClearButton="True"
                   materialDesign:HintAssist.Hint="Find an Author"
                   Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
@@ -66,6 +66,7 @@
                   HorizontalAlignment="Stretch"
                   CanUserAddRows="false"
                   SelectionChanged="dgAuthors_SelectionChanged"
+                  FontSize="16"
                   >
             <DataGrid.InputBindings>
                 <MouseBinding

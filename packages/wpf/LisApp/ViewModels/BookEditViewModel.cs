@@ -25,7 +25,7 @@ public partial class BookEditViewModel : ViewModelBase
     string mainActionIcon = "Plus";
 
     [ObservableProperty]
-    private Book book;
+    private Book? book;
 
     public ObservableCollection<Author> Authors => dataService.Authors;
     public ObservableCollection<Genre> Genres => dataService.Genres;
@@ -66,20 +66,23 @@ public partial class BookEditViewModel : ViewModelBase
 
 
     [RelayCommand]
-    public async void Back()
+    public async Task Back()
     {
         await dataService.LoadData();
         navigation.NavigateTo<BookListViewModel>();
     }
 
     [RelayCommand]
-    public async void Save()
+    public async Task Save()
     {
         try
         {
-            if(await dataService.SaveBook(book))
+            if(this.Book is not null)
             {
-                navigation.NavigateTo<BookListViewModel>();
+                if (await dataService.SaveBook(this.Book))
+                {
+                    navigation.NavigateTo<BookListViewModel>();
+                }
             }
         } catch (Exception ex)
         {

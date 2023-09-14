@@ -18,15 +18,15 @@ public partial class BookListViewModel : ViewModelBase
     private readonly DataService dataService;
     private readonly INavigationService navigation;
     [ObservableProperty]
-    string _message = "Books";
+    string message = "Books";
 
-    private string _searchKeyword;
+    private string? searchKeyword;
     public string? SearchKeyword
     {
-        get => _searchKeyword;
+        get => searchKeyword;
         set
         {
-            if (SetProperty(ref _searchKeyword, value))
+            if (SetProperty(ref searchKeyword, value))
             {
                 BooksView.Filter = BookFilter;
                 BooksView.Refresh();
@@ -34,7 +34,7 @@ public partial class BookListViewModel : ViewModelBase
         }
     }
     private bool BookFilter(object obj) => obj is Book book &&
-            (string.IsNullOrEmpty(SearchKeyword) || book.Name.Contains(SearchKeyword,StringComparison.InvariantCultureIgnoreCase));
+            (string.IsNullOrEmpty(SearchKeyword) || book!.Name!.Contains(SearchKeyword,StringComparison.InvariantCultureIgnoreCase));
 
 
     public ObservableCollection<Book> Books => dataService.Books;

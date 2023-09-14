@@ -16,7 +16,7 @@ public partial class BookViewModel : ViewModelBase
     string _message = "Book";
 
     [ObservableProperty]
-    private Book book;
+    private Book? book;
 
     [ObservableProperty]
     private bool isEditEnabled;
@@ -42,8 +42,11 @@ public partial class BookViewModel : ViewModelBase
         this.Book = dataService.Book;
         this.IsEditEnabled = dataService.IsEdit;
 
-        GenreName = dataService.Genres.FirstOrDefault(g => g.Id == this.Book.Genre)?.Name;
-        AuthorName = dataService.Authors.FirstOrDefault(a => a.Id== this.Book.Author)?.Name;
+        if(this.Book is not null)
+        {
+            GenreName = dataService.Genres.FirstOrDefault(g => g.Id == this.Book.Genre)?.Name;
+            AuthorName = dataService.Authors.FirstOrDefault(a => a.Id == this.Book.Author)?.Name;
+        }
 
 
     }
@@ -61,7 +64,7 @@ public partial class BookViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public async void Delete()
+    public async Task Delete()
     {
         await dataService.DeleteBook(this.Book);
         if(dataService.Book==null)

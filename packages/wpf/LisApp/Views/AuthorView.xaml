@@ -16,7 +16,6 @@
     <StackPanel Orientation="Vertical">
         <Button Name="BackButton"
                 Command="{Binding BackCommand}"
-                Style="{StaticResource MaterialDesignFlatLightButton}"
                 ToolTip="Back"
                 HorizontalAlignment="Left"
                 >
@@ -33,12 +32,11 @@
 
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
-            <TextBox x:Name="Name" Text="{Binding Author.Name}" Margin="10" materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" IsEnabled="False"/>
+            <TextBox x:Name="AuthorName" Text="{Binding Author.Name}" Margin="10" materialDesign:HintAssist.Hint="Name" Style="{StaticResource MaterialDesignFloatingHintTextBox}" IsEnabled="False"/>
             <TextBox x:Name="Age" Text="{Binding Author.Age}" Margin="10" materialDesign:HintAssist.Hint="Author" Style="{StaticResource MaterialDesignFloatingHintTextBox}" IsEnabled="False"/>
             <StackPanel Orientation="Horizontal">
                 <Button Name="EditButton"
                     Command="{Binding EditCommand}"
-                    Style="{StaticResource MaterialDesignFlatLightButton}"
                     ToolTip="Back"
                     HorizontalAlignment="Center"
                     Visibility="{Binding IsEditEnabled, Converter={StaticResource BoolToVis}}"
@@ -55,7 +53,6 @@
                 </Button>
                 <Button Name="DeleteButton"
                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                        Style="{StaticResource MaterialDesignFlatLightButton}"
                         ToolTip="Back"
                         HorizontalAlignment="Center"
                         Visibility="{Binding IsEditEnabled, Converter={StaticResource BoolToVis}}"

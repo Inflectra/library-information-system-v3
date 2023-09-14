@@ -32,10 +32,8 @@
         </Button>
 
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
-            <TextBox x:Name="Name" 
-                     Margin="10" 
+            <TextBox x:Name="AuthorName" 
                      materialDesign:HintAssist.Hint="Name"
-                     materialDesign:ValidationAssist.HorizontalAlignment="Right"
                      >
                 <TextBox.Text>
                     <Binding
@@ -49,9 +47,7 @@
                 </TextBox.Text>
             </TextBox>
             <TextBox x:Name="Age" 
-                     Margin="10" 
-                     materialDesign:HintAssist.Hint="Name"
-                     materialDesign:ValidationAssist.HorizontalAlignment="Right"
+                     materialDesign:HintAssist.Hint="Age"
                      >
                 <TextBox.Text>
                     <Binding
@@ -75,7 +71,7 @@
                         <Style.Triggers>
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Name}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=AuthorName}" Value="False"/>
                                     <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Age}" Value="False"/>
                                 </MultiDataTrigger.Conditions>
                                 <Setter Property="IsEnabled" Value="True"/>

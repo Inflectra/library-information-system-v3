@@ -15,7 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_022296F19BFC486C89A2ED9C96254C14"
+        "MsmKey" = "8:_3FE82DAF9DB34BC58948F7D1DD4A0F63"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B7E4E2E4458A49E0BE1F8B4309547177"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -37,6 +43,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -53,6 +75,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -84,6 +122,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B7E4E2E4458A49E0BE1F8B4309547177"
+            {
+            "SourcePath" = "8:..\\LisApp\\favicon.ico"
+            "TargetName" = "8:favicon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_2580491F23154D64A20E1E4847F3DDED"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -139,16 +197,16 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:LisAppSetup"
-        "ProductCode" = "8:{5BC33E0E-DD0E-4500-A057-979D44DFBB8C}"
-        "PackageCode" = "8:{64A9D388-12D0-45F7-85B9-0048B8230BE1}"
+        "ProductName" = "8:Library Information System Demo Application"
+        "ProductCode" = "8:{352C08F9-B414-4734-9FD4-F54DE8EBD5BA}"
+        "PackageCode" = "8:{84ED763B-E8DB-46D8-B72C-36694F0D5C64}"
         "UpgradeCode" = "8:{0372557E-064E-41C7-BD78-190331C757AF}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:3.2.2"
         "Manufacturer" = "8:Inflectra Inc."
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -156,9 +214,9 @@
         "Subject" = "8:"
         "ARPCONTACT" = "8:alexey.grinevich@inflectra.com"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
+        "ARPCOMMENTS" = "8:Demo application for Rapise Testing Tool"
         "ARPURLINFOABOUT" = "8:https://inflectra.com/"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_B7E4E2E4458A49E0BE1F8B4309547177"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -261,7 +319,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_3ADE2B850128417EA8A18624861B6090"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_609E167C920940E3BD480D12F7EF086D"
             {
             "Name" = "8:Library Information System"
             "Arguments" = "8:"
@@ -269,10 +327,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_65F6A409756A426FB3E9C7578A930156"
+            "Target" = "8:_3FE82DAF9DB34BC58948F7D1DD4A0F63"
             "Folder" = "8:_65F6A409756A426FB3E9C7578A930156"
-            "WorkingFolder" = "8:_65F6A409756A426FB3E9C7578A930156"
-            "Icon" = "8:"
+            "WorkingFolder" = "8:_2580491F23154D64A20E1E4847F3DDED"
+            "Icon" = "8:_B7E4E2E4458A49E0BE1F8B4309547177"
             "Feature" = "8:"
             }
         }
@@ -674,9 +732,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_022296F19BFC486C89A2ED9C96254C14"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3FE82DAF9DB34BC58948F7D1DD4A0F63"
             {
-            "SourcePath" = "8:..\\LisApp\\obj\\Debug\\net6.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\LisApp\\obj\\Release\\net6.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2580491F23154D64A20E1E4847F3DDED"

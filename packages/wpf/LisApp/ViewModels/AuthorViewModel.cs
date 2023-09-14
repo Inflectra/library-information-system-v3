@@ -17,7 +17,7 @@ public partial class AuthorViewModel : ViewModelBase
     string _message = "Author";
 
     [ObservableProperty]
-    private Author author;
+    private Author? author;
 
     [ObservableProperty]
     private bool isEditEnabled;
@@ -51,7 +51,7 @@ public partial class AuthorViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public async void Delete()
+    public async Task Delete()
     {
         await dataService.DeleteAuthor(this.Author);
         if (dataService.Author == null)

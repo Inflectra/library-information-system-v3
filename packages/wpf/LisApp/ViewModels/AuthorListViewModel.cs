@@ -23,13 +23,13 @@ public partial class AuthorListViewModel : ViewModelBase
     [ObservableProperty]
     string _message = "Authors";
 
-    private string _searchKeyword;
+    private string? searchKeyword;
     public string? SearchKeyword
     {
-        get => _searchKeyword;
+        get => searchKeyword;
         set
         {
-            if (SetProperty(ref _searchKeyword, value))
+            if (SetProperty(ref searchKeyword, value))
             {
                 AuthorsView.Filter = AuthorFilter;
                 AuthorsView.Refresh();
@@ -37,7 +37,7 @@ public partial class AuthorListViewModel : ViewModelBase
         }
     }
     private bool AuthorFilter(object obj) => obj is Author author&&
-            (string.IsNullOrEmpty(SearchKeyword) || author.Name.Contains(SearchKeyword, StringComparison.InvariantCultureIgnoreCase));
+            (string.IsNullOrEmpty(SearchKeyword) || author!.Name!.Contains(SearchKeyword, StringComparison.InvariantCultureIgnoreCase));
 
 
     public ObservableCollection<Author> Authors => dataService.Authors;

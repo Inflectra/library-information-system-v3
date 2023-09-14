@@ -52,12 +52,12 @@ public partial class LoginViewModel: ViewModelBase
 
 
     [RelayCommand]
-    public void NavigateLogin()
+    public async Task NavigateLogin()
     {
         Settings.Default.Url = this.Url;
         Settings.Default.User = this.Username;
         Settings.Default.Password = new System.Net.NetworkCredential(string.Empty, SecurePassword).Password;
         Settings.Default.Save();
-        dataService.Login();
+        await dataService.Login();
     }
 }

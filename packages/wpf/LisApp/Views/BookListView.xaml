@@ -27,9 +27,9 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0"
                     Command="{Binding CreateBookCommand}"
-                    Style="{StaticResource MaterialDesignFlatLightButton}"
                     ToolTip="Add new Book to the System"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
                     Visibility="{Binding IsEditEnabled, Converter={StaticResource BoolToVis}}"
                 >
                 <StackPanel Orientation="Horizontal">
@@ -40,16 +40,18 @@
                     <TextBlock Text="Create New Book"/>
                 </StackPanel>
             </Button>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Grid.Column="1" Name="txtDisplaying" Text="{Binding BooksView.Count}"/>
-                <TextBlock Grid.Column="1" Text="/"/>
-                <TextBlock Grid.Column="1" Name="txtDisplayingTotal" Text="{Binding Books.Count}"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Name="txtDisplaying" 
+                           Text="{Binding BooksView.Count}"/>
+                <TextBlock Text="/"/>
+                <TextBlock Name="txtDisplayingTotal" 
+                           Text="{Binding Books.Count}"/>
             </StackPanel>
             <TextBox
                   Grid.Column="2"
                   Width="250"
                   HorizontalAlignment="Right"
-                  VerticalAlignment="Center"
+                  VerticalAlignment="Bottom"
                   materialDesign:TextFieldAssist.HasClearButton="True"
                   materialDesign:HintAssist.Hint="Find a Book"
                   Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
@@ -67,6 +69,7 @@
                   HorizontalAlignment="Stretch"
                   CanUserAddRows="false"
                   SelectionChanged="dgBooks_SelectionChanged"
+                  FontSize="16"
                   >
                 <DataGrid.InputBindings>
                     <MouseBinding

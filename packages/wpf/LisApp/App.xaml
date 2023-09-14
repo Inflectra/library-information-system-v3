@@ -7,37 +7,100 @@
     <Application.Resources>
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:LoginViewModel}">
-                <view:LoginView/>
+                <view:LoginView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:LogoutViewModel}">
-                <view:LogoutView/>
+                <view:LogoutView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:AdminViewModel}">
-                <view:AdminView/>
+                <view:AdminView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:AuthorViewModel}">
-                <view:AuthorView/>
+                <view:AuthorView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:AuthorEditViewModel}">
-                <view:AuthorEditView/>
+                <view:AuthorEditView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:AuthorListViewModel}">
-                <view:AuthorListView/>
+                <view:AuthorListView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:BookViewModel}">
-                <view:BookView/>
+                <view:BookView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:BookEditViewModel}">
-                <view:BookEditView/>
+                <view:BookEditView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type TypeName=viewmodel:BookListViewModel}">
-                <view:BookListView/>
+                <view:BookListView />
             </DataTemplate>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+            <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}"
+                   TargetType="{x:Type TextBox}">
+                <Setter Property="FontSize"
+                        Value="16" />
+                <Setter Property="materialDesign:HintAssist.FloatingScale"
+                        Value="0.85" />
+                <Setter Property="Margin"
+                        Value="10" />
+                <Setter Property="materialDesign:ValidationAssist.HorizontalAlignment"
+                        Value="Right" />
+            </Style>
+            <Style BasedOn="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                   TargetType="{x:Type PasswordBox}">
+                <Setter Property="FontSize"
+                        Value="16" />
+                <Setter Property="materialDesign:HintAssist.FloatingScale"
+                        Value="0.85" />
+                <Setter Property="Margin"
+                        Value="10" />
+                <Setter Property="materialDesign:ValidationAssist.HorizontalAlignment"
+                        Value="Right" />
+            </Style>
+            <Style TargetType="{x:Type materialDesign:PackIcon}">
+                <Setter Property="VerticalAlignment"
+                        Value="Center" />
+                <Setter Property="Height"
+                        Value="24" />
+                <Setter Property="Width"
+                        Value="24" />
+            </Style>
+            <Style TargetType="{x:Type ComboBox}"
+                   BasedOn="{StaticResource MaterialDesignComboBox}">
+                <Setter Property="FontSize"
+                        Value="16" />
+                <Setter Property="Margin"
+                        Value="10,20,10,10" />
+                <Setter Property="materialDesign:ValidationAssist.HorizontalAlignment"
+                        Value="Right" />
+            </Style>
+            <Style TargetType="{x:Type CheckBox}"
+                   BasedOn="{StaticResource MaterialDesignCheckBox}">
+                <Setter Property="FontSize"
+                        Value="16" />
+                <Setter Property="Margin"
+                        Value="10" />
+                <Setter Property="materialDesign:ValidationAssist.HorizontalAlignment"
+                        Value="Right" />
+            </Style>
+            <Style TargetType="{x:Type DatePicker}"
+                   BasedOn="{StaticResource MaterialDesignDatePicker}">
+                <Setter Property="FontSize"
+                        Value="16" />
+                <Setter Property="Margin"
+                        Value="10,20,10,10" />
+                <Setter Property="materialDesign:ValidationAssist.HorizontalAlignment"
+                        Value="Right" />
+            </Style>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MaterialDesignFlatLightButton}" />
+
+
+
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:MahAppsBundledTheme BaseTheme="Inherit"
-                                            PrimaryColor="Blue"
-                                            SecondaryColor="LightBlue" />
+                                                    PrimaryColor="Blue"
+                                                    SecondaryColor="LightBlue" />
 
                 <!-- MahApps -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
@@ -75,6 +138,6 @@
             <SolidColorBrush x:Key="IdealForegroundDisabledBrush" Color="{DynamicResource Primary500}" Opacity="0.4"/>-->
 
             <!-- Dragablz Material Design -->
-         </ResourceDictionary>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

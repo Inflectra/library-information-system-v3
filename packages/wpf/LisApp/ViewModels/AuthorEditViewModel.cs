@@ -25,7 +25,7 @@ public partial class AuthorEditViewModel : ViewModelBase
     string mainActionIcon = "Plus";
 
     [ObservableProperty]
-    private Author author;
+    private Author? author;
 
     private readonly DataService dataService;
     private readonly INavigationService navigation;
@@ -62,18 +62,20 @@ public partial class AuthorEditViewModel : ViewModelBase
 
 
     [RelayCommand]
-    public async void Back()
+    public async Task Back()
     {
         await dataService.LoadData();
         navigation.NavigateTo<AuthorListViewModel>();
     }
 
     [RelayCommand]
-    public async void Save()
+    public async Task Save()
     {
         try
         {
-            if(await dataService.SaveAuthor(this.Author))
+            if(
+                this.Author is not null &&
+                await dataService.SaveAuthor(this.Author))
             {
                 navigation.NavigateTo<AuthorListViewModel>();
             }

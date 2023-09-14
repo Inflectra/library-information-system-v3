@@ -15,6 +15,7 @@ using System.Windows.Data;
 using MahApps.Metro.IconPacks;
 using LisApp.Views;
 using LisApp.Models;
+using LisApp.Properties;
 
 namespace LisApp.ViewModels;
 
@@ -26,7 +27,10 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
     public ObservableCollection<NavItemViewModel> NavItems { get; }
 
     [ObservableProperty]
-    private string welcomeMessage = "";
+    private bool darkMode;
+
+    [ObservableProperty]
+    private string welcomeName = "";
 
     [ObservableProperty]
     private bool dialogIsOpen = false;
@@ -36,6 +40,9 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
 
     [ObservableProperty]
     private bool isInProgress = false;
+
+    [ObservableProperty]
+    private bool isLoggedIn = false;
 
     [ObservableProperty]
     private NavItemViewModel? selectedItem;
@@ -69,12 +76,6 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
                 typeof(AuthorListViewModel),
                 selectedIcon: PackIconKind.PeopleGroup,
                 unselectedIcon: PackIconKind.PeopleGroupOutline
-            ),
-            new NavItemViewModel(
-                "Logout",
-                typeof(LogoutViewModel),
-                selectedIcon: PackIconKind.LanDisconnect,
-                unselectedIcon: PackIconKind.LanDisconnect
             )
         };
         navItemsView = CollectionViewSource.GetDefaultView(NavItems);
@@ -82,6 +83,8 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
 
         PropertyChanged += MainViewModel_PropertyChanged;
         navigation.PropertyChanged += Navigation_PropertyChanged;
+
+        this.DarkMode = Settings.Default.DarkMode;
 
         SelectedItem = NavItems[0];
     }
@@ -91,14 +94,20 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
         if(e.PropertyName=="CurrentView")
         {
             this.CurrentView = navigation.CurrentView;
-        }
+        } 
     }
 
     private void MainViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if(e.PropertyName=="SelectedItem" && SelectedItem!=null)
         {
-            navigation.NavigateTo(selectedItem.ContentType); ;
+            navigation.NavigateTo(SelectedItem!.ContentType); ;
+        }
+        else if (e.PropertyName == "DarkMode")
+        {
+            Settings.Default.DarkMode = this.DarkMode;
+            Settings.Default.Save();
+            ModifyTheme(this.DarkMode);
         }
     }
 
@@ -117,11 +126,13 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
             if(message.NewValue)
             {
                 navItemsView.Filter = LoggedInNavItemsFilter;
-                this.WelcomeMessage = "Welcome, " + dataService.User.Name+"!";
+                this.WelcomeName = dataService!.User!.Name??"";
+                this.IsLoggedIn = true;
             } else
             {
                 navItemsView.Filter = LoggedOutNavItemsFilter;
-                this.WelcomeMessage = "";
+                this.WelcomeName = "";
+                this.IsLoggedIn = false;
             }
             SelectedItem = (NavItemViewModel?)navItemsView.CurrentItem;
 
@@ -162,16 +173,16 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
     }
 
     [RelayCommand]
-    public void ToggleDarkMode(bool isDarkTheme)
+    public void AboutBox()
     {
-        ModifyTheme(isDarkTheme);
+        DialogMessage = "Library Information System Demo Application 3.2";
+        DialogIsOpen = true;
     }
 
     [RelayCommand]
-    public void AboutBox()
+    public void Logout()
     {
-        DialogMessage = "Library Information System Demo Application 3.1";
-        DialogIsOpen = true;
+        navigation.NavigateTo<LogoutViewModel>();
     }
 }
 

@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using LisApp.Models;
 using Newtonsoft.Json;
 using System;
@@ -7,17 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http;
-using System.Text;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Messaging;
 using LisApp.Properties;
 using CommunityToolkit.Mvvm.Messaging.Messages;
-using System.Net.Http.Json;
 using System.Text.Json;
-using Newtonsoft.Json.Serialization;
-using ControlzEx.Standard;
 
 namespace LisApp.Services;
 
@@ -30,9 +25,9 @@ public class DataErrorMessage : ValueChangedMessage<Exception>
 
 public class JsonErrorMessage
 {
-    public string ErrorMessage { get; set; }
+    public string? ErrorMessage { get; set; }
 
-    public static bool TryParse(string content, out JsonErrorMessage result)
+    public static bool TryParse(string content, out JsonErrorMessage? result)
     {
         bool success = true;
         var settings = new JsonSerializerSettings
@@ -69,34 +64,42 @@ public partial class DataService: ObservableObject
     public ObservableCollection<Genre> Genres { get; } = new ObservableCollection<Genre>();
 
 
-    public User User { get; set; }
+    public User? User { get; set; }
 
-    public Book Book { get; set; }
+    public Book? Book { get; set; }
 
-    public Author Author { get; set; }
+    public Author? Author { get; set; }
     public bool IsEdit { get => User?.Permission == Permissions.Edit || User?.Permission == Permissions.Admin; }
     public bool IsAdmin { get => User?.Permission == Permissions.Admin; }
 
     public DataService()
     {
         this.Messenger = WeakReferenceMessenger.Default;
+        client = new HttpClient();
     }
 
-    private void LoadList<T>(ObservableCollection<T> collection, IEnumerable<T> items)
+    private void LoadList<T>(ObservableCollection<T> collection, IEnumerable<T>? items)
     {
         collection.Clear();
+        if (items == null) return;
         foreach (var item in items) { collection.Add(item); }
     }
 
     private async Task Authorize(string url, string clientId, string clientPassword)
     {
-        client = new HttpClient();
+        var uri = new Uri(url);
+        if ( !uri.Equals(client.BaseAddress) )
+        {
+            client = new HttpClient()
+            {
+                BaseAddress = uri
+            };
+        }
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json")
             );
 
-        client.BaseAddress = new Uri(url);
 
         var authenticationString = $"{clientId}:{clientPassword}";
         var base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
@@ -180,7 +183,7 @@ public partial class DataService: ObservableObject
     #region Books
     private async Task SaveBookImpl(Book book)
     {
-        HttpResponseMessage resp = null;
+        HttpResponseMessage? resp = null;
         if (book.Id == 0)
         {
             // Creating
@@ -197,9 +200,15 @@ public partial class DataService: ObservableObject
             string content = await resp.Content.ReadAsStringAsync();
             if (resp.IsSuccessStatusCode)
             {
-                book = JsonConvert.DeserializeObject<Book>(content);
+                var rb = JsonConvert.DeserializeObject<Book>(content);
                 await LoadBooks();
-                this.Book = this.Books.FirstOrDefault(b => b.Id == book.Id);
+                if(rb is not null)
+                {
+                    this.Book = this.Books.FirstOrDefault(b => b.Id == rb.Id);
+                } else
+                {
+                    this.Book = null;
+                }
             } else
             {
                 throw new Exception(resp.ReasonPhrase+"\n"+content);
@@ -228,7 +237,7 @@ public partial class DataService: ObservableObject
 
     private async Task DeleteBookImpl(int id)
     {
-        HttpResponseMessage resp = null;
+        HttpResponseMessage? resp = null;
         // Creating
         resp = await client.DeleteAsync($"books/{id}");
 
@@ -251,13 +260,16 @@ public partial class DataService: ObservableObject
         }
     }
 
-    public async Task DeleteBook(Book book)
+    public async Task DeleteBook(Book? book)
     {
         try
         {
-            IsInProgress = true;
-            await DeleteBookImpl(book.Id);
-            IsInProgress = false;
+            if(book is not null)
+            {
+                IsInProgress = true;
+                await DeleteBookImpl(book.Id);
+                IsInProgress = false;
+            }
         }
         catch (Exception ex)
         {
@@ -270,7 +282,7 @@ public partial class DataService: ObservableObject
     #region Authors
     private async Task SaveAuthorImpl(Author author)
     {
-        HttpResponseMessage resp = null;
+        HttpResponseMessage? resp = null;
         if (author.Id == 0)
         {
             // Creating
@@ -287,15 +299,21 @@ public partial class DataService: ObservableObject
             string content = await resp.Content.ReadAsStringAsync();
             if (resp.IsSuccessStatusCode)
             {
-                author = JsonConvert.DeserializeObject<Author>(content);
+                var ra = JsonConvert.DeserializeObject<Author>(content);
                 await LoadAuthors();
-                this.Author = this.Authors.FirstOrDefault(b => b.Id == author.Id);
+                if (ra != null)
+                {
+                    this.Author = this.Authors.FirstOrDefault(b => b.Id == ra.Id);
+                } else
+                {
+                    this.Author = null;
+                }
             }
             else
             {
-                if(JsonErrorMessage.TryParse(content, out JsonErrorMessage jem))
+                if(JsonErrorMessage.TryParse(content, out JsonErrorMessage? jem))
                 {
-                    throw new Exception(jem.ErrorMessage);
+                    throw new Exception(jem!.ErrorMessage);
                 }
                 throw new Exception(resp.ReasonPhrase + "\n" + content);
             }
@@ -306,13 +324,16 @@ public partial class DataService: ObservableObject
         }
     }
 
-    public async Task<bool> SaveAuthor(Author author)
+    public async Task<bool> SaveAuthor(Author? author)
     {
         try
         {
-            IsInProgress = true;
-            await SaveAuthorImpl(author);
-            IsInProgress = false;
+            if(author is not null)
+            {
+                IsInProgress = true;
+                await SaveAuthorImpl(author);
+                IsInProgress = false;
+            }
             return true;
         }
         catch (Exception ex)
@@ -324,7 +345,7 @@ public partial class DataService: ObservableObject
 
     private async Task DeleteAuthorImpl(int id)
     {
-        HttpResponseMessage resp = null;
+        HttpResponseMessage? resp = null;
         // Creating
         resp = await client.DeleteAsync($"authors/{id}");
 
@@ -338,9 +359,9 @@ public partial class DataService: ObservableObject
             }
             else
             {
-                if (JsonErrorMessage.TryParse(content, out JsonErrorMessage jem))
+                if (JsonErrorMessage.TryParse(content, out JsonErrorMessage? jem))
                 {
-                    throw new Exception(jem.ErrorMessage);
+                    throw new Exception(jem!.ErrorMessage);
                 }
                 throw new Exception(resp.ReasonPhrase + "\n" + content);
             }
@@ -351,12 +372,12 @@ public partial class DataService: ObservableObject
         }
     }
 
-    public async Task DeleteAuthor(Author author)
+    public async Task DeleteAuthor(Author? author)
     {
         try
         {
             IsInProgress = true;
-            await DeleteAuthorImpl(author.Id);
+            await DeleteAuthorImpl(author!.Id);
             IsInProgress = false;
         }
         catch (Exception ex)
