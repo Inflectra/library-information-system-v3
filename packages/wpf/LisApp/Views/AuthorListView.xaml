@@ -75,9 +75,16 @@
                         CommandParameter="{Binding AuthorsView/}"/>
             </DataGrid.InputBindings>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Name" Width="Auto" Binding="{Binding Path=Name, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Age" Binding="{Binding Path=Age, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Id"
+                                    Binding="{Binding Path=Id, Mode=OneWay}"
+                                    CanUserSort="True" />
+                <DataGridTextColumn Header="Name"
+                                    Width="Auto"
+                                    Binding="{Binding Path=Name, Mode=OneWay}"
+                                    CanUserSort="True" />
+                <DataGridTextColumn Header="Age"
+                                    Binding="{Binding Path=Age, Mode=OneWay}"
+                                    CanUserSort="True" />
 
 
                 <DataGridTemplateColumn Header="">

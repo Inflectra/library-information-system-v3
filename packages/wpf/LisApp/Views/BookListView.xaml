@@ -78,13 +78,16 @@
                         CommandParameter="{Binding BooksView/}"/>
                 </DataGrid.InputBindings>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}" CanUserSort="True"/>
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Path=Name, Mode=OneWay}"
+                                    CanUserSort="True" />
                 <DataGridComboBoxColumn Header="Author"
                                         DisplayMemberPath="Name"
                                         SelectedValuePath="Id"
                                         SelectedValueBinding="{Binding Author, Mode=OneWay}"
-                                        >
+                                        CanUserSort="True"
+                                        SortMemberPath="AuthorName">
                     <DataGridComboBoxColumn.ElementStyle>
                         <Style TargetType="{x:Type ComboBox}">
                             <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Authors, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
@@ -95,10 +98,13 @@
                                         DisplayMemberPath="Name"
                                         SelectedValuePath="Id"
                                         SelectedValueBinding="{Binding Genre, Mode=OneWay}"
+                                        CanUserSort="True"
+                                        SortMemberPath="GenreName"
                                         >
                     <DataGridComboBoxColumn.ElementStyle>
                         <Style TargetType="{x:Type ComboBox}">
-                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Genres, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                            <Setter Property="ItemsSource"
+                                    Value="{Binding Path=DataContext.Genres, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
                         </Style>
                     </DataGridComboBoxColumn.ElementStyle>
                 </DataGridComboBoxColumn>

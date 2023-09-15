@@ -1,4 +1,4 @@
-import React,{ useState, useEffect} from 'react'
+import React,{ useState, useEffect, useCallback} from 'react'
 import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
@@ -15,25 +15,24 @@ function formatDate(d)
 }
 
 function BookList(props) {
-    const  [bookList, setBookList] = useState([])
+    const [bookList, setBookList] = useState([])
+    const [filter, setFilter] = useState('')
+    const [sortField, setSortField] = useState("")
+    const [order, setOrder] = useState("asc")
 
-    useEffect(() => {
-        fetchBookList()
-    }, [])
-  
-    const fetchBookList = () => {
+    const fetchBookList = useCallback(() => {
         props.keepalive();
         dataLoad('books')
         .then(
             (books) => {
                 dataLoad('genres')
                 .then((genres)=>{
-                    books.map((book)=>{
+                    books.forEach((book)=>{
                         book.genreObj = genres.find((g)=>g.id===book.genre)
                     })
                     dataLoad('authors')
                     .then((authors)=>{
-                        books.map((book)=>{
+                        books.forEach((book)=>{
                             book.authorObj = authors.find((a)=>a.id===book.author)
                         })
                         setBookList(books)
@@ -48,8 +47,13 @@ function BookList(props) {
             })
             .then(()=>props.keepalive());
         })
-    }
+    },[props]);
+
+    useEffect(() => {
+        fetchBookList()
+    }, [fetchBookList])
   
+
     const isEdit = props.permission>=permissions.edit;
 
     const handleDelete = (id) => {
@@ -86,34 +90,94 @@ function BookList(props) {
           })
     }
   
+    const handleSortingChange = (accessor, element) => {
+        const sortOrder =
+            accessor === sortField && order === "asc" ? "desc" : "asc";
+        setSortField(accessor);
+        setOrder(sortOrder);
+        handleSorting(accessor, sortOrder);
+    };
+    const handleSorting = (sortField, sortOrder) => {
+        if (sortField) {
+            if(['author','genre'].includes(sortField)) sortField = sortField+'Obj'
+            const sorted = [...bookList].sort((a, b) => {
+                let av = a[sortField];
+                if(av) {
+                    if(['authorObj','genreObj'].includes(sortField)) av = ''+av.name;
+                }
+                av = ''+av;
+
+                let bv = b[sortField];
+                if(bv) {
+                    if(['authorObj','genreObj'].includes(sortField)) bv = ''+bv.name;
+                }
+                bv = ''+bv;
+                return (
+                    av.localeCompare(bv, "en", {
+                        numeric: true,
+                    }) * (sortOrder === "asc" ? 1 : -1)
+                );
+            });
+            setBookList(sorted);
+        }
+    };
+
+    const thClick = (event) => handleSortingChange(event.target.getAttribute('data-key'), event.target);
+
+    const Thc = (title,key) => {
+        key = key || title.toLowerCase();
+        const cl = 
+            sortField === key && order === "asc"
+            ? "up"
+            : sortField === key && order === "desc"
+            ? "down"
+            : "default"
+            ;
+        return (
+            <th className={cl} data-key={key} onClick={thClick}>{title}</th>
+        );
+    }
+
     return (
         <Layout>
            <div className="container">
             <h2 className="text-center mt-5 mb-3">Book Manager</h2>
                 <div className="card">
-                    {isEdit&&<div className="card-header">
-                        <Link 
-                            className="btn btn-outline-primary"
-                            to="/books/create">Create New Book
-                        </Link>
-                    </div>}
+                        <div className="row justify-content-start">
+                            {isEdit&&
+                                <Link 
+                                    className="btn btn-outline-primary col-sm-2"
+                                    to="/books/create">Create New Book
+                                </Link>
+                            }
+                            <div className='col-sm-5'/>
+                            <div className="col-sm-4">
+                                <input 
+                                    onChange={(event)=>{setFilter(event.target.value)}}
+                                    value={filter}
+                                    type="text"
+                                    className="form-control"
+                                    id="filter"
+                                    name="authorFilter"
+                                    placeholder="Find book"
+                                    />
+                            </div>
+                        </div>
                     <div className="table-responsive">
-              
                         <table className="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Author</th>
-                                    <th>Genre</th>
-                                    <th>Date Added</th>
-                                    <th>Out of Print</th>
+                                    {Thc('Id')}
+                                    {Thc('Name')}
+                                    {Thc('Author')}
+                                    {Thc('Genre')}
+                                    {Thc('Date Added','dateAdded')}
+                                    {Thc('Out of Print','outOfPrint')}
                                     {isEdit&&<th width="240px">Action</th>}
-                                    
                                 </tr>
                             </thead>
                             <tbody>
-                                {bookList.map((book, key)=>{
+                                {bookList.filter((book)=>book.name.toLowerCase().includes(filter)).map((book, key)=>{
                                     return (
                                         <tr key={key}>
                                             <td>{book.id}</td>

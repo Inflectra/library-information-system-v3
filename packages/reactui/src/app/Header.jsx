@@ -1,11 +1,10 @@
 import React from 'react'
-import {NavLink, useParams} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import permissions from './permissions';
-import {getTenant,setTenant,getTenantName} from './http-common';
+import {getTenant,getTenantName} from './http-common';
 
 const Header = (props) =>{
-  const tt = useParams().tenant;
-  const isAdmin = props.permission==permissions.admin;
+  const isAdmin = props.permission===permissions.admin;
 
   const tenant = getTenant()
 

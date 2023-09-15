@@ -24,6 +24,20 @@ function BookEdit(props) {
   
     const navigate = useNavigate();
 
+    const nameSort = (a,b) => {
+        const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+      
+        // names must be equal
+        return 0;
+    }
+
     useEffect(() => {
         props.keepalive()
         if(id) {
@@ -39,6 +53,7 @@ function BookEdit(props) {
 
         dataLoad('genres')
         .then((genres)=>{
+            genres.sort(nameSort);
             setGenreList(genres)
             if(genres&&genres.length) {
                 setGenre(genres[0].id)
@@ -46,12 +61,13 @@ function BookEdit(props) {
         })
         dataLoad('authors')
         .then((authors)=>{
+            authors.sort(nameSort);
             setAuthorList(authors)
             if(authors&&authors.length) {
                 setAuthor(authors[0].id)
             }
         })
-    }, [])
+    }, [id,props])
 
     const handleSave = () => {
         props.keepalive()

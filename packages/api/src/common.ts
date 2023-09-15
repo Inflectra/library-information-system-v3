@@ -24,8 +24,8 @@ export interface Database {
 
 export type ExDBType = LowSync<JSONFileSync<Database>>|LowSync<MemorySync<Database>>;
 
-export type ExDBApp = ExApp & {db:ExDBType,clientId:string};
-export type ExReq = ExRequest & {session:{db:ExDBType}};
+export type ExDBApp = ExApp & {db:ExDBType};
+export type ExReq = ExRequest & {session:{db:ExDBType},isApi:boolean,clientId:string};
 
 export interface Db {
     write: ()=>void;

@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "packages/common",
     "packages/api",
     "packages/reactui"
   ]

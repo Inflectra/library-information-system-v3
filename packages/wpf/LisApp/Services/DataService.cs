@@ -87,6 +87,20 @@ public partial class DataService: ObservableObject
 
     private async Task Authorize(string url, string clientId, string clientPassword)
     {
+        // Fix URL
+        if(url.Contains("/reactui"))
+        {
+            if(url.Contains("/api/"))
+            {
+                url = url.Split("/api")[0] + "/api/";
+            } else
+            {
+                url = (url+"/").Split("/reactui")[0];
+                url = url.TrimEnd('/');
+                if (!url.EndsWith("/api")) url += "/api/";
+            }
+        }
+
         var uri = new Uri(url);
         if ( !uri.Equals(client.BaseAddress) )
         {
@@ -138,10 +152,12 @@ public partial class DataService: ObservableObject
     public Task LoadData()
     {
         return Task.WhenAll(
-            LoadBooks(),
             LoadAuthors(),
             LoadGenres()
-        );
+        ).ContinueWith(async (task) =>
+        {
+            await LoadBooks();
+        });
     }
 
     private async Task LoadBooks()
@@ -149,6 +165,11 @@ public partial class DataService: ObservableObject
         var responseBody = await client.GetStringAsync("books");
      
         var books = JsonConvert.DeserializeObject<List<Book>>(responseBody);
+        foreach (var b in books)
+        {
+            b.AuthorName = Authors.FirstOrDefault(a => a.Id == b.Author)!.Name ?? "";
+            b.GenreName = Genres.FirstOrDefault(g => g.Id == b.Genre)!.Name ?? "";
+        }
         LoadList(Books,books);
     }
     private async Task LoadAuthors()

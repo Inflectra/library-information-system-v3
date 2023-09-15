@@ -13,7 +13,12 @@ public class Book
     public string? Name { get; set; }
     public DateTime? DateAdded { get; set; }
     public bool? OutOfPrint { get; set; } = false;
-
     public int Author { get; set; }
     public int Genre { get; set; }
+
+    [JsonIgnore]
+    public string? AuthorName { get; set; }
+
+    [JsonIgnore]
+    public string? GenreName { get; set;}
 }
