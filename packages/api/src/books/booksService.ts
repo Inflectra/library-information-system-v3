@@ -38,7 +38,6 @@ export class BooksService {
     };
     db.data.books.push(newOne);
     console.log('books count after', db.data.books.length)
-    console.log('db',db)
     db.write();
     return newOne;
   }

@@ -31,7 +31,6 @@ export class GenresService {
     };
     db.data.genres.push(newOne);
     console.log('genres count after', db.data.genres.length)
-    console.log('db',db)
     db.write();
     return newOne;
   }

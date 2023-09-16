@@ -29,7 +29,6 @@ import {
      */
     @Get("")
     public async getBooks(@Request() _req: any): Promise<Book[]> {
-      console.log(' db: ',_req.app.db)
       return new BooksService().all(_req.app.db);
     }
 
@@ -38,7 +37,6 @@ import {
      */
     @Get("/count")
     public async count(@Request() _req: any): Promise<number> {
-      console.log(' db: ',_req.app.db)
       return _req.app.db.data.books.length;
     }
 

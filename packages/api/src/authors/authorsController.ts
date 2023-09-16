@@ -27,8 +27,7 @@ import {
      */
     @Get("")
     public async getAuthors(@Request() _req: any): Promise<Author[]> {
-      console.log(' db: ',_req.app.db)
-      return new AuthorsService().all(_req.app.db);
+       return new AuthorsService().all(_req.app.db);
     }
 
     /**
@@ -36,7 +35,6 @@ import {
      */
     @Get("/count")
     public async count(@Request() _req: any): Promise<number> {
-      console.log(' db: ',_req.app.db)
       return _req.app.db.data.authors.length;
     }
 

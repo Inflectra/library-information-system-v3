@@ -25,7 +25,6 @@ import {
      */
      @Get("")
     public async getGenres(@Request() _req: any): Promise<Genre[]> {
-      console.log(' db: ',_req.app.db)
       return new GenresService().all(_req.app.db);
     }
 
@@ -34,7 +33,6 @@ import {
      */
      @Get("/count")
     public async count(@Request() _req: any): Promise<number> {
-      console.log(' db: ',_req.app.db)
       return _req.app.db.data.genres.length;
     }
 
