@@ -35,7 +35,7 @@
   "scripts": {
     "build": "tsoa spec-and-routes && tsc",
     "start": "node build/src/server.js",
-    "prod": "cross-env NODE_PORT=80 node build/src/server.js",
+    "prod": "cross-env NODE_PORT=5003 node build/src/server.js",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\""
   }
 }
