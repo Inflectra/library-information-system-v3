@@ -87,19 +87,19 @@ public partial class DataService: ObservableObject
 
     private async Task Authorize(string url, string clientId, string clientPassword)
     {
+        Disconnect();
         // Fix URL
-        if(url.Contains("/reactui"))
+        if (url.Contains("/api/"))
         {
-            if(url.Contains("/api/"))
-            {
-                url = url.Split("/api")[0] + "/api/";
-            } else
-            {
-                url = (url+"/").Split("/reactui")[0];
-                url = url.TrimEnd('/');
-                if (!url.EndsWith("/api")) url += "/api/";
-            }
+            url = url.Split("/api")[0] + "/api/";
         }
+        else
+        {
+            url = (url + "/").Split("/reactui")[0];
+            url = url.TrimEnd('/');
+            if (!url.EndsWith("/api")) url += "/api/";
+        }
+        url = url.TrimEnd('/') + '/';
 
         var uri = new Uri(url);
         if ( !uri.Equals(client.BaseAddress) )
@@ -149,15 +149,13 @@ public partial class DataService: ObservableObject
         IsLoggedIn = false;
     }
 
-    public Task LoadData()
+    public async Task LoadData()
     {
-        return Task.WhenAll(
+        await Task.WhenAll(
             LoadAuthors(),
             LoadGenres()
-        ).ContinueWith(async (task) =>
-        {
-            await LoadBooks();
-        });
+        );
+        await LoadBooks();
     }
 
     private async Task LoadBooks()

@@ -15,13 +15,13 @@ import fs from 'fs';
 import type {LowSync,MemorySync} from 'lowdb';
 import type {JSONFileSync} from 'lowdb/node';
 
-import {ExDBType,ExReq,Database} from './common';
-import {ExDBApp} from './common';
+import {ExDBType,ExReq,Database,ExDBApp,redocPage} from './common';
 
 import defaultDb from './data/defbooks.json';
 
 //import {Low, Memory, JSONFile} from './common';
 export const app : ExDBApp = <ExDBApp>express();
+
 
 // Use body parser to read sent json payloads
 app.use(
@@ -44,7 +44,6 @@ app.use(morgan('dev'))
 
 app.use(session({
 	genid: function(_req:any) {
-		console.log('genid')
 		const id = nanoid() // use UUIDs for session IDs
 		console.log(`new session: ${id}`)
 		return id;
@@ -69,8 +68,6 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 		return JSON.parse(JSON.stringify(nextdb));
 	}
 
-	console.log('checking request');
-
 	const regex = /(\/[^\/\?\&]+)(\/[^\/\?\&]+)?(\/.+)?/gm;
 	const _req = req as ExReq;
 	const url = _req.url;
@@ -93,14 +90,11 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 			}
 		}
 		if(isApi) {
-			console.log('API. Using tenant: '+client);
 			_req.url = tail;
 			if(tail=='/reset'){
 				reset = true;
 				_req.url = '/users/test'
 			}
-		} else {
-			console.log('regular request');
 		}
 	}
 
@@ -126,10 +120,8 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 			} else {
 				db = new LowT(new JSONT(dbpath), getDefaultDbData()) as LowSync<JSONFileSync<Database>>;
 				db.write();
-				console.log(client,'db created',db)
 			}
 		} else {
-			console.log('session: '+_req.session.id);
 			// Clean up DBs for sessions older than 30 minutes
 			const now = new Date;
 			Object.keys(sessionDbs).forEach(id=>{
@@ -145,11 +137,9 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 			if(sessionDbs[_req.session.id]) {
 				db = sessionDbs[_req.session.id].db;
 				sessionDbs[_req.session.id].lastAccess = new Date;
-				console.log('reusing session db');
 			} else {
 				db = new LowT(new MemoryT(),getDefaultDbData()) as LowSync<MemorySync<Database>>;
 				  db.write();
-				console.log('creating session db')
 				sessionDbs[_req.session.id] = {db, lastAccess:new Date};
 			}
 		}
@@ -160,6 +150,13 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 		_res.setHeader("Access-Control-Allow-Credentials", "true");
 		_res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
 		_res.setHeader("Access-Control-Allow-Headers", "Authorization,Access-Control-Allow-Headers,Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers");	
+	}
+
+	console.log(client??'--root--',isApi?'api':'',_req.url);
+	if(isApi&&!_req.url) {
+		// /api or /api/ => api docs
+		_res.send(redocPage)
+		return;
 	}
 
 	next();
@@ -204,7 +201,6 @@ app.use('/', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 })
 
 app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
-
 	console.log('docs requested');
 	const swaggerUIOptions = {
 		swaggerOptions: {
@@ -219,40 +215,13 @@ app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
 	);
 });
 
-app.use('/swagger.json', async (_req: ExRequest, res: ExResponse) => {
+app.use('*/swagger.json', async (_req: ExRequest, res: ExResponse) => {
 	const data = await import('../build/swagger.json');
 	res.send(data);
 });
 
 app.use('/redoc', async (_req: ExRequest, res: ExResponse) => {
-const page = `
-<html>
-  <head>
-    <title>Redoc</title>
-    <!-- needed for adaptive design -->
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
-
-    <!--
-    Redoc doesn't change outer page styles
-    -->
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <redoc spec-url='swagger.json'></redoc>
-    <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"> </script>
-  </body>
-</html>
-`;
-	  return res.send(page)
+	return res.send(redocPage);
 })
-
-
 
 RegisterRoutes(app);
