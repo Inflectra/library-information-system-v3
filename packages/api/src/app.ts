@@ -139,12 +139,12 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 				sessionDbs[_req.session.id].lastAccess = new Date;
 			} else {
 				db = new LowT(new MemoryT(),getDefaultDbData()) as LowSync<MemorySync<Database>>;
-				  db.write();
+				db.write();
 				sessionDbs[_req.session.id] = {db, lastAccess:new Date};
 			}
 		}
 
-		app.db = db as ExDBType;
+		_req.db = db as ExDBType;
 
 		_res.setHeader("Access-Control-Allow-Origin", _req.headers.origin||'*');
 		_res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -181,7 +181,9 @@ app.use('/', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	if(_req.isApi) return next()
 	let redir = req.originalUrl;
 	if(redir.includes('/reactui/')) return _res.sendStatus(404);
-	if(redir.lastIndexOf('/')==0) {
+	while(redir.startsWith('/')) redir = redir.slice(1);
+	while(redir.endsWith('/')) redir = redir.slice(0,-1);
+	if(redir.lastIndexOf('/')===-1) {
 		// Check if it is requires for root folder's resources
 		const checkpath = join(staticdir,redir);
 		if(
@@ -191,11 +193,10 @@ app.use('/', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 			return serveStatic(req,_res,next);
 		}
 	}
-	while(redir.startsWith('/')) redir = redir.substring(1);
-	while(redir.endsWith('/')) redir = redir.substring(-1);
 	if(redir.split('/').length>1) return _res.sendStatus(404);
 	if(redir.split('/').pop()?.includes('.')) return _res.sendStatus(404);
 
+	if(redir) redir = '/'+redir;
 	redir+='/reactui/';
 	_res.redirect(301,redir);
 })

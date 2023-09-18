@@ -1,5 +1,5 @@
 
-export let baseApiUrl = process.env.REACT_APP_MODE==='DEVMODE'?'http://localhost:5000':'/api';
+export let baseApiUrl = process.env.REACT_APP_MODE==='DEVMODE'?'http://localhost:5003':'';
 
 let token = '';
 
@@ -27,7 +27,7 @@ export function getTenantName() {
 
 export async function dataLoad(url,method,body)
 {
-    const addr = tenant+baseApiUrl+'/'+url;
+    const addr = baseApiUrl+tenant+'/api/'+url;
     console.log(addr);
     return fetch(addr,{
         headers:{

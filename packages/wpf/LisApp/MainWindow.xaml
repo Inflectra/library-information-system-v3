@@ -19,6 +19,7 @@
     </controls:MetroWindow.WindowButtonCommands>
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
+            <Label Content="{Binding Org}" Margin="20,0,20,0"/>
             <wpf:PopupBox Style="{StaticResource WindowCommandsPopupBoxStyle}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">

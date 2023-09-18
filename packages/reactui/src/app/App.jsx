@@ -65,7 +65,7 @@ export default class App extends React.Component {
     
     // then look for a username match
     } else if (formData.username && formData.password) {
-      const url = `${getTenant()}${baseApiUrl}/users/login`;
+      const url = `${baseApiUrl}${getTenant()}/api/users/login`;
       fetch(url,{
         headers: {
           'Authorization': 'Basic ' + btoa(formData.username + ":" + formData.password)
@@ -76,7 +76,7 @@ export default class App extends React.Component {
         if(res.ok) {
           return res.json()
         } else {
-          return res.text().then(e => {throw new Error('Login Failed - invalid credentials')})
+          return res.text().then(e => {console.log(e);throw new Error('Login Failed - invalid credentials')})
         } 
       })
       .then((json)=> {

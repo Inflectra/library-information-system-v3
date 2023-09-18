@@ -29,7 +29,7 @@ import {
      */
     @Get("")
     public async getBooks(@Request() _req: any): Promise<Book[]> {
-      return new BooksService().all(_req.app.db);
+      return new BooksService().all(_req.db);
     }
 
     /**
@@ -37,7 +37,7 @@ import {
      */
     @Get("/count")
     public async count(@Request() _req: any): Promise<number> {
-      return _req.app.db.data.books.length;
+      return _req.db.data.books.length;
     }
 
     /**
@@ -48,7 +48,7 @@ import {
       @Request() _req: any,
       @Path() idOrName: number|string
     ): Promise<Book> {
-      return new BooksService().get(_req.app.db, idOrName);
+      return new BooksService().get(_req.db, idOrName);
     }
 
     /**
@@ -59,7 +59,7 @@ import {
       @Request() _req: any,
       @Query() namePart?: string
     ): Promise<Book[]> {
-      const found =  new BooksService().find(_req.app.db, ''+namePart);
+      const found =  new BooksService().find(_req.db, ''+namePart);
       return found;
     }
 
@@ -76,7 +76,7 @@ import {
       if(!bookData.name) {
         return bookInvalidResponse(401, { errorMessage: "Book name should not be empty" });
       }
-      const found = new BooksService().find(_req.app.db,bookData.name);
+      const found = new BooksService().find(_req.db,bookData.name);
       for(let ind in found) {
         const fb = found[ind];
         if(fb.name==bookData.name && fb.author==bookData.author) {
@@ -84,15 +84,15 @@ import {
         }
       }
 
-      if(!new AuthorsService().get(_req.app.db,bookData.author)) {
+      if(!new AuthorsService().get(_req.db,bookData.author)) {
         return bookInvalidResponse(401, { errorMessage: "Author not found by id: "+bookData.author });
       }
       
-      if(!new GenresService().get(_req.app.db,bookData.genre)) {
+      if(!new GenresService().get(_req.db,bookData.genre)) {
         return bookInvalidResponse(401, { errorMessage: "Genre not found by id: "+bookData.genre });  
       }
 
-      return new BooksService().create(_req.app.db,bookData);
+      return new BooksService().create(_req.db,bookData);
     }
 
     /**
@@ -107,23 +107,23 @@ import {
       if(!bookData.name) {
          return bookInvalidResponse(401, { errorMessage: "Book name should not be empty" });
       }
-      const found = new BooksService().get(_req.app.db,bookData.id);
+      const found = new BooksService().get(_req.db,bookData.id);
       if(!found) {
         return bookInvalidResponse(401, { errorMessage: "Book not found by id:"+bookData.id });
       }
  
       if(bookData.author) {
-        if(!new AuthorsService().get(_req.app.db,bookData.author)) {
+        if(!new AuthorsService().get(_req.db,bookData.author)) {
           return bookInvalidResponse(401, { errorMessage: "Author not found by id: "+bookData.author });
         } 
       }
       if(bookData.genre) {
-        if(!new GenresService().get(_req.app.db,bookData.genre)) {
+        if(!new GenresService().get(_req.db,bookData.genre)) {
           return bookInvalidResponse(401, { errorMessage: "Genre not found by id: "+bookData.genre });  
         }
       }      
 
-      return new BooksService().update(_req.app.db,bookData);
+      return new BooksService().update(_req.db,bookData);
     }
  
 
@@ -137,7 +137,7 @@ import {
       @Path() id: number,
       @Res() notFoundResponse: TsoaResponse<405, { errorMessage: string }>
     ): Promise<void> {
-      if(! new BooksService().delete(_req.app.db,id) )
+      if(! new BooksService().delete(_req.db,id) )
       {
         // Guess it is right code for failure: https://stackoverflow.com/questions/25122472/rest-http-status-code-if-delete-impossible
         return notFoundResponse(405, { errorMessage: "Book with this ID not found in the database" });

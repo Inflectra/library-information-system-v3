@@ -66,7 +66,7 @@ function authorizeBasic(req:any) {
     if (parts.length < 2) { return false; }
     
     const scheme = parts[0]
-      , credentials = new Buffer(parts[1], 'base64').toString().split(':');
+      , credentials = Buffer.from(parts[1], 'base64').toString().split(':');
   
     if (!/Basic/i.test(scheme)) { return false; }
     if (credentials.length < 2) { return false; }
@@ -82,7 +82,7 @@ function authorizeBasic(req:any) {
     return false;
   }
 
-  const found = req.app.db.data.users.find((usr:User)=>usr.username==userid) as User;
+  const found = req.db.data.users.find((usr:User)=>usr.username==userid) as User;
   return found;
 }
 
@@ -99,7 +99,8 @@ export async function expressAuthentication(
       if(res) {
         resolve(res);
       } else {
-        reject(new Error("Not authorized"));
+        // We use it to suppress default behavior - dump of call stack for each authorization error
+        reject({status:401,toString:()=>'Not authorized'});
       }
     }
     if(securityName=='basicAuth')
@@ -108,7 +109,8 @@ export async function expressAuthentication(
       if(res) {
         resolve(res);
       } else {
-        reject(new Error("Not authorized"));
+        // We use it to suppress default behavior - dump of call stack for each authorization error
+        reject({status:401,toString:()=>'Not authorized'});
       }
     }
 

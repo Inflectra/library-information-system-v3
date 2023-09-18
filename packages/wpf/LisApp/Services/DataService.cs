@@ -63,6 +63,9 @@ public partial class DataService: ObservableObject
     public ObservableCollection<Author> Authors { get; } = new ObservableCollection<Author>();
     public ObservableCollection<Genre> Genres { get; } = new ObservableCollection<Genre>();
 
+    [ObservableProperty]
+    private string? org="";
+
 
     public User? User { get; set; }
 
@@ -130,6 +133,7 @@ public partial class DataService: ObservableObject
         {
             this.User = user;
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+            await LoadOrg();
             await LoadData();
             IsLoggedIn = true;
         } else
@@ -140,6 +144,7 @@ public partial class DataService: ObservableObject
 
     public void Disconnect()
     {
+        this.Org = "";
         Books.Clear();
         Authors.Clear();
         Genres.Clear();
@@ -156,6 +161,12 @@ public partial class DataService: ObservableObject
             LoadGenres()
         );
         await LoadBooks();
+    }
+
+    private async Task LoadOrg()
+    {
+        var responseBody = await client.GetStringAsync("users/org");
+        this.Org = JsonConvert.DeserializeObject<string>(responseBody);
     }
 
     private async Task LoadBooks()

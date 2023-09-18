@@ -50,6 +50,8 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
     [ObservableProperty]
     private ViewModelBase? currentView;
 
+    [ObservableProperty]
+    private string? org = "";
 
     public MainViewModel(INavigationService  _navigation, DataService dataService)
     {
@@ -122,13 +124,16 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
             message.PropertyName == nameof(DataService.IsLoggedIn))
         {
             Console.WriteLine("Login changed: "+message.NewValue);
+            this.Org = "";
 
             if(message.NewValue)
             {
                 navItemsView.Filter = LoggedInNavItemsFilter;
                 this.WelcomeName = dataService!.User!.Name??"";
                 this.IsLoggedIn = true;
-            } else
+                this.Org = dataService!.Org;
+            }
+            else
             {
                 navItemsView.Filter = LoggedOutNavItemsFilter;
                 this.WelcomeName = "";

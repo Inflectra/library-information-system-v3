@@ -1,5 +1,5 @@
-import React from 'react'
-import {NavLink} from 'react-router-dom'
+import React, {useEffect} from 'react'
+import {NavLink,useLocation} from 'react-router-dom'
 import permissions from './permissions';
 import {getTenant,getTenantName} from './http-common';
 
@@ -9,6 +9,13 @@ const Header = (props) =>{
   const tenant = getTenant()
 
   const tenantName = tenant?` (${getTenantName()})`:``;
+
+  const location = useLocation();
+  useEffect(() => {
+    // execute on location change
+    console.log('Location changed!', location.pathname);
+  }, [location]);
+
 
   return (
   <header>
