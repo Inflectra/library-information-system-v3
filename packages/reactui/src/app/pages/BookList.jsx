@@ -177,7 +177,7 @@ function BookList(props) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {bookList.filter((book)=>book.name.toLowerCase().includes(filter)).map((book, key)=>{
+                                {bookList.filter((book)=>book.name.toLowerCase().includes(filter)||book.authorObj?.name.toLowerCase().includes(filter)||book.genreObj?.name.toLowerCase().includes(filter)).map((book, key)=>{
                                     return (
                                         <tr key={key}>
                                             <td>{book.id}</td>
