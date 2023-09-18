@@ -34,7 +34,12 @@ public partial class BookListViewModel : ViewModelBase
         }
     }
     private bool BookFilter(object obj) => obj is Book book &&
-            (string.IsNullOrEmpty(SearchKeyword) || book!.Name!.Contains(SearchKeyword,StringComparison.InvariantCultureIgnoreCase));
+            (
+            string.IsNullOrEmpty(SearchKeyword) 
+            || book!.Name!.Contains(SearchKeyword,StringComparison.InvariantCultureIgnoreCase)
+            || book!.AuthorName!.Contains(SearchKeyword, StringComparison.InvariantCultureIgnoreCase)
+            || book!.GenreName!.Contains(SearchKeyword, StringComparison.InvariantCultureIgnoreCase)
+        );
 
 
     public ObservableCollection<Book> Books => dataService.Books;

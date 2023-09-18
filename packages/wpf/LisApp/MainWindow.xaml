@@ -19,7 +19,6 @@
     </controls:MetroWindow.WindowButtonCommands>
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Label Content="{Binding Org}" Margin="20,0,20,0"/>
             <wpf:PopupBox Style="{StaticResource WindowCommandsPopupBoxStyle}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -48,6 +47,13 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Name="txtOrganization"
+                           Text="{Binding Org}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource MaterialDesignTitleMediumTextBlock}" />
                 <Grid Name="TopTitleGrid" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding ActualWidth, ElementName=WecolmeNameColumn}"/>

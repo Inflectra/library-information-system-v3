@@ -13,7 +13,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="255" />
+                    <ColumnDefinition Width="350" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -28,10 +28,19 @@
                                          Kind="Web" />
                 <TextBox Grid.Row="0"
                          Grid.Column="1"
-                         x:Name="txtUrl"
-                         Text="{Binding Url}"
-                         materialDesign:HintAssist.Hint="Url"
-                         materialDesign:HintAssist.HelperTextFontSize="24" />
+                         x:Name="txtOrg"
+                         materialDesign:HintAssist.Hint="Organization"
+                         materialDesign:HintAssist.HelperTextFontSize="24">
+                    <TextBox.Text>
+                        <Binding Path="Url"
+                                 UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <domain:OrgValidationRule ValidatesOnTargetUpdated="True"
+                                                                     xmlns:domain="clr-namespace:LisApp.Domain" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <materialDesign:PackIcon Grid.Row="1"
                                          Grid.Column="0"
                                          Width="24"
