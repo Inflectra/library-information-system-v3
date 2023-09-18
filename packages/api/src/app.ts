@@ -149,7 +149,7 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 		_res.setHeader("Access-Control-Allow-Origin", _req.headers.origin||'*');
 		_res.setHeader("Access-Control-Allow-Credentials", "true");
 		_res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-		_res.setHeader("Access-Control-Allow-Headers", "Authorization,Access-Control-Allow-Headers,Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers");	
+		_res.setHeader("Access-Control-Allow-Headers", "Authorization,Access-Control-Allow-Headers,Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers");
 	}
 
 	console.log(client??'--root--',isApi?'api':'',_req.url);
@@ -175,6 +175,21 @@ app.use('/reactui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	if(_req.isApi) return next();
 	serveStatic(req,_res,next);
 });
+
+const staticdirflutter = join(__dirname, '../../../fluttter/bookstore/build/web');
+const serveStaticF = express.static(staticdirflutter,{fallthrough:false,redirect:false,cacheControl:false,etag: false});
+app.use('/:clientId/flutter', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+	const _req = req as ExReq;
+	if(_req.isApi) return next();
+	serveStaticF(req,_res,next);
+});
+
+app.use('/flutter', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+	const _req = req as ExReq;
+	if(_req.isApi) return next();
+	serveStaticF(req,_res,next);
+});
+
 
 app.use('/', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	const _req = req as ExReq;
