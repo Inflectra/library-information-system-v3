@@ -21,9 +21,9 @@ class BackendService {
         return urlFromSettings;
       }
 
-      String localhost = "http://localhost:5000/";
-      String androidLocalhost = "http://10.0.2.2:5000/";
-      String iosLocalhost = "http://0.0.0.0:5000/";
+      String localhost = "http://localhost:5003/api/";
+      String androidLocalhost = "http://10.0.2.2:5003/api/";
+      String iosLocalhost = "http://0.0.0.0:5003/api/";
 
       if (kIsWeb)
       {
