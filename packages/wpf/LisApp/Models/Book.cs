@@ -21,4 +21,9 @@ public class Book
 
     [JsonIgnore]
     public string? GenreName { get; set;}
+
+    public override string ToString()
+    {
+        return "Book Id=" + Id;
+    }
 }

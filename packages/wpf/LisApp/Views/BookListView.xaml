@@ -78,44 +78,27 @@
                         CommandParameter="{Binding BooksView/}"/>
                 </DataGrid.InputBindings>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}" CanUserSort="True"/>
-                <DataGridTextColumn Header="Name"
+                <DataGridTextColumn Header="Id" x:Name="Id" Binding="{Binding Path=Id, Mode=OneWay}" CanUserSort="True"/>
+                <DataGridTextColumn Header="Name" x:Name="Name"
                                     Binding="{Binding Path=Name, Mode=OneWay}"
                                     CanUserSort="True" />
-                <DataGridComboBoxColumn Header="Author"
-                                        DisplayMemberPath="Name"
-                                        SelectedValuePath="Id"
-                                        SelectedValueBinding="{Binding Author, Mode=OneWay}"
-                                        CanUserSort="True"
-                                        SortMemberPath="AuthorName">
-                    <DataGridComboBoxColumn.ElementStyle>
-                        <Style TargetType="{x:Type ComboBox}">
-                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Authors, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-                        </Style>
-                    </DataGridComboBoxColumn.ElementStyle>
-                </DataGridComboBoxColumn>
-                <DataGridComboBoxColumn Header="Genre"
-                                        DisplayMemberPath="Name"
-                                        SelectedValuePath="Id"
-                                        SelectedValueBinding="{Binding Genre, Mode=OneWay}"
-                                        CanUserSort="True"
-                                        SortMemberPath="GenreName"
-                                        >
-                    <DataGridComboBoxColumn.ElementStyle>
-                        <Style TargetType="{x:Type ComboBox}">
-                            <Setter Property="ItemsSource"
-                                    Value="{Binding Path=DataContext.Genres, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
-                        </Style>
-                    </DataGridComboBoxColumn.ElementStyle>
-                </DataGridComboBoxColumn>
-                <DataGridTextColumn Header="Date Added" Binding="{Binding Path=DateAdded, StringFormat=\{0:d\}, Mode=OneWay}"/>
-                <DataGridCheckBoxColumn Header="Out of Print" Binding="{Binding Path=OutOfPrint, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Author"
+                                    x:Name="AuthorName"
+                                    Binding="{Binding AuthorName, Mode=OneWay}"
+                                    CanUserSort="True" />
+                <DataGridTextColumn Header="Genre"
+                                    x:Name="GenreName"
+                                    Binding="{Binding GenreName, Mode=OneWay}"
+                                    CanUserSort="True" />
+                <DataGridTextColumn Header="Date Added" x:Name="DateAdded" Binding="{Binding Path=DateAdded, StringFormat=\{0:d\}, Mode=OneWay}"/>
+                <DataGridCheckBoxColumn Header="Out of Print" x:Name="OutOfPrint" Binding="{Binding Path=OutOfPrint, Mode=OneWay}"/>
                 <DataGridTemplateColumn Header="">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Button Command="{Binding DataContext.EditBookCommand, ElementName=BookList}"
                                         CommandParameter="{Binding Path=DataContext.BooksView/, ElementName=BookList}"
+                                        x:Name="EditBook"
                                         Height="16" Width="16" Margin="2"
                                         Style="{StaticResource MaterialDesignIconButton}"
                                         ToolTip="Edit Book"
@@ -125,6 +108,7 @@
                                 </Button>
                                 <Button Command="{Binding DataContext.ShowBookCommand, ElementName=BookList}"
                                         CommandParameter="{Binding Path=DataContext.BooksView/, ElementName=BookList}"
+                                        x:Name="ViewBook"
                                         Height="16" Width="16" Margin="2"
                                         Style="{StaticResource MaterialDesignIconButton}"
                                         ToolTip="View Book"

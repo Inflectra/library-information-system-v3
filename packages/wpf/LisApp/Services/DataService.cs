@@ -91,6 +91,14 @@ public partial class DataService: ObservableObject
     private async Task Authorize(string url, string clientId, string clientPassword)
     {
         Disconnect();
+        url = (""+url).Trim();
+        if(!Uri.IsWellFormedUriString(url,UriKind.Absolute))
+        {
+            if(url.All(char.IsLetterOrDigit))
+            {
+                url = "http://v3.libraryinformationsystem.org/" + url + "/api";
+            }
+        }
         // Fix URL
         if (url.Contains("/api/"))
         {
