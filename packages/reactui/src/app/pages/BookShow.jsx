@@ -26,7 +26,7 @@ function BookShow(props) {
                 })
             }
         )
-    }, [])
+    }, [id,props])
   
     return (
         <Layout>

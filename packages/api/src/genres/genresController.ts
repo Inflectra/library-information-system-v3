@@ -25,8 +25,7 @@ import {
      */
      @Get("")
     public async getGenres(@Request() _req: any): Promise<Genre[]> {
-      console.log(' db: ',_req.app.db)
-      return new GenresService().all(_req.app.db);
+      return new GenresService().all(_req.db);
     }
 
     /**
@@ -34,8 +33,7 @@ import {
      */
      @Get("/count")
     public async count(@Request() _req: any): Promise<number> {
-      console.log(' db: ',_req.app.db)
-      return _req.app.db.data.genres.length;
+      return _req.db.data.genres.length;
     }
 
     /**
@@ -46,7 +44,7 @@ import {
       @Request() _req: any,
       @Path() idOrName: number|string
     ): Promise<Genre> {
-      return new GenresService().get(_req.app.db, idOrName);
+      return new GenresService().get(_req.db, idOrName);
     }
 
     /**
@@ -59,7 +57,7 @@ import {
         @Body() requestBody: GenreCreationParams
     ): Promise<Genre> {
       this.setStatus(201); // set return status 201
-      const genre = new GenresService().create(_req.app.db,requestBody);
+      const genre = new GenresService().create(_req.db,requestBody);
       return genre;
     }
 
@@ -74,7 +72,7 @@ import {
       @Path() id: number,
       @Res() notFoundResponse: TsoaResponse<405, { errorMessage: string }>
     ): Promise<void> {
-      const errorMessage = new GenresService().delete(_req.app.db,id)
+      const errorMessage = new GenresService().delete(_req.db,id)
       if(errorMessage)
       {
         // Guess it is right code for failure: https://stackoverflow.com/questions/25122472/rest-http-status-code-if-delete-impossible

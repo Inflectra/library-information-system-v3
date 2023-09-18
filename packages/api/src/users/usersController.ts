@@ -34,7 +34,7 @@ import {
       @Query() password?: string
     ): Promise<User&{token:string}> {
       const authUser:User = <User>_req.user;
-      const res = new UsersService().login(_req.app.db, username||authUser.username, password||authUser.password);
+      const res = new UsersService().login(_req.db, username||authUser.username, password||authUser.password);
       if(res) {
         return res;
       } else {
@@ -68,11 +68,19 @@ import {
     /**
      * Get all users in the system
      */
-     @Security("bearerAuth")
+    @Security("bearerAuth")
     @Security("basicAuth")
     @Get("")
     public async getUsers(@Request() _req: any): Promise<User[]> {
-      return new UsersService().all(_req.app.db);
+      return new UsersService().all(_req.db);
+    }
+
+    /**
+     * Get organization Id for this API
+     */
+    @Get("org")
+    public async getOrg(@Request() _req: any): Promise<string> {
+      return _req.clientId;
     }
 
     /**
@@ -93,7 +101,7 @@ import {
       @Request() _req: any,
       @Path() username: string
     ): Promise<User> {
-      return new UsersService().get(_req.app.db, username);
+      return new UsersService().get(_req.db, username);
     }
 
     /**
@@ -111,7 +119,7 @@ import {
       @Res() createFailedResponse: TsoaResponse<401, { errorMessage: string }>
     ): Promise<User|boolean> {
       this.setStatus(201); // set return status 201
-      const res = new UsersService().create(_req.app.db,requestBody);
+      const res = new UsersService().create(_req.db,requestBody);
       if(!res) {
         return createFailedResponse(401,{errorMessage:"User not found"});        
       }
@@ -132,7 +140,7 @@ import {
       @Res() updateFailedResponse: TsoaResponse<401, { errorMessage: string }>
     ): Promise<User|boolean> {
 
-      const res= new UsersService().update(_req.app.db,requestBody);
+      const res= new UsersService().update(_req.db,requestBody);
       if(!res) {
         return updateFailedResponse(401,{errorMessage:"User not found"});
       }

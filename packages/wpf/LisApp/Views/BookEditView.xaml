@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="LisApp.Views.BookEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded"
+                        SourceName="">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <StackPanel Orientation="Vertical">
+        <Button Name="BackButton"
+                Command="{Binding BackCommand}"
+                ToolTip="Back"
+                HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Margin="0,0,10,0"
+                                         VerticalAlignment="Center"
+                                         Width="24"
+                                         Height="24"
+                                         Kind="ArrowLeft" />
+                <TextBlock Text="Return to Books"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="300">
+            <TextBox x:Name="BookName"
+                     materialDesign:HintAssist.Hint="Name">
+                <TextBox.Text>
+                    <Binding Path="Book.Name"
+                             UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <domain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"
+                                                           xmlns:domain="clr-namespace:LisApp.Domain" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <ComboBox x:Name="Author"
+                      materialDesign:HintAssist.Hint="Author"
+                      ItemsSource="{Binding Authors}"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Id">
+                <ComboBox.SelectedValue>
+                    <Binding Mode="TwoWay"
+                             Path="Book.Author"
+                             UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <colorsDomain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"
+                                                                 xmlns:colorsDomain="clr-namespace:LisApp.Domain" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedValue>
+            </ComboBox>
+            <ComboBox x:Name="Genre"
+                      materialDesign:HintAssist.Hint="Genre"
+                      ItemsSource="{Binding Genres}"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Id">
+                <ComboBox.SelectedValue>
+                    <Binding Mode="TwoWay"
+                             Path="Book.Genre"
+                             UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <colorsDomain:NotEmptyValidationRule ValidatesOnTargetUpdated="True"
+                                                                 xmlns:colorsDomain="clr-namespace:LisApp.Domain" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.SelectedValue>
+
+            </ComboBox>
+            <DatePicker x:Name="DateAdded"
+                        materialDesign:HintAssist.Hint="Date Added"
+                        SelectedDateFormat="Short">
+                <DatePicker.SelectedDate>
+                    <Binding Path="Book.DateAdded"
+                             UpdateSourceTrigger="PropertyChanged">
+
+                        <Binding.ValidationRules>
+                            <domain:SimpleDateValidationRule ValidatesOnTargetUpdated="True"
+                                                             xmlns:domain="clr-namespace:LisApp.Domain" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
+            <CheckBox x:Name="OutOfPrint"
+                      IsChecked="{Binding Book.OutOfPrint}"
+                      Margin="10">Out of Print</CheckBox>
+            <Button Name="SaveButton"
+                    Command="{Binding SaveCommand}"
+                    ToolTip="Back"
+                    HorizontalAlignment="Center">
+                <Button.Style>
+                    <Style TargetType="Button"
+                           BasedOn="{StaticResource MaterialDesignFlatLightButton}">
+                        <Setter Property="IsEnabled"
+                                Value="False" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=BookName}"
+                                               Value="False" />
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Author}"
+                                               Value="False" />
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Genre}"
+                                               Value="False" />
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=DateAdded}"
+                                               Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled"
+                                        Value="True" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Margin="0,0,10,0"
+                                             VerticalAlignment="Center"
+                                             Width="24"
+                                             Height="24"
+                                             Kind="{Binding MainActionIcon}" />
+                    <TextBlock Text="{Binding MainAction}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

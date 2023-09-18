@@ -1,9 +1,8 @@
 // src/server.ts
 import {app} from "./app";
-import {getPort} from "@lis/common";
 
-const port = getPort();
+const port = process.env.NODE_PORT||5003;
 app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`LIS App Started at http://localhost:${port}`)
 );
 

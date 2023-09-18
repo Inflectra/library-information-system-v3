@@ -11,6 +11,7 @@
     "@types/lodash": "^4.14.197",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "lowdb": "^6.0.1",
@@ -34,6 +35,7 @@
   "scripts": {
     "build": "tsoa spec-and-routes && tsc",
     "start": "node build/src/server.js",
+    "prod": "cross-env NODE_PORT=5003 node build/src/server.js",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\""
   }
 }

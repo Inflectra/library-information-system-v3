@@ -26,12 +26,11 @@ export class GenresService {
     console.log('genres count before', db.data.genres.length)
     
     const newOne = <Genre>{
-      id: this.nextId(db),
       ...genreCreationParams,
+      id: this.nextId(db),
     };
     db.data.genres.push(newOne);
     console.log('genres count after', db.data.genres.length)
-    console.log('db',db)
     db.write();
     return newOne;
   }

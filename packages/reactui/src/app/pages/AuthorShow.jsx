@@ -16,7 +16,7 @@ function AuthorShow(props) {
                 setAuthor(author)
             }
         )
-    }, [])
+    }, [id,props])
   
     return (
         <Layout>

@@ -25,7 +25,7 @@ function AuthorEdit(props) {
                 setAge(author.age);
             })
         }
-    }, [])
+    }, [id,props])
 
     const handleSave = () => {
         props.keepalive();

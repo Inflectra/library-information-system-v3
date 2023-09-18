@@ -1,0 +1,143 @@
+﻿<UserControl x:Class="LisApp.Views.BookListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             Name="BookList"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" SourceName="">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Command="{Binding CreateBookCommand}"
+                    ToolTip="Add new Book to the System"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Visibility="{Binding IsEditEnabled, Converter={StaticResource BoolToVis}}"
+                >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                      Width="24"
+                      Height="24"
+                      Kind="Plus" />
+                    <TextBlock Text="Create New Book"/>
+                </StackPanel>
+            </Button>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Name="txtDisplaying" 
+                           Text="{Binding BooksView.Count}"/>
+                <TextBlock Text="/"/>
+                <TextBlock Name="txtDisplayingTotal" 
+                           Text="{Binding Books.Count}"/>
+            </StackPanel>
+            <TextBox
+                  Grid.Column="2"
+                  Width="250"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom"
+                  materialDesign:TextFieldAssist.HasClearButton="True"
+                  materialDesign:HintAssist.Hint="Find a Book"
+                  Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
+                />
+        </Grid>
+
+        <DataGrid x:Name="dgBooks"
+                  Grid.Row="1"
+                  xmlns:my="http://schemas.microsoft.com/wpf/2008/tookit"
+                  ItemsSource="{Binding BooksView}"
+                  IsSynchronizedWithCurrentItem="True"
+                  AutoGenerateColumns="False"
+                  SelectionMode="Single"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  CanUserAddRows="false"
+                  SelectionChanged="dgBooks_SelectionChanged"
+                  FontSize="16"
+                  >
+                <DataGrid.InputBindings>
+                    <MouseBinding
+                        MouseAction="LeftDoubleClick"
+                        Command="{Binding DoubleClickCommand}"
+                        CommandParameter="{Binding BooksView/}"/>
+                </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Path=Id, Mode=OneWay}" CanUserSort="True"/>
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Path=Name, Mode=OneWay}"
+                                    CanUserSort="True" />
+                <DataGridComboBoxColumn Header="Author"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="Id"
+                                        SelectedValueBinding="{Binding Author, Mode=OneWay}"
+                                        CanUserSort="True"
+                                        SortMemberPath="AuthorName">
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.Authors, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                </DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Header="Genre"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="Id"
+                                        SelectedValueBinding="{Binding Genre, Mode=OneWay}"
+                                        CanUserSort="True"
+                                        SortMemberPath="GenreName"
+                                        >
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource"
+                                    Value="{Binding Path=DataContext.Genres, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                </DataGridComboBoxColumn>
+                <DataGridTextColumn Header="Date Added" Binding="{Binding Path=DateAdded, StringFormat=\{0:d\}, Mode=OneWay}"/>
+                <DataGridCheckBoxColumn Header="Out of Print" Binding="{Binding Path=OutOfPrint, Mode=OneWay}"/>
+                <DataGridTemplateColumn Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Command="{Binding DataContext.EditBookCommand, ElementName=BookList}"
+                                        CommandParameter="{Binding Path=DataContext.BooksView/, ElementName=BookList}"
+                                        Height="16" Width="16" Margin="2"
+                                        Style="{StaticResource MaterialDesignIconButton}"
+                                        ToolTip="Edit Book"
+                                        Visibility="{Binding DataContext.IsEditEnabled, ElementName=BookList, Converter={StaticResource BoolToVis}}"
+                                    >
+                                    <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16"/>
+                                </Button>
+                                <Button Command="{Binding DataContext.ShowBookCommand, ElementName=BookList}"
+                                        CommandParameter="{Binding Path=DataContext.BooksView/, ElementName=BookList}"
+                                        Height="16" Width="16" Margin="2"
+                                        Style="{StaticResource MaterialDesignIconButton}"
+                                        ToolTip="View Book"
+                                    >
+                                    <materialDesign:PackIcon Kind="EllipsisHorizontal" Width="16" Height="16"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+    
+    
+</UserControl>

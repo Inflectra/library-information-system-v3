@@ -27,8 +27,7 @@ import {
      */
     @Get("")
     public async getAuthors(@Request() _req: any): Promise<Author[]> {
-      console.log(' db: ',_req.app.db)
-      return new AuthorsService().all(_req.app.db);
+       return new AuthorsService().all(_req.db);
     }
 
     /**
@@ -36,8 +35,7 @@ import {
      */
     @Get("/count")
     public async count(@Request() _req: any): Promise<number> {
-      console.log(' db: ',_req.app.db)
-      return _req.app.db.data.authors.length;
+      return _req.db.data.authors.length;
     }
 
     /**
@@ -48,7 +46,7 @@ import {
       @Request() _req: any,
       @Path() idOrName: number|string
     ): Promise<Author> {
-      return new AuthorsService().get(_req.app.db, idOrName);
+      return new AuthorsService().get(_req.db, idOrName);
     }
 
     /**
@@ -59,7 +57,7 @@ import {
       @Request() _req: any,
       @Query() namePart?: string
     ): Promise<Author[]> {
-      const found =  new AuthorsService().find(_req.app.db, ''+namePart);
+      const found =  new AuthorsService().find(_req.db, ''+namePart);
       return found;
     }
 
@@ -78,14 +76,14 @@ import {
       if(!requestBody.age) {
         return notFoundResponse(405, { errorMessage: `Author age is 0` });
       }
-      const found = new AuthorsService().get(_req.app.db,requestBody.name);
+      const found = new AuthorsService().get(_req.db,requestBody.name);
       if(found)
       {
         return notFoundResponse(405, { errorMessage: `Author already exists: ${found.name}` });
       }
 
       this.setStatus(200);
-      return new AuthorsService().create(_req.app.db,requestBody);
+      return new AuthorsService().create(_req.db,requestBody);
     }
 
     /**
@@ -97,13 +95,22 @@ import {
          @Body() requestBody: AuthorUpdateParams,
          @Res() notFoundResponse: TsoaResponse<405, { errorMessage: string }>
      ): Promise<Author> {
-       const found = new AuthorsService().get(_req.app.db,requestBody.id);
+       const found = new AuthorsService().get(_req.db,requestBody.id);
        if(!found)
        {
          return notFoundResponse(405, { errorMessage: `Author not found by id: ${requestBody.id}` });
        }
+       if(requestBody.name) {
+        const foundByName = 
+          new AuthorsService()
+          .find(_req.db, requestBody.name)
+          .filter((a)=>(a.id!=requestBody.id)&&(a.name==requestBody.name));
+        if( foundByName.length ) {
+          return notFoundResponse(405, { errorMessage: `Another author with same name already exists: ${requestBody.name}` });
+        }
+       }
  
-       return new AuthorsService().update(_req.app.db,requestBody);
+       return new AuthorsService().update(_req.db,requestBody);
      }
 
     /**
@@ -116,7 +123,7 @@ import {
       @Path() id: number,
       @Res() notFoundResponse: TsoaResponse<405, { errorMessage: string }>
     ): Promise<void> {
-      const errorMessage = new AuthorsService().delete(_req.app.db,id)
+      const errorMessage = new AuthorsService().delete(_req.db,id)
       if(errorMessage)
       {
         // Guess it is right code for failure: https://stackoverflow.com/questions/25122472/rest-http-status-code-if-delete-impossible

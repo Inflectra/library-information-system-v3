@@ -1,0 +1,152 @@
+﻿<controls:MetroWindow x:Class="LisApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:domain="clr-namespace:LisApp.ViewModels" d:DataContext="{d:DesignInstance Type=domain:MainViewModel}"
+        mc:Ignorable="d"
+        Title="Library Information System"
+        Height="550" Width="1024"
+        Icon="favicon.ico"
+        ShowIconOnTitleBar="True"
+                      
+        >
+    <controls:MetroWindow.WindowButtonCommands>
+        <controls:WindowButtonCommands Style="{StaticResource MahApps.Styles.WindowButtonCommands.Win10}" />
+    </controls:MetroWindow.WindowButtonCommands>
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Label Content="{Binding Org}" Margin="20,0,20,0"/>
+            <wpf:PopupBox Style="{StaticResource WindowCommandsPopupBoxStyle}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,10,0" Text="Light" />
+                        <ToggleButton x:Name="DarkModeToggleButton"
+                                  IsChecked="{Binding DarkMode, Mode=TwoWay}"
+                                  Style="{StaticResource MaterialDesignSwitchLightToggleButton}"
+                                  />
+                        <TextBlock
+                             Margin="10,0,0,0"
+                             Text="Dark" />
+                    </StackPanel>
+                    <Button Content="About" Command="{Binding DataContext.AboutBoxCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                </StackPanel>
+            </wpf:PopupBox>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <materialDesign:DialogHost Identifier="RootDialog">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+                <Grid Name="TopTitleGrid" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding ActualWidth, ElementName=WecolmeNameColumn}"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Name="WecolmeNameColumn" Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentView.Message}" 
+                       HorizontalAlignment="Center"
+                       Padding="0,16"
+                       VerticalAlignment="Center"
+                       Style="{StaticResource MaterialDesignTitleMediumTextBlock}"
+                       />
+                    <StackPanel Grid.Column="2" 
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}"
+                        >
+                        <TextBlock Text="Welcome, " Style="{StaticResource MaterialDesignLabelLargeTextBlock}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding WelcomeName}"
+                                   Margin="4"
+                                   FontWeight="Bold"
+                                   Style="{StaticResource MaterialDesignLabelLargeTextBlock}"
+                                   VerticalAlignment="Center"
+                               />
+                        <Button Name="BackButton"
+                            Command="{Binding LogoutCommand}"
+                            Margin="4"
+                            ToolTip="Disconnect"
+                            Content="{materialDesign:PackIcon Kind=LanDisconnect}"
+                            />
+                    </StackPanel>
+                </Grid>
+            <StackPanel Grid.Column="0" Grid.Row="1">
+                <Viewbox VerticalAlignment="Top"
+                     Stretch="Uniform">
+                    <ListBox VerticalAlignment="Top"
+                       ItemsSource="{Binding NavItems}"
+                       SelectedValue="{Binding SelectedItem}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesign3.NavigationRailPrimaryListBoxItem}">
+                                <Setter Property="materialDesign:NavigationRailAssist.IsTextVisible" Value="True" />
+                                <Setter Property="materialDesign:NavigationRailAssist.SelectedIcon" Value="{Binding SelectedIcon}" />
+                                <Setter Property="materialDesign:NavigationRailAssist.UnselectedIcon" Value="{Binding UnselectedIcon}" />
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.Resources>
+                            <DataTemplate DataType="{x:Type domain:NavItemViewModel}">
+                                <TextBlock Text="{Binding Title}"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </ListBox.Resources>
+                    </ListBox>
+                </Viewbox>
+            </StackPanel>
+
+            <ContentControl Name="CurrentView" Grid.Column="1" Grid.Row="1"
+                Content="{Binding CurrentView, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Null}}"
+                />
+
+        </Grid>
+        <materialDesign:DialogHost IsOpen="{Binding DialogIsOpen}">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="20">
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <materialDesign:PackIcon Kind="Information" Height="32" Width="32"/>
+                        <TextBlock Text="{Binding DialogMessage}"
+                                   Width="200"
+                                   TextWrapping="Wrap"
+                                   />
+                    </StackPanel>
+                    <Button x:Name="CloseButton"
+                Command="{Binding CloseDialogCommand}"
+                Content="OK" />
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+
+        </materialDesign:DialogHost>
+        <materialDesign:DialogHost IsOpen="{Binding IsInProgress}">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="10">
+                    <TextBlock Text="{Binding DialogMessage}"/>
+
+                    <ProgressBar Width="24"
+                       Height="24"
+                       Margin="16"
+                       IsIndeterminate="True"
+                       Style="{StaticResource MaterialDesignCircularProgressBar}"
+                       Value="33" 
+                    />
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+
+
+    </Grid>
+
+    </materialDesign:DialogHost>
+
+
+</controls:MetroWindow>
