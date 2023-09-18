@@ -176,7 +176,7 @@ app.use('/reactui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	serveStatic(req,_res,next);
 });
 
-const staticdirflutter = join(__dirname, '../../../fluttter/bookstore/build/web');
+const staticdirflutter = join(__dirname, '../../../flutter/bookstore/build/web');
 const serveStaticF = express.static(staticdirflutter,{fallthrough:false,redirect:false,cacheControl:false,etag: false});
 app.use('/:clientId/flutter', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	const _req = req as ExReq;
