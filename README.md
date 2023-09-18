@@ -25,3 +25,10 @@ http://localhost:5000/docs/#/
 - Admin: q/q
 - Editors: e/e, librarian/librarian
 - Borrowers: r/r, borrower/borrower
+
+## Build and Run API
+
+```
+npm run build -w @lis/api
+npm run start -w @lis/api
+```
