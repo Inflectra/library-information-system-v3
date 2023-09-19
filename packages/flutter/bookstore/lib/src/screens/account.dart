@@ -2,11 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 
 import '../auth.dart';
-import '../routing.dart';
 import '../services/backend_service.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -36,6 +37,10 @@ class _AccountScreenState extends State<AccountScreen> {
     super.initState();
     _serverUrlController.value = _serverUrlController.value.copyWith(text: getIt.get<BackendService>().getOrganization());
 
+    if (kIsWeb && Uri.base.pathSegments.length == 3)
+    {
+      _serverUrlController.value = _serverUrlController.value.copyWith(text: Uri.base.pathSegments[0]);
+    }
     //_usernameController.value = _usernameController.value.copyWith(text: "librarian");
     //_passwordController.value = _passwordController.value.copyWith(text: "librarian");
   }  
@@ -63,10 +68,19 @@ class _AccountScreenState extends State<AccountScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Organization', icon: Icon(Icons.factory)),
-                  controller: _serverUrlController,
-                ),                
+                if (kIsWeb && Uri.base.pathSegments.length == 3) ...[
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Organization', icon: Icon(Icons.factory)),
+                    controller: _serverUrlController,
+                    readOnly: true,
+                  )
+                ]
+                else ...[
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Organization', icon: Icon(Icons.factory)),
+                    controller: _serverUrlController,
+                  )
+                ],            
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'User Name', icon: Icon(Icons.person)),
                   controller: _usernameController,
