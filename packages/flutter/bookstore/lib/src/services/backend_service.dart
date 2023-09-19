@@ -20,6 +20,11 @@ class BackendService {
 
   void updateOrganization(String organization)
   {
+    if (organization.startsWith("http") && !organization.endsWith("/"))
+    {
+      organization += "/";
+    }
+
     Library.localStorage!.setString("Organization", organization);
     _serverUrl = "";
     _serverUrl = getBackendUrl();
