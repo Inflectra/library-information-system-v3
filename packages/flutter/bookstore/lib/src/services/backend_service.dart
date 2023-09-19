@@ -41,7 +41,7 @@ class BackendService {
         {
           if (organization.isEmpty)
           {
-            _serverUrl = "http://v3.libraryinformationsystem.org/api/";
+            _serverUrl = "https://v3.libraryinformationsystem.org/api/";
           }
           else if (organization == "localhost")
           {
@@ -63,7 +63,7 @@ class BackendService {
           }
           else
           {
-            _serverUrl = "http://v3.libraryinformationsystem.org/$organization/api/";
+            _serverUrl = "https://v3.libraryinformationsystem.org/$organization/api/";
           }
         }
         else
