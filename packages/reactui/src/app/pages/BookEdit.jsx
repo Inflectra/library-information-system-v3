@@ -55,7 +55,7 @@ function BookEdit(props) {
         .then((genres)=>{
             genres.sort(nameSort);
             setGenreList(genres)
-            if(id==0) {
+            if(id===0) {
                 if(genres&&genres.length) {
                     setGenre(genres[0].id)
                 }    
@@ -65,7 +65,7 @@ function BookEdit(props) {
         .then((authors)=>{
             authors.sort(nameSort);
             setAuthorList(authors)
-            if(id==0) {
+            if(id===0) {
                 if(authors&&authors.length) {
                     setAuthor(authors[0].id)
                 }    
