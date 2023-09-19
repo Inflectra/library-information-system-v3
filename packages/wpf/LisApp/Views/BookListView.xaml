@@ -79,7 +79,7 @@
                 </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" x:Name="Id" Binding="{Binding Path=Id, Mode=OneWay}" CanUserSort="True"/>
-                <DataGridTextColumn Header="Name" x:Name="Name"
+                <DataGridTextColumn Header="Name" x:Name="BookName"
                                     Binding="{Binding Path=Name, Mode=OneWay}"
                                     CanUserSort="True" />
                 <DataGridTextColumn Header="Author"
