@@ -202,6 +202,13 @@ app.use('/', async (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 		const data = await import('../build/swagger.json');
 		_res.send(data);
 		return;
+	} else if(redir=='LisApp.exe') {
+		console.log('LisApp.exe requested');
+		const filename = join(__dirname, '../../../wpf/publish/LisApp.exe');
+		var stream = fs.createReadStream(filename);
+		console.log('sending stream', stream);
+		stream.pipe(_res);
+		return;
 	}
 	if(redir.lastIndexOf('/')===-1) {
 		// Check if it is requires for root folder's resources
@@ -240,11 +247,7 @@ app.use('*/swagger.json', async (_req: ExRequest, res: ExResponse) => {
 	res.send(data);
 });
 
-app.use('/dist/LisApp.exe', async (_req: ExRequest, res: ExResponse) => {
-	const filename = join(__dirname, '../../../wpf/publish/LisApp.exe');
-	var stream = fs.createReadStream(filename);
-	stream.pipe(res);
-});
+
 
 
 app.use('/redoc', async (_req: ExRequest, res: ExResponse) => {
