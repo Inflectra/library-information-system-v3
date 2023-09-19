@@ -5,8 +5,6 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LisApp", "LisApp.csproj", "{0302D73A-E90A-44D7-8DDF-7214F38280AE}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "LisAppSetup", "..\LisAppSetup\LisAppSetup.vdproj", "{387FDA78-6C48-4841-B1C0-69E1FC0242F3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,20 +33,6 @@ Global
 		{0302D73A-E90A-44D7-8DDF-7214F38280AE}.Release|x64.Build.0 = Release|Any CPU
 		{0302D73A-E90A-44D7-8DDF-7214F38280AE}.Release|x86.ActiveCfg = Release|Any CPU
 		{0302D73A-E90A-44D7-8DDF-7214F38280AE}.Release|x86.Build.0 = Release|Any CPU
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Debug|Any CPU.ActiveCfg = Debug
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Debug|ARM.ActiveCfg = Debug
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Debug|ARM.Build.0 = Debug
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Debug|x64.ActiveCfg = Debug
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Debug|x64.Build.0 = Debug
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Debug|x86.ActiveCfg = Debug
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Debug|x86.Build.0 = Debug
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Release|Any CPU.ActiveCfg = Release
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Release|ARM.ActiveCfg = Release
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Release|ARM.Build.0 = Release
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Release|x64.ActiveCfg = Release
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Release|x64.Build.0 = Release
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Release|x86.ActiveCfg = Release
-		{387FDA78-6C48-4841-B1C0-69E1FC0242F3}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,13 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout"
- 
+import permissions from '../permissions';
+
 import {dataLoad} from '../http-common';
 
 function AuthorShow(props) {
     const [id] = useState(useParams().id)
     const [author,setAuthor] = useState('')
-     
+    
+    const navigate = useNavigate();
+
+    const isEdit = props.permission>=permissions.edit;
+
     useEffect(() => {
         props.keepalive();
         dataLoad(`authors/${id}`)
@@ -26,14 +31,22 @@ function AuthorShow(props) {
                     <div className="card-header">
                         <Link 
                             className="btn btn-outline-info float-right"
-                            to="/authors">&lt;&lt; View All Authors
+                            to="/authors">&lt;&lt; Back to Authors
                         </Link>
                     </div>
-                    <div className="card-body">
-                        <b className="text-muted">Name:</b>
-                        <p>{author.name}</p>
-                        <b className="text-muted">Age:</b>
-                        <p>{author.age}</p>
+                    <div className="card-body row">
+                            <label className="text-muted">Name</label>
+                            <p id='authorName'>{author.name}</p>
+                            <label className="text-muted">Age</label>
+                            <p id='authorAge'>{author.age}</p>
+                            {isEdit&&
+                            <button 
+                                    onClick={() => navigate('/authors/edit/'+author.id, { replace: true })} 
+                                    type="button"
+                                    className="btn btn-outline-primary mt-3">
+                                    Edit
+                                </button>
+                            }
                     </div>
                 </div>
             </div>

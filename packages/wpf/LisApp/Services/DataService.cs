@@ -181,7 +181,7 @@ public partial class DataService: ObservableObject
     {
         var responseBody = await client.GetStringAsync("books");
      
-        var books = JsonConvert.DeserializeObject<List<Book>>(responseBody);
+        var books = JsonConvert.DeserializeObject<List<Book>>(responseBody) ?? new List<Book>();
         foreach (var b in books)
         {
             b.AuthorName = Authors.FirstOrDefault(a => a.Id == b.Author)!.Name ?? "";

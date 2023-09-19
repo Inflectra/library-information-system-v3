@@ -1,5 +1,5 @@
-import React,{ useState, useEffect, useCallback} from 'react'
-import { Link } from 'react-router-dom'
+import React,{ useState, useEffect, useCallback } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 import Layout from "../components/Layout"
@@ -19,6 +19,8 @@ function BookList(props) {
     const [filter, setFilter] = useState('')
     const [sortField, setSortField] = useState("")
     const [order, setOrder] = useState("asc")
+
+    const navigate = useNavigate();
 
     const fetchBookList = useCallback(() => {
         props.keepalive();
@@ -179,7 +181,7 @@ function BookList(props) {
                             <tbody>
                                 {bookList.filter((book)=>book.name.toLowerCase().includes(filter)||book.authorObj?.name.toLowerCase().includes(filter)||book.genreObj?.name.toLowerCase().includes(filter)).map((book, key)=>{
                                     return (
-                                        <tr key={key}>
+                                        <tr onDoubleClick={()=>navigate('/books/show/'+book.id)} key={key}>
                                             <td>{book.id}</td>
                                             <td>{book.name}</td>
                                             <td>{book.authorObj?.name}</td>

@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout"
- 
+import permissions from '../permissions';
+
 import {dataLoad} from '../http-common';
 
 function BookShow(props) {
@@ -9,7 +10,11 @@ function BookShow(props) {
     const [book,setBook] = useState({});
     const [author,setAuthor] = useState('')
     const [genre,setGenre] = useState('')
+
+    const navigate = useNavigate()
      
+    const isEdit = props.permission>=permissions.edit;
+
     useEffect(() => {
         props.keepalive();
         dataLoad(`books/${id}`)
@@ -36,20 +41,28 @@ function BookShow(props) {
                     <div className="card-header">
                         <Link 
                             className="btn btn-outline-info float-right"
-                            to="/books">&lt;&lt; View All Books
+                            to="/books">&lt;&lt; Back to Books
                         </Link>
                     </div>
                     <div className="card-body">
-                        <b className="text-muted">Name:</b>
-                        <p>{book.name}</p>
-                        <b className="text-muted">Author:</b>
-                        <p>{author}</p>
-                        <b className="text-muted">Genre:</b>
-                        <p>{genre}</p>
-                        <b className="text-muted">Out of Print:</b>
-                        <p>{book.outOfPrint?'Yes':'No'}</p>
-                        <b className="text-muted">Date Added:</b>
-                        <p>{new Date(book.dateAdded).toLocaleDateString()}</p>
+                        <label className="text-muted">Name</label>
+                        <p id='bookName'>{book.name}</p>
+                        <label className="text-muted">Author</label>
+                        <p id='bookAuthor'>{author}</p>
+                        <label className="text-muted">Genre</label>
+                        <p id='bookGenre'>{genre}</p>
+                        <label className="text-muted">Out of Print</label>
+                        <p id='bookOutOfPrint'>{book.outOfPrint?'Yes':'No'}</p>
+                        <label className="text-muted">Date Added</label>
+                        <p id='bookDateAdded'>{new Date(book.dateAdded).toLocaleDateString()}</p>
+                        {isEdit&&
+                        <button 
+                                onClick={() => navigate('/books/edit/'+book.id, { replace: true })} 
+                                type="button"
+                                className="btn btn-outline-primary mt-3">
+                                Edit
+                            </button>
+                        }
                     </div>
                 </div>
             </div>
