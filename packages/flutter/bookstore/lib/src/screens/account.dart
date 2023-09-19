@@ -34,7 +34,7 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   void initState() {
     super.initState();
-    _serverUrlController.value = _serverUrlController.value.copyWith(text: getIt.get<BackendService>().getBackendUrl());
+    _serverUrlController.value = _serverUrlController.value.copyWith(text: getIt.get<BackendService>().getOrganization());
 
     //_usernameController.value = _usernameController.value.copyWith(text: "librarian");
     //_passwordController.value = _passwordController.value.copyWith(text: "librarian");
@@ -64,7 +64,7 @@ class _AccountScreenState extends State<AccountScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Url', icon: Icon(Icons.web)),
+                  decoration: const InputDecoration(labelText: 'Organization', icon: Icon(Icons.factory)),
                   controller: _serverUrlController,
                 ),                
                 TextFormField(

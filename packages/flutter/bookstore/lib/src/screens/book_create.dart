@@ -24,15 +24,36 @@ class _BookCreateScreenState extends State<BookCreateScreen> {
   String? _selectedGenreId;  
   bool _autoValidate = false;
 
+  bool error = false;
+  String errorMessage = "No error";    
+
   _create()
   {
     libraryInstance.createBook(_bookNameController.value.text, int.parse(_selectedAuthorId!), int.parse(_selectedGenreId!)).then((result) {
       RouteStateScope.of(context).go('/books');
-    });    
+    }).catchError((message) {
+      setState(() {
+        errorMessage = message;
+        error = true;
+      });
+      Future.delayed(Duration(seconds: 3), () {
+        setState(() {
+          errorMessage = "";
+          error = false;
+        });
+      });
+    });       
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+    final style = theme.textTheme.labelSmall!.copyWith(
+      color: Colors.red,
+    );  
+
+    return Scaffold(
         appBar: AppBar(
           title: Text(title),
         ),
@@ -129,6 +150,14 @@ class _BookCreateScreenState extends State<BookCreateScreen> {
                                   },
                                   child: const Text('Create'),
                                 ),
+                                SizedBox(height: 10),
+                                Visibility (
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  visible: error,
+                                  child: Text(errorMessage, style: style)
+                                )                                  
                               ],
                             ),
                           ],
@@ -142,4 +171,5 @@ class _BookCreateScreenState extends State<BookCreateScreen> {
           )
         )
       );
+  }
 }
