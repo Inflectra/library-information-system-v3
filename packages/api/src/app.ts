@@ -240,6 +240,13 @@ app.use('*/swagger.json', async (_req: ExRequest, res: ExResponse) => {
 	res.send(data);
 });
 
+app.use('/dist/LisApp.exe', async (_req: ExRequest, res: ExResponse) => {
+	const filename = join(__dirname, '../../../wpf/publish/LisApp.exe');
+	var stream = fs.createReadStream(filename);
+	stream.pipe(res);
+});
+
+
 app.use('/redoc', async (_req: ExRequest, res: ExResponse) => {
 	return res.send(redocPage);
 })

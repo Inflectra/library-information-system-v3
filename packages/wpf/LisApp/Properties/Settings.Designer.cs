@@ -49,7 +49,7 @@ namespace LisApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:5000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Url {
             get {
                 return ((string)(this["Url"]));
