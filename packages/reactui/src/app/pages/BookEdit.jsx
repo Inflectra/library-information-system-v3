@@ -55,16 +55,20 @@ function BookEdit(props) {
         .then((genres)=>{
             genres.sort(nameSort);
             setGenreList(genres)
-            if(genres&&genres.length) {
-                setGenre(genres[0].id)
+            if(id==0) {
+                if(genres&&genres.length) {
+                    setGenre(genres[0].id)
+                }    
             }
         })
         dataLoad('authors')
         .then((authors)=>{
             authors.sort(nameSort);
             setAuthorList(authors)
-            if(authors&&authors.length) {
-                setAuthor(authors[0].id)
+            if(id==0) {
+                if(authors&&authors.length) {
+                    setAuthor(authors[0].id)
+                }    
             }
         })
     }, [id,props])
