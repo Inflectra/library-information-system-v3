@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 import Layout from "../components/Layout"
@@ -21,6 +21,8 @@ function AuthorList(props) {
     const [filter, setFilter] = useState('');
     const [sortField, setSortField] = useState("");
     const [order, setOrder] = useState("asc");
+
+    const navigate = useNavigate();
 
     const fetchAuthorList = useCallback(() => {
         props.keepalive();
@@ -149,7 +151,7 @@ function AuthorList(props) {
                             <tbody>
                                 {authorList.filter((author) => author.name.toLowerCase().includes(filter.toLowerCase())).map((author, key) => {
                                     return (
-                                        <tr key={key}>
+                                        <tr key={key} onDoubleClick={()=>navigate('/authors/show/'+author.id)} >
                                             <td>{author.id}</td>
                                             <td>{author.name}</td>
                                             <td>{author.age}</td>
