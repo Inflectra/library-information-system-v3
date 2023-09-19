@@ -191,13 +191,18 @@ app.use('/flutter', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 });
 
 
-app.use('/', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+app.use('/', async (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	const _req = req as ExReq;
 	if(_req.isApi) return next()
 	let redir = req.originalUrl;
 	if(redir.includes('/reactui/')) return _res.sendStatus(404);
 	while(redir.startsWith('/')) redir = redir.slice(1);
 	while(redir.endsWith('/')) redir = redir.slice(0,-1);
+	if(redir=='swagger.json') {
+		const data = await import('../build/swagger.json');
+		_res.send(data);
+		return;
+	}
 	if(redir.lastIndexOf('/')===-1) {
 		// Check if it is requires for root folder's resources
 		const checkpath = join(staticdir,redir);
@@ -230,7 +235,6 @@ app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
 		swaggerUi.generateHTML(data, swaggerUIOptions)
 	);
 });
-
 app.use('*/swagger.json', async (_req: ExRequest, res: ExResponse) => {
 	const data = await import('../build/swagger.json');
 	res.send(data);
