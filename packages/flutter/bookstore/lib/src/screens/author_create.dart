@@ -24,15 +24,36 @@ class _AuthorCreateScreenState extends State<AuthorCreateScreen> {
   final _authorAgeController = TextEditingController();  
   bool _autoValidate = false;
 
+  bool error = false;
+  String errorMessage = "No error";
+
   _create()
   {
     libraryInstance.createAuthor(_authorNameController.value.text, int.parse(_authorAgeController.value.text)).then((result) {
       RouteStateScope.of(context).go('/authors');
+    }).catchError((message) {
+      setState(() {
+        errorMessage = message;
+        error = true;
+      });
+      Future.delayed(Duration(seconds: 3), () {
+        setState(() {
+          errorMessage = "";
+          error = false;
+        });
+      });
     });    
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+    final style = theme.textTheme.labelSmall!.copyWith(
+      color: Colors.red,
+    );   
+
+    return Scaffold(
         appBar: AppBar(
           title: Text(title),
         ),
@@ -93,10 +114,18 @@ class _AuthorCreateScreenState extends State<AuthorCreateScreen> {
                                   },
                                   child: const Text('Create'),
                                 ),
+                                SizedBox(height: 10),
+                                Visibility (
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  visible: error,
+                                  child: Text(errorMessage, style: style)
+                                )                                
                               ],
                             ),
                           ],
-                        ),                        
+                        ),  
                       ]
                     ),
                   )
@@ -106,4 +135,5 @@ class _AuthorCreateScreenState extends State<AuthorCreateScreen> {
           )
         )
       );
+  }
 }

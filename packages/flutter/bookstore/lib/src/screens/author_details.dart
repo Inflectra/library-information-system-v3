@@ -26,6 +26,9 @@ class _AuthorDetailsScreenState extends State<AuthorDetailsScreen> {
   final _authorNameController = TextEditingController();
   final _authorAgeController = TextEditingController();
 
+  bool error = false;
+  String errorMessage = "No error";  
+
   @override
   void initState() {
     super.initState();
@@ -37,11 +40,27 @@ class _AuthorDetailsScreenState extends State<AuthorDetailsScreen> {
   {
     libraryInstance.updateAuthor(widget.author!, newName: _authorNameController.value.text, newAge: int.parse(_authorAgeController.value.text)).then((result) {
       RouteStateScope.of(context).go('/authors');
-    });
+    }).catchError((message) {
+      setState(() {
+        errorMessage = message;
+        error = true;
+      });
+      Future.delayed(Duration(seconds: 3), () {
+        setState(() {
+          errorMessage = "";
+          error = false;
+        });
+      });
+    });    
   }  
 
   @override
   Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+    final style = theme.textTheme.labelSmall!.copyWith(
+      color: Colors.red,
+    );     
 
     final authState = BookstoreAuthScope.of(context);
 
@@ -111,7 +130,15 @@ class _AuthorDetailsScreenState extends State<AuthorDetailsScreen> {
                                   }
                                 },
                                 child: const Text('Update'),
-                              )
+                              ),
+                              SizedBox(height: 10),
+                              Visibility (
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                visible: error,
+                                child: Text(errorMessage, style: style)
+                              )                               
                             ],
                           ),
                         ],

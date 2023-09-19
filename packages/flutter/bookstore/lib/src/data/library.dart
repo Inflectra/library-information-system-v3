@@ -58,6 +58,7 @@ class Library {
         name: genre["name"]
       );
     }
+    allGenres.sort((a, b) => a.name.compareTo(b.name));
   }
 
   void readAuthors(dynamic authors)
@@ -70,6 +71,7 @@ class Library {
         age: author["age"]
       );
     }
+    allAuthors.sort((a, b) => a.name.compareTo(b.name));
   }
 
   void readBooks(dynamic books)
@@ -85,6 +87,7 @@ class Library {
         outOfPrint: book["outOfPrint"]
       );
     }
+    allBooks.sort((a, b) => a.name.compareTo(b.name));
   }
 
   void addGenre({

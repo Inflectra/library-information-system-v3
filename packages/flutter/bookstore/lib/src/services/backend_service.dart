@@ -12,39 +12,62 @@ class BackendService {
   String _cookie = "";
   String _serverUrl = "";
 
-  String getBackendUrl() {
-    if (_serverUrl.isEmpty) {
-
-      String? urlFromSettings = Library.localStorage!.getString("ServerUrl");
-      if (urlFromSettings != null)
-      {
-        return urlFromSettings;
-      }
-
-      String localhost = "http://localhost:5003/api/";
-      String androidLocalhost = "http://10.0.2.2:5003/api/";
-      String iosLocalhost = "http://0.0.0.0:5003/api/";
-
-      if (kIsWeb)
-      {
-        _serverUrl = localhost;
-      }
-      else if (Platform.isAndroid) {
-        _serverUrl = androidLocalhost;
-      } else if (Platform.isIOS) {
-        _serverUrl = iosLocalhost;
-      } else {
-        _serverUrl = localhost;
-      }
-    }
-
-    return _serverUrl;
+  String getOrganization()
+  {
+    String? organization = Library.localStorage!.getString("Organization");
+    return organization ?? "";
   }
 
-  void updateBackendUrl(String url)
+  void updateOrganization(String organization)
   {
-    _serverUrl = url;
-    Library.localStorage!.setString("ServerUrl", _serverUrl);
+    Library.localStorage!.setString("Organization", organization);
+    _serverUrl = "";
+    _serverUrl = getBackendUrl();
+  }  
+
+  String getBackendUrl() 
+  {
+    if (_serverUrl.isEmpty) 
+    {
+      String? organization = Library.localStorage!.getString("Organization");
+      if (organization != null)
+      {
+        if (!organization.startsWith("http"))
+        {
+          if (organization.isEmpty)
+          {
+            _serverUrl = "http://v3.libraryinformationsystem.org/api/";
+          }
+          else if (organization == "localhost")
+          {
+            String localhost = "http://localhost:5003/api/";
+            String androidLocalhost = "http://10.0.2.2:5003/api/";
+            String iosLocalhost = "http://0.0.0.0:5003/api/";
+
+            if (kIsWeb)
+            {
+              _serverUrl = localhost;
+            }
+            else if (Platform.isAndroid) {
+              _serverUrl = androidLocalhost;
+            } else if (Platform.isIOS) {
+              _serverUrl = iosLocalhost;
+            } else {
+              _serverUrl = localhost;
+            }
+          }
+          else
+          {
+            _serverUrl = "http://v3.libraryinformationsystem.org/$organization/api/";
+          }
+        }
+        else
+        {
+          _serverUrl = organization;
+        }
+      }
+    }
+    return _serverUrl;
   }
 
   String getLastError()
@@ -88,24 +111,77 @@ class BackendService {
       }
       return Future.value(0);
     } else {
-      _errorMessage = response.reasonPhrase ?? "Response status code is ${response.statusCode}";
+      if (response.body.isNotEmpty)
+      {
+        try
+        {
+        var jsonData = jsonDecode(response.body);
+        if (_hasPropertyOrKey(jsonData, "errorMessage"))
+        {
+          _errorMessage = jsonData["errorMessage"];
+        }
+        else
+        {
+          _errorMessage = response.body;
+        }
+        }
+        catch(e)
+        {
+          _errorMessage = "(${response.statusCode}): ${response.reasonPhrase ?? "n/a"}";
+        }
+      }
+      else
+      {
+        _errorMessage = "(${response.statusCode}): ${response.reasonPhrase ?? "n/a"}";
+      }
       print("Backend error: $_errorMessage");
       return Future.error(_errorMessage);
     }
   }
 
+  bool _hasPropertyOrKey(dynamic obj, String name)
+  {
+    if (obj == null)
+    {
+      return false;
+    }
+
+    if (obj is Map)
+    {
+      return obj.containsKey(name);
+    }
+
+    var hasProperty = false;
+    try {
+      obj.property;
+      hasProperty = true;
+    }
+    catch(e)
+    {
+      // no such property
+    }   
+    return hasProperty;
+  }
+
   void _processError(error)
   {
-    if (error.message != null)
+    if (_hasPropertyOrKey(error, "message"))
     {
-      _errorMessage = error.message;
+      if (error.message.toString().contains("The semaphore timeout period has expired"))
+      {
+        _errorMessage = "Unable to connect to " + _serverUrl;
+      }
+      else
+      {
+        _errorMessage = error.message;
+      }
     }
     else
     {
       _errorMessage = error.toString();
     }
     print("Backend error: $_errorMessage");
-    throw("Backend error");
+    throw(_errorMessage);
   }
 
   Future<dynamic> getDataFromBackend(String query, [String method = "get", String? postData, Map<String, String>? additionalHeaders]) async {

@@ -1,11 +1,11 @@
 {
-    "name": "navigation_and_routing",
-    "short_name": "navigation_and_routing",
+    "name": "Library Information System",
+    "short_name": "Library Information System",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Navigation and routing sample app",
+    "description": "Library Information System sample app",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -28,6 +28,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   String? _selectedAuthorId;
   String? _selectedGenreId;
 
+  bool error = false;
+  String errorMessage = "No error";      
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +43,18 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   {
     libraryInstance.updateBook(widget.book!, newName: _bookNameController.value.text, newAuthorId: int.parse(_selectedAuthorId!), newGenreId: int.parse(_selectedGenreId!)).then((result) {
       RouteStateScope.of(context).go('/books');
-    });
+    }).catchError((message) {
+      setState(() {
+        errorMessage = message;
+        error = true;
+      });
+      Future.delayed(Duration(seconds: 3), () {
+        setState(() {
+          errorMessage = "";
+          error = false;
+        });
+      });
+    });  
   }
 
   void _delete(BuildContext context) {
@@ -83,6 +97,11 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
         ),
       );
     }
+
+    final theme = Theme.of(context);
+    final style = theme.textTheme.labelSmall!.copyWith(
+      color: Colors.red,
+    );  
 
     final authState = BookstoreAuthScope.of(context);
 
@@ -197,23 +216,35 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Row(
+                            Column(
                               children: [
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      _update();
-                                    }
-                                  },
-                                  child: const Text('Update'),
+                                Row(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          _update();
+                                        }
+                                      },
+                                      child: const Text('Update'),
+                                    ),
+                                    SizedBox(width: 10),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        _delete(context);
+                                      },
+                                      child: const Text('Delete'),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(width: 10),
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    _delete(context);
-                                  },
-                                  child: const Text('Delete'),
-                                ),
+                                SizedBox(height: 10),
+                                Visibility (
+                                  maintainSize: true,
+                                  maintainAnimation: true,
+                                  maintainState: true,
+                                  visible: error,
+                                  child: Text(errorMessage, style: style)
+                                )                                 
                               ],
                             ),
                           ],

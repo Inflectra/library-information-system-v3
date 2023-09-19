@@ -33,7 +33,7 @@ class BookList extends StatelessWidget {
             books[index].author.name,
           ),
           trailing: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
