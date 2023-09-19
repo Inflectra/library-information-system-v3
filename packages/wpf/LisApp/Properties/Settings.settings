@@ -9,7 +9,7 @@
       <Value Profile="(Default)">librarian</Value>
     </Setting>
     <Setting Name="Url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://localhost:5000</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DarkMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

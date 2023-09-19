@@ -96,19 +96,22 @@ public partial class DataService: ObservableObject
         {
             if(url.All(char.IsLetterOrDigit))
             {
-                url = "http://v3.libraryinformationsystem.org/" + url + "/api";
+                url = "https://v3.libraryinformationsystem.org/" + url + "/api";
+            } else if(string.IsNullOrWhiteSpace(url))
+            {
+                url = "https://v3.libraryinformationsystem.org/api";
             }
         }
         // Fix URL
         if (url.Contains("/api/"))
         {
-            url = url.Split("/api")[0] + "/api/";
+            url = url.Split("/api")[0] + "/api";
         }
         else
         {
             url = (url + "/").Split("/reactui")[0];
             url = url.TrimEnd('/');
-            if (!url.EndsWith("/api")) url += "/api/";
+            if (!url.EndsWith("/api")) url += "/api";
         }
         url = url.TrimEnd('/') + '/';
 
