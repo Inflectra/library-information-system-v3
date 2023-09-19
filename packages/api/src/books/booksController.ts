@@ -79,7 +79,7 @@ import {
       const found = new BooksService().find(_req.db,bookData.name);
       for(let fb of found) {
         if(fb.name==bookData.name && fb.author==bookData.author) {
-          return bookInvalidResponse(401, { errorMessage: "Book already exists:"+fb.id });
+          return bookInvalidResponse(401, { errorMessage: "Book already exists: "+fb.id });
         }
       }
 
@@ -125,7 +125,7 @@ import {
       const foundSimilar = new BooksService().find(_req.db,bookData.name);
       for(let fb of foundSimilar) {
         if(fb.name==bookData.name && fb.author==bookData.author) {
-          return bookInvalidResponse(401, { errorMessage: "Another book with same name and author already exists:"+fb.id });
+          return bookInvalidResponse(401, { errorMessage: "Another book with same name and author already exists: "+fb.id });
         }
       }    
 
