@@ -77,8 +77,7 @@ import {
         return bookInvalidResponse(401, { errorMessage: "Book name should not be empty" });
       }
       const found = new BooksService().find(_req.db,bookData.name);
-      for(let ind in found) {
-        const fb = found[ind];
+      for(let fb of found) {
         if(fb.name==bookData.name && fb.author==bookData.author) {
           return bookInvalidResponse(401, { errorMessage: "Book already exists:"+fb.id });
         }
@@ -107,7 +106,7 @@ import {
       if(!bookData.name) {
          return bookInvalidResponse(401, { errorMessage: "Book name should not be empty" });
       }
-      const found = new BooksService().get(_req.db,bookData.id);
+      let found = new BooksService().get(_req.db,bookData.id);
       if(!found) {
         return bookInvalidResponse(401, { errorMessage: "Book not found by id:"+bookData.id });
       }
@@ -121,7 +120,14 @@ import {
         if(!new GenresService().get(_req.db,bookData.genre)) {
           return bookInvalidResponse(401, { errorMessage: "Genre not found by id: "+bookData.genre });  
         }
-      }      
+      }
+
+      const foundSimilar = new BooksService().find(_req.db,bookData.name);
+      for(let fb of foundSimilar) {
+        if(fb.name==bookData.name && fb.author==bookData.author) {
+          return bookInvalidResponse(401, { errorMessage: "Another book with same name and author already exists:"+fb.id });
+        }
+      }    
 
       return new BooksService().update(_req.db,bookData);
     }
