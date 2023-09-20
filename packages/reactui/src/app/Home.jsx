@@ -64,9 +64,9 @@ const Home = (props) => {
         <p>Note: This is not a real application, but is just a sample application used in the popular <a href="http://www.inflectra.com/SpiraTest">SpiraTest</a> test management system and <a href="http://www.inflectra.com/Rapise">Rapise</a> test automation system. Both of these products are created by <a href="http://www.inflectra.com/">Inflectra Corporation</a>.</p>
 
         <h3>Check this Out</h3>
-        <p><a href="/flutter/">Flutter version</a> (that is coupled with mobile clients for iOS and Android)</p>
+        <p><a href={getTenant()+"/flutter/"}>Flutter version</a> (that is coupled with mobile clients for iOS and Android)</p>
         <p><a href="/LisApp.exe">WPF version</a> for Windows</p>
-        <p><a href="/api/">REST API</a> for this application</p>
+        <p><a href={getTenant()+"/api/"}>REST API</a> for this application</p>
 
       </div>
     

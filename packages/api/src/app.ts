@@ -205,7 +205,9 @@ app.use('/', async (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	} else if(redir=='LisApp.exe') {
 		console.log('LisApp.exe requested');
 		const filename = join(__dirname, '../../../wpf/publish/LisApp.exe');
-		var stream = fs.createReadStream(filename);
+		const stream = fs.createReadStream(filename);
+		const fsize = fs.statSync(filename).size;
+		_res.setHeader('content-length', fsize);
 		console.log('sending stream', stream);
 		stream.pipe(_res);
 		return;
