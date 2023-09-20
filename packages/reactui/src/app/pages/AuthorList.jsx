@@ -149,7 +149,9 @@ function AuthorList(props) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {authorList.filter((author) => author.name.toLowerCase().includes(filter.toLowerCase())).map((author, key) => {
+                                {authorList.filter((author) => 
+                                    author.name.toLowerCase().includes(filter.toLowerCase())
+                                    ).map((author, key) => {
                                     return (
                                         <tr key={key} onDoubleClick={()=>navigate('/authors/show/'+author.id)} >
                                             <td>{author.id}</td>
