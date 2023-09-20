@@ -21,10 +21,10 @@ export class AppComponent {
 
     var outlets = {};
 
-    outlets["homeTab"] = _index == 0 ? [ "home", "default" ] :  ['emptyHome'];
-    outlets["booksTab"] = _index == 1 ? [ "books", "default" ] :  ['emptyBooks'];
-    outlets["authorsTab"] = _index == 2 ? [ "authors", "default" ] :  ['emptyAuthors'];
-    outlets["accountTab"] = _index == 3 ? [ "login", "default" ] :  ['emptyAccount'];
+    outlets["homeTab"] = _index == 0 ? [ "home", "default" ] :  ['emptyHome', "dummy"];
+    outlets["booksTab"] = _index == 1 ? [ "books", "default" ] :  ['emptyBooks', "dummy"];
+    outlets["authorsTab"] = _index == 2 ? [ "authors", "default" ] :  ['emptyAuthors', "dummy"];
+    outlets["accountTab"] = _index == 3 ? [ "login", "default" ] :  ['emptyAccount', "dummy"];
 
     this.routerExtensions.navigate([{outlets: outlets}]);   
   }
