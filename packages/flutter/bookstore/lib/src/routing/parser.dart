@@ -35,7 +35,7 @@ class TemplateRouteParser extends RouteInformationParser<ParsedRoute> {
   Future<ParsedRoute> parseRouteInformation(
     RouteInformation routeInformation,
   ) async {
-    final uri = routeInformation.uri;
+    final uri = Uri.parse(routeInformation.location!);
     final path = uri.toString();
     final queryParams = uri.queryParameters;
     var parsedRoute = initialRoute;
@@ -62,5 +62,5 @@ class TemplateRouteParser extends RouteInformationParser<ParsedRoute> {
 
   @override
   RouteInformation restoreRouteInformation(ParsedRoute configuration) =>
-      RouteInformation(uri: Uri.parse(configuration.path));
+      RouteInformation(location: configuration.path);
 }

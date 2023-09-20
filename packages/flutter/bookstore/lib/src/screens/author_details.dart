@@ -38,7 +38,7 @@ class _AuthorDetailsScreenState extends State<AuthorDetailsScreen> {
 
   void _update()
   {
-    libraryInstance.updateAuthor(widget.author!, newName: _authorNameController.value.text, newAge: int.parse(_authorAgeController.value.text)).then((result) {
+    libraryInstance.updateAuthor(widget.author, newName: _authorNameController.value.text, newAge: int.parse(_authorAgeController.value.text)).then((result) {
       RouteStateScope.of(context).go('/authors');
     }).catchError((message) {
       setState(() {

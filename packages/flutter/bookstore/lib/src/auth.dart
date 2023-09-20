@@ -46,7 +46,7 @@ class BookstoreAuth extends ChangeNotifier {
   Future<bool> signIn(String url, String username, String password) async {
     backendService.updateOrganization(url);
     //var query = 'users/login?username=$username&password=$password';
-    var authHeader = "Basic " + base64.encode(utf8.encode("$username:$password"));
+    var authHeader = "Basic ${base64.encode(utf8.encode("$username:$password"))}";
     _signedIn = false;
     return backendService.getDataFromBackend("users/login", "get", null, {"Authorization": authHeader }).then((response) {
       backendService.setToken(response["token"]);

@@ -174,7 +174,7 @@ class BackendService {
     {
       if (error.message.toString().contains("The semaphore timeout period has expired"))
       {
-        _errorMessage = "Unable to connect to " + _serverUrl;
+        _errorMessage = "Unable to connect to $_serverUrl";
       }
       else
       {
