@@ -14,7 +14,7 @@ class BackendService {
 
   String getOrganization()
   {
-    String? organization = Library.localStorage!.getString("Organization");
+    String? organization = Library.localStorage?.getString("Organization");
     return organization ?? "";
   }
 

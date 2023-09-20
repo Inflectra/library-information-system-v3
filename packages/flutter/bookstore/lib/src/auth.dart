@@ -36,6 +36,30 @@ class BookstoreAuth extends ChangeNotifier {
     return false;
   }  
 
+  String getOrganizationName()
+  {
+    var org = backendService.getOrganization();
+    if (org.isEmpty)
+    {
+      org = "global";
+    }
+
+    if (org.startsWith("http"))
+    {
+      var uri = Uri.parse(org);
+      if (uri.pathSegments.length == 3)
+      {
+        org = "url-based/${uri.pathSegments[0]}";
+      }
+      else
+      {
+        org = "url-based/global";
+      }
+    }
+
+    return org;
+  }
+
   String getUserName() {
     if(user != null && user!.name.isNotEmpty) {
       return user!.name;

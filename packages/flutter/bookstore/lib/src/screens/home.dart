@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart'; 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import '../auth.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,16 +16,26 @@ class HomeScreen extends StatelessWidget {
 
     final authState = BookstoreAuthScope.of(context);
 
+    if (kIsWeb)
+    {
+      SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(
+        label: "LIS: ${authState.getOrganizationName()}" ,
+        primaryColor: Theme.of(context).primaryColor.value,
+      ));
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: Text(authState.signedIn ? "Welcome, ${authState.getUserName()}!" : "Welcome"),
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
               child: Container(
                 padding: const EdgeInsets.all(10),
+                constraints: BoxConstraints.loose(const Size(771, 100)),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.blueGrey),
                   borderRadius: BorderRadius.circular(10),
@@ -52,6 +63,7 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
               child: Container(
                 padding: const EdgeInsets.all(10),
+                constraints: BoxConstraints.loose(const Size(771, 100)),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.blueGrey),
                   borderRadius: BorderRadius.circular(10),

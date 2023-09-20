@@ -5,6 +5,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter/services.dart'; 
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../auth.dart';
 import '../services/backend_service.dart';
@@ -43,6 +45,57 @@ class _AccountScreenState extends State<AccountScreen> {
     //_usernameController.value = _usernameController.value.copyWith(text: "librarian");
     //_passwordController.value = _passwordController.value.copyWith(text: "librarian");
   }  
+
+  _signIn(BookstoreAuth authState)
+  {
+    authState.signIn(_serverUrlController.value.text, _usernameController.value.text, _passwordController.value.text).then((signedIn) {
+      if (!signedIn) {
+        print("LogIn unsuccessful, let's show the error message");
+        setState(() {
+          errorMessage = getIt.get<BackendService>().getLastError();
+          error = true;
+        });
+        Future.delayed(Duration(seconds: 3), () {
+          setState(() {
+            errorMessage = "";
+            error = false;
+          });
+        });
+      } else {
+        if (kIsWeb)
+        {
+          SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(
+            label: "LIS: ${authState.getOrganizationName()}" ,
+            primaryColor: Theme.of(context).primaryColor.value,
+          ));
+        }
+      }
+    });
+  }
+
+  _signOut(BookstoreAuth authState)
+  {
+    authState.signOut().then((signedIn) {
+      if (signedIn) {
+        print("LogOut unsuccessful, let's show the error message");
+        setState(() {
+          errorMessage = getIt.get<BackendService>().getLastError();
+          error = true;
+        });
+        Future.delayed(Duration(seconds: 3), () {
+          setState(() {
+            errorMessage = "";
+            error = false;
+          });
+        });
+      } else {
+        setState(() {
+          _usernameController.value = _usernameController.value.copyWith(text: "");
+          _passwordController.value = _passwordController.value.copyWith(text: "");
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,23 +146,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   padding: const EdgeInsets.all(16),
                   child: ElevatedButton(
                     onPressed: () async {
-                      authState.signIn(_serverUrlController.value.text, _usernameController.value.text, _passwordController.value.text).then((signedIn) {
-                        if (!signedIn) {
-                          print("LogIn unsuccessful, let's show the error message");
-                          setState(() {
-                            errorMessage = getIt.get<BackendService>().getLastError();
-                            error = true;
-                          });
-                          Future.delayed(Duration(seconds: 3), () {
-                            setState(() {
-                              errorMessage = "";
-                              error = false;
-                            });
-                          });
-                        } else {
-                          // RouteStateScope.of(context).go('/books');
-                        }
-                      });
+                      _signIn(authState);
                     },
                     child: const Text('Log In'),
                   ),
@@ -131,6 +168,12 @@ class _AccountScreenState extends State<AccountScreen> {
                     children: [
                       TextFormField(
                         readOnly: true,
+                        decoration: InputDecoration(labelText: 'Organization', icon: Icon(Icons.factory), focusedBorder: InputBorder.none, enabledBorder: InputBorder.none,),
+                        initialValue: authState.getOrganizationName()
+                      ),                    
+                      SizedBox(height: 10),                      
+                      TextFormField(
+                        readOnly: true,
                         decoration: InputDecoration(labelText: 'Name', icon: Icon(Icons.person), focusedBorder: InputBorder.none, enabledBorder: InputBorder.none,),
                         initialValue: authState.getUserName()
                       ),                    
@@ -144,26 +187,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         padding: const EdgeInsets.all(16),
                         child: ElevatedButton(
                           onPressed: () async {
-                            authState.signOut().then((signedIn) {
-                              if (signedIn) {
-                                print("LogOut unsuccessful, let's show the error message");
-                                setState(() {
-                                  errorMessage = getIt.get<BackendService>().getLastError();
-                                  error = true;
-                                });
-                                Future.delayed(Duration(seconds: 3), () {
-                                  setState(() {
-                                    errorMessage = "";
-                                    error = false;
-                                  });
-                                });
-                              } else {
-                                setState(() {
-                                  _usernameController.value = _usernameController.value.copyWith(text: "");
-                                  _passwordController.value = _passwordController.value.copyWith(text: "");
-                                });
-                              }
-                            });
+                            _signOut(authState);
                           },
                           child: const Text('Log Out'),
                         ),
