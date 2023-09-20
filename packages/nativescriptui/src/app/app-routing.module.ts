@@ -7,7 +7,7 @@ import { AuthorEditComponent } from './features/authors/author.edit.component'
 const routes: Routes = [
   { 
     path: '', 
-    redirectTo: '/(homeTab:home/default//booksTab:books/default//authorsTab:authors/default//accountTab:login/default)', 
+    redirectTo: '/(homeTab:emptyHome/dummy//booksTab:emptyBooks/dummy//authorsTab:emptyAuthors/dummy//accountTab:emptyAccount/dummy)', 
     pathMatch: 'full' 
   },
   {

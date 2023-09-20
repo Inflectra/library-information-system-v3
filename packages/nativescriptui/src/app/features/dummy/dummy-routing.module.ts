@@ -5,7 +5,7 @@ import { DummyComponent } from "./dummy.component";
 
 export const routes: Routes = [
   {
-    path: "",
+    path: "dummy",
     component: DummyComponent
   }
 ];

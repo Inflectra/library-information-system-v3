@@ -1,7 +1,7 @@
 <ActionBar title="Author Management"></ActionBar>
 <StackLayout (loaded)="onLoaded()">
     <label class="text" textWrap="true" text="Please login to view authors." *ngIf="!loginService.isAuthenticated()"></label>
-    <label class="text" textWrap="true" text="You do not have permission to view authors." *ngIf="!loginService.isEditor()"></label>
+    <label class="text" textWrap="true" text="You do not have permission to view authors." *ngIf="loginService.isAuthenticated()&&!loginService.isEditor()"></label>
     <ListView
     height="100%"
     separatorColor="transparent"
