@@ -112,7 +112,7 @@ const Home = (props) => {
       </div>
     </div>
   }
-  {props.permission&&
+  {!!props.permission&&
     <div>
       <div className="col-md-6">
         <h3>{getTenant()?getTenantName()+"'s ":''}System Contains</h3>
