@@ -1,1 +1,1 @@
-flutter build web --base-href /flutter/
+flutter build web
