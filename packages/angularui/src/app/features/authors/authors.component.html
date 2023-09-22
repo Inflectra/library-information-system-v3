@@ -1,0 +1,25 @@
+<div class="jumbotron" style="background-color: #fff; height: calc(95vh);">
+    <br/>
+    <div class="row justify-content-center">
+        <h3>Author Management</h3>
+    </div>
+    <br/>
+    <div class="row" *ngIf="!loginService.isAuthenticated()">
+        <p>Please login to view authors.</p>
+    </div>
+    <div class="row justify-content-center" *ngIf="!dataService.production || loginService.isAuthenticated()">
+        <div id="authorsGridContainer">
+            <div>
+                <a class="nav-link" routerLink="/newauthor">Create New Author</a>
+            </div>
+            <angular-slickgrid gridId="gridAuthors"
+              (onAngularGridCreated)="angularGridReady($event)"
+              [columnDefinitions]="columnDefinitions"
+              [gridOptions]="gridOptions"
+              [dataset]="authors">
+            </angular-slickgrid>
+        </div>
+    </div>
+    </div>
+        
+    
