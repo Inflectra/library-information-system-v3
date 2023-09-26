@@ -50,7 +50,7 @@ export class LoginService {
 
   getTenant(): string
   {
-    return "TEST";
+    return this.dataService.getTenant();
   }
 
   static arrayBufferToBase64(bytes) 
@@ -95,6 +95,16 @@ export class LoginService {
       this.dataService.getDataFromBackend("users/logout").subscribe(() => {
         this.authenticated = false;
         this.dataService.clearToken();
+        resolve(true);
+      },
+      error => reject(error));
+    });
+  }
+
+  reset() : Promise<boolean>
+  {
+    return new Promise<boolean>((resolve, reject) => {
+      this.dataService.getDataFromBackend("reset").subscribe(() => {
         resolve(true);
       },
       error => reject(error));

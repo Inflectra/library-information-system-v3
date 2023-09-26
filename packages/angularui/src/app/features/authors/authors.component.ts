@@ -26,12 +26,19 @@ export class AuthorsComponent implements OnInit {
   gridOptions: GridOption = {};
   authors: AuthorModel[] = [];
 
+  searchString: string = null;
+
   constructor(private libraryService: LibraryService, public loginService: LoginService, public dataService: DataService, private router: Router) { }
 
 
   ngOnInit(): void {
     this.prepareAuthorsGrid();
   }
+
+  searchStringChanged() 
+  {
+    this.dataService.updateFilter(this.angularGrid, this.gridOptions, "name", this.searchString);
+  }  
 
   prepareAuthorsGrid() 
   {
@@ -51,7 +58,8 @@ export class AuthorsComponent implements OnInit {
         field: 'name', 
         type: FieldType.string,
         minWidth: 200,
-        sortable: true
+        sortable: true,
+        filterable: true
       },
       { 
         id: 'age', 
@@ -91,7 +99,7 @@ export class AuthorsComponent implements OnInit {
       showCellSelection: false,
 
       enableSorting: true,
-      enableFiltering: false,
+      enableFiltering: true,
 
       enableAutoTooltip: true,
       autoTooltipOptions: {
@@ -118,6 +126,7 @@ export class AuthorsComponent implements OnInit {
   angularGridReady(angularGrid: AngularGridInstance) 
   {
     this.angularGrid = angularGrid;
+    this.angularGrid.filterService.toggleHeaderFilterRow(); 
 
     this.angularGrid.slickGrid.onClick.subscribe((e, p) => {
       if ($(e.target).hasClass("btn")) {
@@ -159,7 +168,12 @@ export class AuthorsComponent implements OnInit {
   {
     console.log("Delete author: " + id);
     var book = this.libraryService.authors.find(b => b.id == id);
-    this.dataService.showConfirm(`Do you want to delete "${book.name}"?`, "Delete Author", "Yes", () => {});
+    this.dataService.showConfirm(`Do you want to delete "${book.name}"?`, "Delete Author", "Yes", () => {
+      this.libraryService.deleteAuthor(id).then(() => 
+      {
+        this.authors = this.libraryService.authors;
+      });      
+    });
   }
 
 }

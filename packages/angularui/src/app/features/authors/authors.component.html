@@ -4,13 +4,22 @@
         <h3>Author Management</h3>
     </div>
     <br/>
-    <div class="row" *ngIf="!loginService.isAuthenticated()">
+    <div class="row" *ngIf="!loginService.isAuthenticated() && dataService.production">
         <p>Please login to view authors.</p>
     </div>
     <div class="row justify-content-center" *ngIf="!dataService.production || loginService.isAuthenticated()">
         <div id="authorsGridContainer">
-            <div>
-                <a class="nav-link" routerLink="/newauthor">Create New Author</a>
+            <div class="row">
+                <div class="col-md-3">
+                    <a class="nav-link" routerLink="/newauthor">Create New Author</a>
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-3">
+                    <input type="search" class="form-control form-control-sm" 
+                    name="authorSearch" placeholder="Find an author"
+                    [(ngModel)]="searchString"
+                    (ngModelChange)="searchStringChanged()"/>
+                </div>
             </div>
             <angular-slickgrid gridId="gridAuthors"
               (onAngularGridCreated)="angularGridReady($event)"
@@ -18,6 +27,7 @@
               [gridOptions]="gridOptions"
               [dataset]="authors">
             </angular-slickgrid>
+            <br/><br/>
         </div>
     </div>
     </div>

@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
 
   loggedUserName = "";
 
-  constructor(private dataService: DataService, public loginService: LoginService, private router: Router) 
+  constructor(public dataService: DataService, public loginService: LoginService, private router: Router) 
   { 
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd)

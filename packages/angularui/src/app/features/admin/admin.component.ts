@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from 'src/app/core';
+import { DataService } from 'src/app/data.service';
 
 @Component({
   selector: 'app-admin',
@@ -8,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(public loginService: LoginService, private dataService: DataService) { }
 
   ngOnInit(): void {
+  }
+  
+  reset()
+  {
+    this.loginService.reset().then(() => {
+      this.dataService.showAlert("Database reset successfully.", "Admin");
+    });
   }
 
 }

@@ -3,13 +3,15 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { NgxSpinnerService } from "ngx-spinner";
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
+import * as moment from 'moment';
+import { AngularGridInstance, GridOption } from 'angular-slickgrid';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  constructor(private http: HttpClient, private spinner: NgxSpinnerService, ) { }
+  constructor(private http: HttpClient, private spinner: NgxSpinnerService) { }
 
   userLoggedOutEvent = new EventEmitter<boolean>();
 
@@ -43,10 +45,38 @@ export class DataService {
     this.token = null;    
   }
 
+  private tenant: string;
+  public getTenant(): string
+  {
+    if (this.tenant == undefined)
+    {
+      var _path = location.pathname;
+      var _segments = _path.split("/");
+      if (_segments.length > 1)
+      {
+        this.tenant = _segments[0];
+      }
+    }
+    return this.tenant;
+  }
+
+  private serverUrl: string;
   public getBackendUrl()
   {
-    var _url = "http://localhost:5003/api/";
-    return _url;
+    if (!this.serverUrl)
+    {
+      var _t = this.getTenant();
+      _t = _t ? "" : "/" + _t;
+      if (location.hostname == "localhost")
+      {
+        this.serverUrl = `http://localhost:5003${_t}/api/`;
+      }
+      else
+      {
+        this.serverUrl = `https://v3.libraryinformationsystem.org${_t}/api/`;
+      }
+    }
+    return this.serverUrl;
   }
 
   public getDataFromBackend(query: string, method: string = "get", postData: string = null, additionalHeaders: Map<string,string> = null, errorHandler: any = null, errorHandlerParam: any = null, withSpinner: boolean = true)
@@ -77,6 +107,7 @@ export class DataService {
     var _options: any = 
     {
         headers: _headers,
+        withCredentials: true,
         observe: 'body' as const,
         responseType: 'json' as const
     }      
@@ -214,5 +245,33 @@ export class DataService {
     $dialog.dialog('open');
   }
 
-  
+  formatDate(value)
+  {
+    var _d = new Date(value);
+    return moment(_d).format("YYYY-MM-DD");     
+  }
+
+  copyObject(value)
+  {
+    return JSON.parse(JSON.stringify(value));
+  }
+
+  public updateFilter(grid: AngularGridInstance, options: GridOption, columnName: string, searchString: string)
+  {
+      if (options.enableFiltering)
+      {
+        var _fm = grid.filterService.getFiltersMetadata();
+        if (_fm && _fm.length > 0)
+        {
+          if (searchString)
+          {
+            grid.filterService.updateFilters([{ columnId: columnName, searchTerms: [searchString] }], true, false, true);
+          }
+          else
+          {
+            grid.filterService.clearFilters(true);
+          }
+        }
+      }
+  }
 }

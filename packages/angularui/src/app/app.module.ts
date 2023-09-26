@@ -10,6 +10,8 @@ import * as $ from 'jquery';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSlickgridModule } from 'angular-slickgrid';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
+import { AutofocusDirective } from './autofocus.directive';
 
 import { AuthGuard } from './auth.guard';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +32,7 @@ import { HomeComponent } from './features/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
+    AutofocusDirective,
     HeaderComponent,
     FooterComponent,
     BooksComponent,
@@ -52,7 +55,9 @@ import { HomeComponent } from './features/home/home.component';
     NgxSpinnerModule,
     AngularSlickgridModule.forRoot(),
     NgbModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DlDateTimeDateModule,
+    DlDateTimePickerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [FormsModule, AuthGuard],

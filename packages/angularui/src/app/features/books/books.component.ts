@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
 import { LibraryService, LoginService } from 'src/app/core';
 import { DataService } from 'src/app/data.service';
 import { BookModel } from 'src/app/core';
@@ -10,6 +9,7 @@ import {
   Column,
   FieldType,
   GridOption,
+  Filters
 } from 'angular-slickgrid';
 
 @Component({
@@ -26,10 +26,17 @@ export class BooksComponent implements OnInit {
   gridOptions: GridOption = {};
   books: BookModel[] = [];
 
+  searchString: string = null;
+
   constructor(private libraryService: LibraryService, public loginService: LoginService, public dataService: DataService, private router: Router) { }
 
   ngOnInit(): void {
     this.prepareBooksGrid();
+  }
+
+  searchStringChanged() 
+  {
+    this.dataService.updateFilter(this.angularGrid, this.gridOptions, "name", this.searchString);
   }
 
   prepareBooksGrid() 
@@ -50,7 +57,8 @@ export class BooksComponent implements OnInit {
         field: 'name', 
         type: FieldType.string,
         minWidth: 200,
-        sortable: true
+        sortable: true,
+        filterable: true
       },
       { 
         id: 'author', 
@@ -59,7 +67,10 @@ export class BooksComponent implements OnInit {
         type: FieldType.string,
         minWidth: 200,
         maxWidth: 300,
-        sortable: true
+        sortable: true,
+        formatter: this.authorFormatter,
+        filterable: true,
+        queryFieldFilter: "authorFullName"
       },
       { 
         id: 'genre', 
@@ -68,7 +79,10 @@ export class BooksComponent implements OnInit {
         type: FieldType.string,
         minWidth: 200,
         maxWidth: 300,
-        sortable: true
+        sortable: true,
+        formatter: this.genreFormatter,
+        filterable: true,
+        queryFieldFilter: "genreFullName"
       },
       { 
         id: 'dateAdded', 
@@ -78,7 +92,8 @@ export class BooksComponent implements OnInit {
         minWidth: 100,
         maxWidth: 100,
         formatter: this.dateAddedFormatter,
-        sortable: true
+        sortable: true,
+        params: this
       },
       { 
         id: 'outOfPrint', 
@@ -119,7 +134,7 @@ export class BooksComponent implements OnInit {
       showCellSelection: false,
 
       enableSorting: true,
-      enableFiltering: false,
+      enableFiltering: true,
 
       enableAutoTooltip: true,
       autoTooltipOptions: {
@@ -133,7 +148,12 @@ export class BooksComponent implements OnInit {
         maxToolTipLength: 500
       },      
 
-      enableGridMenu: false,
+      enableGridMenu: true,
+      gridMenu: {
+        hideExportExcelCommand: true,
+        hideForceFitButton: true,
+      },
+
       enableHeaderMenu: false,
       enableColumnPicker: false,
       enableColumnReorder: false,
@@ -146,6 +166,7 @@ export class BooksComponent implements OnInit {
   angularGridReady(angularGrid: AngularGridInstance) 
   {
     this.angularGrid = angularGrid;
+    this.angularGrid.filterService.toggleHeaderFilterRow(); 
 
     this.angularGrid.slickGrid.onClick.subscribe((e, p) => {
       if ($(e.target).hasClass("btn")) 
@@ -177,10 +198,21 @@ export class BooksComponent implements OnInit {
     });
   }
 
+  authorFormatter(row, cell, value, columnDef, dataContext, grid) 
+  {
+    dataContext.authorFullName = value.name;
+    return value.name;
+  }
+
+  genreFormatter(row, cell, value, columnDef, dataContext, grid) 
+  {
+    dataContext.genreFullName = value.name;
+    return value.name;
+  }
+
   dateAddedFormatter(row, cell, value, columnDef, dataContext, grid) 
   {
-    var _d = new Date(value);
-    return moment(_d).format("YYYY-MM-DD"); 
+    return columnDef.params.dataService.formatDate(value);
   }
 
   outOfPrintFormatter(row, cell, value, columnDef, dataContext, grid) 
@@ -195,10 +227,15 @@ export class BooksComponent implements OnInit {
     return _actions;
   }
 
-  deleteBook(id)
+  deleteBook(id: number)
   {
     console.log("Delete book: " + id);
     var book = this.libraryService.books.find(b => b.id == id);
-    this.dataService.showConfirm(`Do you want to delete "${book.name}"?`, "Delete Book", "Yes", () => {});
+    this.dataService.showConfirm(`Do you want to delete "${book.name}"?`, "Delete Book", "Yes", () => {
+      this.libraryService.deleteBook(id).then(() => 
+      {
+        this.books = this.libraryService.books;
+      });
+    });
   }
 }

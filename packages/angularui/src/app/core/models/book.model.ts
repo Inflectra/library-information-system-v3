@@ -1,8 +1,11 @@
+import { AuthorModel } from "./author.model";
+import { GenreModel } from "./genre.model";
+
 export interface BookModel {
   id: number;
-  genre: string;
+  genre: GenreModel;
   name: string;
-  author: string;
+  author: AuthorModel;
   dateAdded: string;
   outOfPrint: boolean;
 }

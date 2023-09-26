@@ -48,24 +48,15 @@
     background-color: #000000 !important;
 }
 
-.dropdown-menu
-{
-    background-color: #1F4A55 !important;
-    height: 500px;
-    overflow-y: auto;
-    opacity: 0.95;
-    margin-top: 0px !important;
-}
-
-.dropdown-menu > a:hover 
-{
-    background-image: none;
-    background-color: #5D7B83;
-}
-
 .nav-link-selected
 {
     color: #800080 !important;
+}
+
+.form-label
+{
+    font-weight: bold;
+    color: #777;
 }
 
 img 
@@ -307,7 +298,7 @@ ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
     background: #1F4A55 !important;
 }
 
-#checkboxMultiselect {
+.checkbox {
     max-width: 20px;
 }
 

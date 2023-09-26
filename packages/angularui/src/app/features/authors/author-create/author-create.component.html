@@ -1,7 +1,33 @@
 <div class="jumbotron" style="background-color: #fff; height: calc(95vh);">
     <br/>
-    <a class="action-link" routerLink (click)="back($event)">&lt;&lt; Back to Authors</a>
-    <br/><br/>
-    <p>Create author:</p>
-</div>
+    <div class="row justify-content-center">
+        <h3>Create Author</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <br/>
+            <a class="action-link" routerLink (click)="back($event)">&lt;&lt; Back to Authors</a>
+            <br/><br/>
+            <form #f="ngForm" (submit)="createAuthor(f.valid)" novalidate autocomplete="off">
+                <div class="form-group">
+                    <label for="authorName" class="form-label">Name</label>
+                    <input type="text" class="form-control form-control-sm" name="authorName" placeholder="Enter author name" [(ngModel)]="author.name" #authorName="ngModel" required appAutofocus/>
+                    <div [hidden]="authorName.valid || (authorName.pristine && !f.submitted)" class="alert alert-danger">
+                        <span>Please input author name</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="authorAge" class="form-label">Age</label>
+                    <input type="number" class="form-control form-control-sm" name="authorAge" placeholder="Enter author age" [(ngModel)]="author.age" #authorAge="ngModel" required/>
+                    <div [hidden]="authorAge.valid || (authorAge.pristine && !f.submitted)" class="alert alert-danger">
+                        <span>Please input author age</span>
+                    </div>                    
+                </div>
+                <button type="submit" class="btn btn-outline-secondary">Create</button>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    </div>
     

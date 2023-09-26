@@ -1,19 +1,19 @@
 <nav class="navbar navbar-expand-sm dashboard-navbar fixed-top">
     <a class="navbar-brand" routerLink="/home" (click)="toolbarItemClicked($event)"><img src="/assets/favicon.png" width="32"/>
-        &nbsp;&nbsp;Library Information System
+        &nbsp;&nbsp;Library Information System{{loginService.getTenant() ? " (" + loginService.getTenant() + ")" : ""}}
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item" *ngIf="loginService.isAuthenticated()">
+            <li class="nav-item" *ngIf="!dataService.production || loginService.isAuthenticated()">
               <a class="nav-link" routerLink="/books" (click)="toolbarItemClicked($event)">Books</a>
             </li>
-            <li class="nav-item" *ngIf="loginService.isAuthenticated()">
+            <li class="nav-item" *ngIf="!dataService.production || loginService.isAuthenticated()">
               <a class="nav-link" routerLink="/authors" (click)="toolbarItemClicked($event)">Authors</a>
             </li>
-            <li class="nav-item" *ngIf="loginService.isAuthenticated() && loginService.isAdmin()">
+            <li class="nav-item" *ngIf="!dataService.production || loginService.isAuthenticated() && loginService.isAdmin()">
               <a class="nav-link" routerLink="/admin" (click)="toolbarItemClicked($event)">Admin</a>
             </li>
             <li class="vertical-align-middle">

@@ -4,13 +4,22 @@
     <h3>Book Management</h3>
 </div>
 <br/>
-<div class="row" *ngIf="!loginService.isAuthenticated()">
+<div class="row" *ngIf="!loginService.isAuthenticated() && dataService.production">
     <p>Please login to view books.</p>
 </div>
 <div class="row justify-content-center" *ngIf="!dataService.production || loginService.isAuthenticated()">
     <div id="booksGridContainer">
-        <div>
-            <a class="nav-link" routerLink="/newbook">Create New Book</a>
+        <div class="row">
+            <div class="col-md-3">
+                <a class="nav-link" routerLink="/newbook">Create New Book</a>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-3">
+                <input type="search" class="form-control form-control-sm" 
+                name="bookSearch" placeholder="Find a book"
+                [(ngModel)]="searchString"
+                (ngModelChange)="searchStringChanged()"/>
+            </div>
         </div>
         <angular-slickgrid gridId="gridBooks"
           (onAngularGridCreated)="angularGridReady($event)"
