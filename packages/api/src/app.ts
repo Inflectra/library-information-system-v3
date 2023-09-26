@@ -134,7 +134,7 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 					delete sessionDbs[id];
 				}
 			});
-			if(sessionDbs[_req.session.id]) {
+			if(sessionDbs[_req.session.id]&&!reset) {
 				db = sessionDbs[_req.session.id].db;
 				sessionDbs[_req.session.id].lastAccess = new Date;
 			} else {
