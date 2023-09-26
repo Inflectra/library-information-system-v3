@@ -3,7 +3,18 @@
 <head>
   <meta charset="utf-8">
   <title>Library Information System</title>
-  <base href="/">
+  <script>
+    (function() {
+      const parts = window.location.pathname.split('/');
+      let base = window.location.origin;
+      if(parts.length>1&&parts[1]=='angularui') {
+        base += '/angularui';
+      } else if(parts.length>2&&parts[2]=='angularui') {
+        base += '/'+parts[1]+'/angularui';
+      }
+      document.write("<base href='" + base +"/' />");
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
