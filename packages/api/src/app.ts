@@ -164,13 +164,12 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 
 const staticdir = join(__dirname, '../../../reactui/build');
 const serveStatic = express.static(staticdir,{fallthrough:false,redirect:false,cacheControl:false,etag: false});
-app.use('/:clientId/reactui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+app.use('/reactui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	const _req = req as ExReq;
 	if(_req.isApi) return next();
 	serveStatic(req,_res,next);
 });
-
-app.use('/reactui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+app.use('/:clientId/reactui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	const _req = req as ExReq;
 	if(_req.isApi) return next();
 	serveStatic(req,_res,next);
@@ -178,16 +177,28 @@ app.use('/reactui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 
 const staticdirflutter = join(__dirname, '../../../flutter/bookstore/build/web');
 const serveStaticF = express.static(staticdirflutter,{fallthrough:false,redirect:false,cacheControl:false,etag: false});
+app.use('/flutter', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+	const _req = req as ExReq;
+	if(_req.isApi) return next();
+	serveStaticF(req,_res,next);
+});
 app.use('/:clientId/flutter', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	const _req = req as ExReq;
 	if(_req.isApi) return next();
 	serveStaticF(req,_res,next);
 });
 
-app.use('/flutter', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+const staticdirangularui = join(__dirname, '../../../angularui/dist/angularui');
+const serveStaticA = express.static(staticdirangularui,{fallthrough:false,redirect:false,cacheControl:false,etag: false});
+app.use('/angularui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	const _req = req as ExReq;
 	if(_req.isApi) return next();
-	serveStaticF(req,_res,next);
+	serveStaticA(req,_res,next);
+});
+app.use('/:clientId/angularui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+	const _req = req as ExReq;
+	if(_req.isApi) return next();
+	serveStaticA(req,_res,next);
 });
 
 
