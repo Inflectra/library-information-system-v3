@@ -1,0 +1,26 @@
+<div class="jumbotron" style="background-color: #fff; height: calc(95vh);">
+<br/>
+<div class="row justify-content-center">
+    <h3>Book Management</h3>
+</div>
+<br/>
+<div class="row" *ngIf="!loginService.isAuthenticated()">
+    <p>Please login to view books.</p>
+</div>
+<div class="row justify-content-center" *ngIf="!dataService.production || loginService.isAuthenticated()">
+    <div id="booksGridContainer">
+        <div>
+            <a class="nav-link" routerLink="/newbook">Create New Book</a>
+        </div>
+        <angular-slickgrid gridId="gridBooks"
+          (onAngularGridCreated)="angularGridReady($event)"
+          [columnDefinitions]="columnDefinitions"
+          [gridOptions]="gridOptions"
+          [dataset]="books">
+        </angular-slickgrid>
+        <br/><br/>
+    </div>
+
+</div>
+</div>
+    

@@ -1,0 +1,395 @@
+/* You can add global styles to this file, and also import other style files */
+
+.w45 { width: 1.5rem !important; }
+.h45 { height: 1.5rem !important; }
+.mb20 { margin-bottom: 20px !important; }
+
+.input-group
+{
+    width: 100% !important;
+}
+
+.dashboard-navbar 
+{
+    background-color: #f8f8f8;
+}
+
+.nav-link,.navbar-brand,.action-link
+{
+    color: #777 !important;
+    text-decoration: none !important;
+}
+
+.nav-link:hover, .navbar-brand:hover, .dropdown-item:hover
+{
+    color: #F1A42B !important;
+}
+
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.dropdown-item
+{   
+    font-size: 14px !important;
+    color: #F1F1F1 !important;
+    text-decoration: none !important;
+}
+
+.dropdown-item-selected
+{   
+    background-color: #000000 !important;
+}
+
+.dropdown-menu
+{
+    background-color: #1F4A55 !important;
+    height: 500px;
+    overflow-y: auto;
+    opacity: 0.95;
+    margin-top: 0px !important;
+}
+
+.dropdown-menu > a:hover 
+{
+    background-image: none;
+    background-color: #5D7B83;
+}
+
+.nav-link-selected
+{
+    color: #800080 !important;
+}
+
+img 
+{
+    vertical-align: middle !important;
+}
+
+a
+{
+    color: var(--grey) !important;
+    text-decoration: underline !important;
+}
+
+a:hover
+{
+    color: #F1A42B !important;
+}
+
+.w4 
+{
+    width: 1rem !important;
+}
+
+.h4 
+{
+    height: 1rem !important;
+}
+.mr3 
+{
+    margin-right: .5rem !important;
+}
+
+.this-automation-host
+{
+    font-weight: bold;
+}
+
+.disabled 
+{
+    color: #ccc;
+}
+
+span.date 
+{
+    color: black;
+}
+
+span.time
+{
+    color: black;
+    font-size: 1.1rem;
+}
+
+span.overdue
+{
+    color: #F47457 !important;
+}
+
+.important
+{
+    color: #F47457 !important;
+}
+
+.default-search-column
+{
+    color: #F47457 !important
+}
+
+span.slick-group-toggle
+{
+    width: 0px !important;
+}
+
+.ng-select .ng-select-container {
+    min-height: 25px !important;
+}
+  
+.ng-select.ng-select-single .ng-select-container {
+    height: 25px !important;
+}
+
+.ng-option {
+    font-size: 14px !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+	background-color: #f1f1f1 !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected, .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+    background-color: #cccccc !important;
+}
+
+body.waiting * {
+    cursor: progress !important;
+}
+
+ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
+    background-color: #073642;
+    color: #EEE8D5;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.modal-lg, .modal-xl {
+    max-width: 800px !important;
+    min-width: 700px !important;
+}
+
+/*
+.modal-backdrop
+{
+    opacity: 0.2 !important;
+}
+*/
+
+/* tooltip */
+
+.info-tooltip {
+    position: relative; /* making the tooltip span a container for the tooltip text */
+}
+
+.info-tooltip:before {
+    content: attr(data-text); /* here's the magic */
+    position: absolute;
+    
+    z-index: 1000;
+
+    /* vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+    
+    /* move to right */
+    left: 100%;
+    margin-left: 15px; /* and add a small left margin */
+    
+    /* basic styles */
+    width:480px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #073642;
+    color: #EEE8D5;
+    text-align: center;
+
+    display: none;
+
+    /*font-family: -apple-system, 'Kanit', 'Helvetica', 'Arial', sans-serif !important;
+    font-size: 16px !important;*/
+  }
+
+  .info-tooltip:after {
+    content: "";
+    position:absolute;
+    
+    /* position tooltip correctly */
+    left:100%;
+    margin-left:-5px;
+   
+    /* vertically center */
+    top:50%;
+    transform:translateY(-50%);
+   
+    /* the arrow */
+    border:10px solid #073642;
+    border-color: transparent black transparent transparent;
+    
+    display: none;
+  }
+
+  .info-tooltip:hover:before, .info-tooltip:hover:after {
+    display:block;
+  }
+
+.btn {
+    line-height: 1.0 !important;
+    font-family: -apple-system, 'Kanit', 'Helvetica', 'Arial', sans-serif !important;
+}
+
+.ui-tooltip {
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #073642;
+    color: #EEE8D5;
+    text-align: center;
+    width: 480px;
+    max-width: 640px;
+}
+
+.ui-widget {
+    font-family: -apple-system, 'Kanit', 'Helvetica', 'Arial', sans-serif !important;
+}
+
+.tooltip-parameter-table {
+    border: 1px solid;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tooltip-parameter-table td {
+    border: 1px solid;
+}
+
+.fa {
+    font: normal normal normal 14px/1 FontAwesome !important;
+}
+
+.fa-stack-2x {
+    font-size: 2em !important;
+}
+
+.execution-plan-parallel-group {
+    background-color: #7EFF7A !important;
+}
+
+.execution-plan-parallel-unrolled {
+    background-color: #1F4A55 !important;
+}
+
+.parameter-column-even {
+    background-color: #eeeeee !important;
+}
+
+.parameter-column-odd {
+    background-color: #cccccc !important;
+}
+
+.no-lines-grid .slick-cell { 
+    border-top: none !important;
+}
+
+.executionPlanModalClass .modal-dialog 
+{
+    max-width: 1024px;
+}
+
+/* datetime picker */
+.dl-abdtp-selected {
+    color: #fff;
+    background: #1F4A55 !important;
+}
+
+#checkboxMultiselect {
+    max-width: 20px;
+}
+
+@media screen and (min-width: 600px) {
+    .jumbotron {
+      padding: 2rem 2rem;
+    }
+}
+
+.navbar {
+    min-width: 600px;
+    padding: 0 1rem;
+    display: flex !important;
+    justify-content: flex-start !important;
+}
+
+.navbar-nav-row {
+    display: flex !important;
+    flex-direction: row !important;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.navbar-expander {
+    flex-grow: 1;
+    align-items: center;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.nav-link {
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+#search {
+    padding: 0.5rem 1rem 0rem 1rem;
+}
+
+.vertical-align-middle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.spira-badge {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.popover
+{
+    background-color: #073642 !important;
+    padding: 10px !important;
+    border-radius: 5px !important; 
+    min-width: 480px;   
+    max-width: 480px;
+}
+
+.popover-body, .popover-header
+{
+    background-color: #073642 !important;
+    color: #EEE8D5 !important;
+}
+
+.popover .tooltip-parameter-table th, .popover .tooltip-parameter-table td
+{
+    padding: 5px;
+}
+
+.color-green
+{
+    color: green;
+}
+
+.color-red
+{
+    color: #F47457;
+}
+
+.badge {
+    font-size: 85% !important;
+}

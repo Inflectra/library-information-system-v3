@@ -1,0 +1,53 @@
+{
+  "name": "angularui",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~11.2.3",
+    "@angular/cdk": "12.0.0",
+    "@angular/common": "~11.2.3",
+    "@angular/compiler": "~11.2.3",
+    "@angular/core": "~11.2.3",
+    "@angular/forms": "~11.2.3",
+    "@angular/localize": "~11.2.3",
+    "@angular/platform-browser": "~11.2.3",
+    "@angular/platform-browser-dynamic": "~11.2.3",
+    "@angular/router": "~11.2.3",
+    "@ng-bootstrap/ng-bootstrap": "^9.1.0",
+    "@ng-select/ng-select": "^7.2.0",
+    "@ngx-translate/core": "^13.0.0",
+    "@types/jasmine": "^4.3.1",
+    "angular-bootstrap-datetimepicker": "^4.0.2",
+    "angular-slickgrid": "^2.26.1",
+    "bootstrap": "^4.6.0",
+    "font-awesome": "^4.7.0",
+    "jasmine": "^4.5.0",
+    "jasmine-spec-reporter": "^7.0.0",
+    "jasminewd2": "^2.2.0",
+    "jquery": "^3.5.1",
+    "jquery-csv": "^1.0.21",
+    "jquery.autotype": "^1.0.0",
+    "karma": "^6.4.1",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage": "^2.2.0",
+    "karma-jasmine": "^5.1.0",
+    "karma-jasmine-html-reporter": "^2.0.0",
+    "moment": "^2.29.4",
+    "ngx-spinner": "^11.0.2",
+    "rxjs": "~6.6.0",
+    "tslib": "^2.0.0",
+    "zone.js": "~0.11.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.1102.2",
+    "@angular/cli": "~11.2.2",
+    "@angular/compiler-cli": "~11.2.3",
+    "@types/node": "^12.11.1",
+    "typescript": "~4.1.2"
+  }
+}
