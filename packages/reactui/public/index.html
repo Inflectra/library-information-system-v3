@@ -9,12 +9,24 @@
       name="description"
       content="Web site created using create-react-app"
     />
+    <script>
+      (function() {
+        const parts = window.location.pathname.split('/');
+        let base = window.location.origin;
+        if(parts.length>1&&parts[1]=='reactui') {
+          base += '/reactui';
+        } else if(parts.length>2&&parts[2]=='reactui') {
+          base += '/'+parts[1]+'/reactui';
+        }
+        document.write("<base href='" + base +"/' />");
+      })();
+    </script>
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="./manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -25,7 +37,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Library Information System</title>
-    <link href="%PUBLIC_URL%/bootstrap.min.css" rel="stylesheet" title="Bootstrap 3">
+    <link href="./bootstrap.min.css" rel="stylesheet" title="Bootstrap 3">
    </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
