@@ -45,16 +45,16 @@ export class DataService {
     this.token = null;    
   }
 
-  private tenant: string;
+  private tenant: string = null;
   public getTenant(): string
   {
-    if (this.tenant == undefined)
+    if (this.tenant === null)
     {
       var _path = location.pathname;
       var _segments = _path.split("/");
-      if (_segments.length > 1)
+      if (_segments.length > 3)
       {
-        this.tenant = _segments[0];
+        this.tenant = _segments[1];
       }
     }
     return this.tenant;
@@ -66,7 +66,7 @@ export class DataService {
     if (!this.serverUrl)
     {
       var _t = this.getTenant();
-      _t = _t ? "" : "/" + _t;
+      _t = _t ? "/" + _t : "";
       if (location.hostname == "localhost")
       {
         this.serverUrl = `http://localhost:5003${_t}/api/`;
