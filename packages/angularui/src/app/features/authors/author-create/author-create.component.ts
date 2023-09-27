@@ -44,6 +44,9 @@ export class AuthorCreateComponent implements OnInit {
 
       this.libraryService.createAuthor(this.author).then(() => {
         this.router.navigate([`/authors`], { replaceUrl: true });
+      },
+      (error) => {
+        this.dataService.showAlert(`${error}`, "Error");
       });
     }
     else

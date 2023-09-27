@@ -73,6 +73,9 @@ export class BookCreateComponent implements OnInit {
 
       this.libraryService.createBook(this.book).then(() => {
         this.router.navigate([`/books`], { replaceUrl: true });
+      },
+      (error) => {
+        this.dataService.showAlert(`${error}`, "Error");
       });      
     }
     else

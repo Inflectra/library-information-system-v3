@@ -73,6 +73,9 @@ export class BookEditComponent implements OnInit {
 
       this.libraryService.updateBook(this.book).then(() => {
         this.router.navigate([`/books`], { replaceUrl: true });
+      },
+      (error) => {
+        this.dataService.showAlert(`${error}`, "Error");
       });
     }
     else

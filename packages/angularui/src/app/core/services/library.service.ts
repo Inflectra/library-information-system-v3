@@ -18,17 +18,17 @@ export class LibraryService {
 
   getBookCount(): number
   {
-    return this.books.length;
+    return this.books?.length;
   }
 
   getAuthorCount(): number
   {
-    return this.authors.length;
+    return this.authors?.length;
   }
 
   getGenreCount(): number
   {
-    return this.genres.length;
+    return this.genres?.length;
   }
 
   getBookById(id: number): BookModel
@@ -149,7 +149,8 @@ export class LibraryService {
         this.dataService.getDataFromBackend(`books/${id}`, "delete").subscribe(() => {
           this.books = this.books.filter(b => b.id != id);
           resolve();
-        });
+        },
+        error => reject(error));
       });
     }
     else {
@@ -177,7 +178,8 @@ export class LibraryService {
 
         this.dataService.getDataFromBackend("books", "put", JSON.stringify(_book)).subscribe(() => {
           resolve();
-        });
+        },
+        error => reject(error));
       });
     }
     else
@@ -212,7 +214,8 @@ export class LibraryService {
 
         this.dataService.getDataFromBackend("books", "post", JSON.stringify(_book)).subscribe(() => {
           resolve();
-        });
+        },
+        error => reject(error));
       });
     }
     else
@@ -237,7 +240,8 @@ export class LibraryService {
         this.dataService.getDataFromBackend(`authors/${id}`, "delete").subscribe(() => {
           this.authors = this.authors.filter(a => a.id != id);
           resolve();
-        });
+        },
+        error => reject(error));
       });
     }
     else {
@@ -262,7 +266,8 @@ export class LibraryService {
         
         this.dataService.getDataFromBackend("authors", "put", JSON.stringify(_author)).subscribe(() => {
           resolve();
-        });
+        },
+        error => reject(error));
       });
     }
     else
@@ -291,7 +296,8 @@ export class LibraryService {
         
         this.dataService.getDataFromBackend("authors", "post", JSON.stringify(_author)).subscribe(() => {
           resolve();
-        });
+        },
+        error => reject(error));
       });
     }
     else

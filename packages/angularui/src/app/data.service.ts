@@ -159,13 +159,18 @@ export class DataService {
       var baseUrl = error.url.split("?")[0];
       console.error(
         `Backend returned code ${error.status},\n` +
-        `body was: ${error.error},\n` +
+        `body was: ${JSON.stringify(error.error)},\n` +
         `and URL was: ${baseUrl}`);
     }
 
     if (error.statusText)
     {
       msg = error.statusText;
+    }
+
+    if (error.error && error.error.errorMessage)
+    {
+      msg = error.error.errorMessage;
     }
 
     // Return an observable with a user-facing error message.

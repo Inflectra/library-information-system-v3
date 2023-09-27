@@ -46,6 +46,9 @@ export class AuthorEditComponent implements OnInit {
 
       this.libraryService.updateAuthor(this.author).then(() => {
         this.router.navigate([`/authors`], { replaceUrl: true });
+      },
+      (error) => {
+        this.dataService.showAlert(`${error}`, "Error");
       });
     }
     else

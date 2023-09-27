@@ -78,6 +78,7 @@ export class AuthorsComponent implements OnInit {
         minWidth: 150,
         maxWidth: 150,
         formatter: this.actionFormatter,
+        params: this        
       },            
     ];
 
@@ -160,7 +161,11 @@ export class AuthorsComponent implements OnInit {
   actionFormatter(row, cell, value, columnDef, dataContext, grid) 
   {
     var _id = value;
-    var _actions = `<a class="action-link link-view">View</a> | <a class="action-link link-edit">Edit</a> | <button class="btn btn-outline-secondary btn-sm">Delete</button>`;
+    var _actions = `<a class="action-link link-view">View</a>`;
+    if (columnDef.params.loginService.isEditor())
+    {
+      _actions = `<a class="action-link link-view">View</a> | <a class="action-link link-edit">Edit</a> | <button class="btn btn-outline-secondary btn-sm">Delete</button>`;
+    }
     return _actions;
   }
 
@@ -172,6 +177,9 @@ export class AuthorsComponent implements OnInit {
       this.libraryService.deleteAuthor(id).then(() => 
       {
         this.authors = this.libraryService.authors;
+      },
+      (error) => {
+        this.dataService.showAlert(`${error}`, "Error");
       });      
     });
   }

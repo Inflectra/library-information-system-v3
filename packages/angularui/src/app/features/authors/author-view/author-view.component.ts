@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute, Params} from '@angular/router';
-import { AuthorModel } from 'src/app/core';
+import { AuthorModel, BookModel } from 'src/app/core';
 import { LibraryService } from 'src/app/core';
 
 @Component({
@@ -15,6 +15,7 @@ export class AuthorViewComponent implements OnInit {
   id: number = 0;
 
   author: AuthorModel = null;
+  books: BookModel[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router, private libraryService: LibraryService) { }
 
@@ -23,6 +24,7 @@ export class AuthorViewComponent implements OnInit {
       (params: Params) => {
         this.id = params['id'];
         this.author = this.libraryService.getAuthorById(this.id);
+        this.books = this.libraryService.books.filter(b => b.author.id == this.id);
       }
     );    
   }
