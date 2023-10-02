@@ -65,6 +65,7 @@ const Home = (props) => {
 
         <h3>Check this Out</h3>
         <p><a href={getTenant()+"/flutter/"}>Flutter version</a> (that is coupled with mobile clients for iOS and Android)</p>
+        <p><a href={getTenant()+"/angularui/"}>Angular version</a></p>
         <p><a href="/LisApp.exe">WPF version</a> for Windows</p>
         <p><a href={getTenant()+"/api/"}>REST API</a> for this application</p>
 

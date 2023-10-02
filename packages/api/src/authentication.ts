@@ -83,7 +83,10 @@ function authorizeBasic(req:any) {
   }
 
   const found = req.db.data.users.find((usr:User)=>usr.username==userid) as User;
-  return found;
+  if(found.password==password) {
+    return found;
+  }
+  return false;
 }
 
 export async function expressAuthentication(

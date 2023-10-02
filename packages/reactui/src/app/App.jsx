@@ -177,7 +177,7 @@ export default class App extends React.Component {
       if( !['/books','/authors','/admin','/reactui'].includes(client) ) {
         console.log('using tenant: '+client);
         locPath = client+'/reactui/';
-        setTenant(locPath)
+        setTenant(client)
       } else {
         locPath = '/reactui/';
       }

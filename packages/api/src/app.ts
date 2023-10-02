@@ -54,18 +54,30 @@ app.use(session({
 })
 );
 
-let sessionDbs :{ [name: string]: {db:ExDBType,lastAccess:Date}} = {};
+const sessionDbs :{ [name: string]: {db:ExDBType,lastAccess:Date}} = {};
+const staticEndPoints: {[name: string]: string} = {
+	'reactui': '../../../reactui/build',
+	'angularui': '../../../angularui/dist/angularui',
+	'flutter': '../../../flutter/bookstore/build/web'
+}; 
+
+function getDefaultDbData():Database {
+	const users = require('./data/users').default;
+	const nextdb = {
+		created:new Date(),
+		users,
+		...defaultDb
+	}
+	return JSON.parse(JSON.stringify(nextdb));
+}
 
 app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => { 
 
-	function getDefaultDbData():Database {
-		const users = require('./data/users').default;
-		const nextdb = {
-			created:new Date(),
-			users,
-			...defaultDb
-		}
-		return JSON.parse(JSON.stringify(nextdb));
+	// If url is something like /uitech without trailing / we need to redirect
+	// So we force trailing /
+	if( !Object.keys(staticEndPoints).every((key)=>!req.originalUrl.endsWith('/'+key)) ) {
+		_res.redirect(301,req.originalUrl+'/');
+		return;
 	}
 
 	const regex = /(\/[^\/\?\&]+)(\/[^\/\?\&]+)?(\/.+)?/gm;
@@ -162,45 +174,29 @@ app.use(async (req: ExRequest, _res: ExResponse, next: ExNext) => {
 	next();
 });
 
-const staticdir = join(__dirname, '../../../reactui/build');
-const serveStatic = express.static(staticdir,{fallthrough:false,redirect:false,cacheControl:false,etag: false});
-app.use('/reactui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
-	const _req = req as ExReq;
-	if(_req.isApi) return next();
-	serveStatic(req,_res,next);
-});
-app.use('/:clientId/reactui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
-	const _req = req as ExReq;
-	if(_req.isApi) return next();
-	serveStatic(req,_res,next);
-});
+const onStatic404 = (dir:string, err:any, _res:ExResponse, next: ExNext) => {
+	if(err&&err.statusCode==404) {
+		const stream = fs.createReadStream(join(dir,'index.html'));
+		stream.pipe(_res);	
+	} else {
+		next(err);
+	}
+}
 
-const staticdirflutter = join(__dirname, '../../../flutter/bookstore/build/web');
-const serveStaticF = express.static(staticdirflutter,{fallthrough:false,redirect:false,cacheControl:false,etag: false});
-app.use('/flutter', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
-	const _req = req as ExReq;
-	if(_req.isApi) return next();
-	serveStaticF(req,_res,next);
-});
-app.use('/:clientId/flutter', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
-	const _req = req as ExReq;
-	if(_req.isApi) return next();
-	serveStaticF(req,_res,next);
-});
-
-const staticdirangularui = join(__dirname, '../../../angularui/dist/angularui');
-const serveStaticA = express.static(staticdirangularui,{fallthrough:false,redirect:false,cacheControl:false,etag: false});
-app.use('/angularui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
-	const _req = req as ExReq;
-	if(_req.isApi) return next();
-	serveStaticA(req,_res,next);
-});
-app.use('/:clientId/angularui', (req: ExRequest, _res: ExResponse, next: ExNext)=>{
-	const _req = req as ExReq;
-	if(_req.isApi) return next();
-	serveStaticA(req,_res,next);
-});
-
+Object.entries(staticEndPoints).forEach(([point, path])=>{
+	const staticdir = join(__dirname, path);
+	const serveStatic = express.static(staticdir,{fallthrough:false,redirect:false,cacheControl:false,etag: false});
+	app.use(`/${point}/`, (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+		const _req = req as ExReq;
+		if(_req.isApi) return next();
+		serveStatic(req,_res, (err)=>onStatic404(staticdir, err, _res, next));
+	});
+	app.use(`/:clientId/${point}/`, (req: ExRequest, _res: ExResponse, next: ExNext)=>{
+		const _req = req as ExReq;
+		if(_req.isApi) return next();
+		serveStatic(req,_res, (err)=>onStatic404(staticdir, err, _res, next));
+	});
+})
 
 app.use('/', async (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	const _req = req as ExReq;
@@ -223,16 +219,7 @@ app.use('/', async (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 		stream.pipe(_res);
 		return;
 	}
-	if(redir.lastIndexOf('/')===-1) {
-		// Check if it is requires for root folder's resources
-		const checkpath = join(staticdir,redir);
-		if(
-			fs.existsSync(checkpath)
-			&&fs.lstatSync(checkpath).isFile()
-		) {
-			return serveStatic(req,_res,next);
-		}
-	}
+
 	if(redir.split('/').length>1) return _res.sendStatus(404);
 	if(redir.split('/').pop()?.includes('.')) return _res.sendStatus(404);
 
