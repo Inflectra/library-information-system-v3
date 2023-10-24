@@ -124,7 +124,7 @@ import {
 
       const foundSimilar = new BooksService().find(_req.db,bookData.name);
       for(let fb of foundSimilar) {
-        if(fb.name==bookData.name && fb.author==bookData.author) {
+        if(fb.id!=bookData.id && fb.name==bookData.name && fb.author==bookData.author) {
           return bookInvalidResponse(401, { errorMessage: "Another book with same name and author already exists: "+fb.id });
         }
       }    
