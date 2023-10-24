@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:window_size/window_size.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter/rendering.dart';
 
 import 'src/app.dart';
 
@@ -30,6 +31,9 @@ void main() {
   GetIt.instance.registerSingleton<BackendService>(BackendService());
   runApp(const Bookstore());
   Library.init();
+  // Auto-enable accessibility for our Blind and Low Vision customers (see
+  // https://docs.flutter.dev/development/accessibility-and-localization/accessibility#screen-readers).
+  SemanticsBinding.instance.ensureSemantics();
 }
 
 const double windowWidth = 480;
