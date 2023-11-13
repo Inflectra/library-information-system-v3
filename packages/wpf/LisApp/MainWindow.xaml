@@ -72,6 +72,12 @@
                                 VerticalAlignment="Center"
                                 Visibility="{Binding IsLoggedIn, Converter={StaticResource BoolToVis}}"
                         >
+                        <Button Name="ReloadButton"
+                                Command="{Binding ReloadCommand}"
+                                Margin="4"
+                                ToolTip="Reload"
+                                Content="{materialDesign:PackIcon Kind=Reload}" />
+
                         <TextBlock Text="Welcome, " Style="{StaticResource MaterialDesignLabelLargeTextBlock}" VerticalAlignment="Center"/>
                         <TextBlock Text="{Binding WelcomeName}"
                                    Margin="4"

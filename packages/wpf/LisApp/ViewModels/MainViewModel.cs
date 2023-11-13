@@ -189,5 +189,12 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
     {
         navigation.NavigateTo<LogoutViewModel>();
     }
+
+    [RelayCommand]
+    public async void Reload()
+    {
+        await dataService.LoadData();
+        navigation.NavigateTo<BookListViewModel>();
+    }
 }
 
