@@ -191,7 +191,7 @@ public partial class MainViewModel: ViewModelBase, IRecipient<PropertyChangedMes
     }
 
     [RelayCommand]
-    public async void Reload()
+    public async Task Reload()
     {
         await dataService.LoadData();
         navigation.NavigateTo<BookListViewModel>();
