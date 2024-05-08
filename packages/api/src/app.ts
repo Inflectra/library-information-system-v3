@@ -244,6 +244,8 @@ app.use('/docs', swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
 });
 app.use('*/swagger.json', async (_req: ExRequest, res: ExResponse) => {
 	const data = await import('../build/swagger.json');
+	data.servers.pop();
+	data.servers.push({url:(<ExReq>_req).clientId?'/'+(<ExReq>_req).clientId+'/api':'/api'});
 	res.send(data);
 });
 
