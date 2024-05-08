@@ -41,17 +41,6 @@ import {
     }
 
     /**
-     * Get a book by id or name or id
-     */
-    @Get("{idOrName}")
-    public async getBook(
-      @Request() _req: any,
-      @Path() idOrName: number|string
-    ): Promise<Book> {
-      return new BooksService().get(_req.db, idOrName);
-    }
-
-    /**
      * Find all books with matching name. Partial matching is supported.
      */
     @Get("/find")
@@ -61,6 +50,17 @@ import {
     ): Promise<Book[]> {
       const found =  new BooksService().find(_req.db, ''+namePart);
       return found;
+    }
+
+    /**
+     * Get a book by id or name or id
+     */
+    @Get("{idOrName}")
+    public async getBook(
+      @Request() _req: any,
+      @Path() idOrName: number|string
+    ): Promise<Book> {
+      return new BooksService().get(_req.db, idOrName);
     }
 
     /**

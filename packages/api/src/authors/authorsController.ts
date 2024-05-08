@@ -39,17 +39,6 @@ import {
     }
 
     /**
-     * Get an author by name or id
-     */
-    @Get("{idOrName}")
-    public async getAuthor(
-      @Request() _req: any,
-      @Path() idOrName: number|string
-    ): Promise<Author> {
-      return new AuthorsService().get(_req.db, idOrName);
-    }
-
-    /**
      * Find all authors with matching name. Partial matching is supported.
      */
     @Get("/find")
@@ -59,6 +48,17 @@ import {
     ): Promise<Author[]> {
       const found =  new AuthorsService().find(_req.db, ''+namePart);
       return found;
+    }
+
+    /**
+     * Get an author by name or id
+     */
+    @Get("{idOrName}")
+    public async getAuthor(
+      @Request() _req: any,
+      @Path() idOrName: number|string
+    ): Promise<Author> {
+      return new AuthorsService().get(_req.db, idOrName);
     }
 
     /**
