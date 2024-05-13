@@ -52,7 +52,7 @@ import {
      * Find all genres with matching name. Partial matching is supported.
      */
     @Get("/find")
-    public async findAuthor(
+    public async findGenre(
       @Request() _req: any,
       @Query() namePart?: string
     ): Promise<Genre[]> {
