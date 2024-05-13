@@ -14,6 +14,13 @@ export class GenresService {
     return found;
   }
 
+  public find(db:Db, namePart: string): Genre[] {
+    console.log('looking for matching author', namePart);
+    namePart = (''+namePart).toLowerCase();
+    const found = db.data.authors.filter(author=>(''+author.name).toLowerCase().includes(namePart));
+    return found;
+  }
+  
   public all(db:Db):Genre[] {
     return db.data.genres;
   }

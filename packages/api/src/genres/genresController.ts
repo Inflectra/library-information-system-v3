@@ -9,6 +9,7 @@ import {
     SuccessResponse,
     Request,
     TsoaResponse,
+    Query,
     Delete,
     Res,
     Security
@@ -47,6 +48,18 @@ import {
       return new GenresService().get(_req.db, idOrName);
     }
 
+    /**
+     * Find all genres with matching name. Partial matching is supported.
+     */
+    @Get("/find")
+    public async findAuthor(
+      @Request() _req: any,
+      @Query() namePart?: string
+    ): Promise<Genre[]> {
+      const found =  new GenresService().find(_req.db, ''+namePart);
+      return found;
+    }
+    
     /**
      * Add a new genre to the system
      */
