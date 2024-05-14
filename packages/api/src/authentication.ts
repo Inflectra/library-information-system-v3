@@ -18,10 +18,6 @@ export function closeSession(token:string):boolean {
   return false;
 }
 
-export function getUser(token:string):User {
-  return tokens[token];
-}
-
 function authorizeBearer(req: any)
 {
   const _header = 'authorization';
@@ -52,7 +48,11 @@ function authorizeBearer(req: any)
     token = req.query[_param];
   }
   req.token = token;
-  if(token) return tokens[token];
+  if(token) 
+  {
+    req.db = tokens[token].db;
+    return tokens[token];
+  }
   return false;
 }
 
@@ -100,6 +100,7 @@ export async function expressAuthentication(
     {
       const res = authorizeBearer(request);
       if(res) {
+        request.db = res.db;
         resolve(res);
       } else {
         // We use it to suppress default behavior - dump of call stack for each authorization error
