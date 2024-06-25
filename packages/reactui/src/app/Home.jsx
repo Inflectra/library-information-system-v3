@@ -82,7 +82,8 @@ const Home = (props) => {
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input 
-              type="text" 
+              type="text"
+              name="user_name"
               className="form-control" 
               id="username" 
               placeholder="Username" 
@@ -105,6 +106,7 @@ const Home = (props) => {
             <Button 
               classes="btn btn-primary" 
               text="Login"
+              title="Log into the Library..."
               onClick={props.authHandler}
               value={formData}
               />
