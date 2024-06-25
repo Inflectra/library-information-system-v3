@@ -22,6 +22,7 @@ class Button extends React.Component {
           this.props.params
         )}
         style={this.props.style}
+        title={this.props.title}
         >
         {this.props.text}
       </button>
