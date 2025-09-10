@@ -207,6 +207,8 @@ app.use('/', async (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	while(redir.endsWith('/')) redir = redir.slice(0,-1);
 	if(redir=='swagger.json' || redir=='openapi.json') {
 		const data = await import('../build/swagger.json');
+		data.servers.pop();
+		data.servers.push({url:'/api'});
 		_res.send(data);
 		return;
 	} else if(redir=='LisApp.exe') {
