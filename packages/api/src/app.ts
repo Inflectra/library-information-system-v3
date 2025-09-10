@@ -205,7 +205,7 @@ app.use('/', async (req: ExRequest, _res: ExResponse, next: ExNext)=>{
 	if(redir.includes('/reactui/')) return _res.sendStatus(404);
 	while(redir.startsWith('/')) redir = redir.slice(1);
 	while(redir.endsWith('/')) redir = redir.slice(0,-1);
-	if(redir=='swagger.json') {
+	if(redir=='swagger.json' || redir=='openapi.json') {
 		const data = await import('../build/swagger.json');
 		_res.send(data);
 		return;
