@@ -1,0 +1,1497 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Author": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"age": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"age"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Author.Exclude_keyofAuthor.id__": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"age": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"age"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_Author.id_": {
+				"$ref": "#/components/schemas/Pick_Author.Exclude_keyofAuthor.id__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"Partial_Pick_Author.id__": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"AuthorCreationParams": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Omit_Author.id_"
+					},
+					{
+						"$ref": "#/components/schemas/Partial_Pick_Author.id__"
+					}
+				]
+			},
+			"Partial_Author_": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"age": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"Pick_Author.id_": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"AuthorUpdateParams": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Partial_Author_"
+					},
+					{
+						"$ref": "#/components/schemas/Pick_Author.id_"
+					}
+				]
+			},
+			"Book": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"author": {
+						"type": "number",
+						"format": "double"
+					},
+					"genre": {
+						"type": "number",
+						"format": "double"
+					},
+					"dateAdded": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"outOfPrint": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"author",
+					"genre"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Book.Exclude_keyofBook.id__": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"author": {
+						"type": "number",
+						"format": "double"
+					},
+					"genre": {
+						"type": "number",
+						"format": "double"
+					},
+					"dateAdded": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"outOfPrint": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"name",
+					"author",
+					"genre"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_Book.id_": {
+				"$ref": "#/components/schemas/Pick_Book.Exclude_keyofBook.id__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"Partial_Pick_Book.id__": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"BookCreationParams": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Omit_Book.id_"
+					},
+					{
+						"$ref": "#/components/schemas/Partial_Pick_Book.id__"
+					}
+				]
+			},
+			"Partial_Book_": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"author": {
+						"type": "number",
+						"format": "double"
+					},
+					"genre": {
+						"type": "number",
+						"format": "double"
+					},
+					"dateAdded": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"outOfPrint": {
+						"type": "boolean"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"Pick_Book.id_": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"BookUpdateParams": {
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Partial_Book_"
+					},
+					{
+						"$ref": "#/components/schemas/Pick_Book.id_"
+					}
+				]
+			},
+			"Genre": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_Genre.Exclude_keyofGenre.id__": {
+				"properties": {
+					"name": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"Omit_Genre.id_": {
+				"$ref": "#/components/schemas/Pick_Genre.Exclude_keyofGenre.id__",
+				"description": "Construct a type with the properties of T except for those in type K."
+			},
+			"GenreCreationParams": {
+				"$ref": "#/components/schemas/Omit_Genre.id_"
+			},
+			"Permissions": {
+				"enum": [
+					0,
+					1,
+					2,
+					3
+				],
+				"type": "number"
+			},
+			"User": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"active": {
+						"type": "boolean"
+					},
+					"permission": {
+						"$ref": "#/components/schemas/Permissions"
+					}
+				},
+				"required": [
+					"username",
+					"password",
+					"name",
+					"active",
+					"permission"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Partial_User_": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"active": {
+						"type": "boolean"
+					},
+					"permission": {
+						"$ref": "#/components/schemas/Permissions"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"Pick_User.username_": {
+				"properties": {
+					"username": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"username"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			}
+		},
+		"securitySchemes": {
+			"basicAuth": {
+				"type": "http",
+				"scheme": "basic"
+			},
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			},
+			"api_key": {
+				"type": "apiKey",
+				"name": "access_token",
+				"in": "query"
+			}
+		}
+	},
+	"info": {
+		"title": "@lis/api",
+		"version": "1.0.0",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Alexey Grinevich ",
+			"email": "alexey.grinevich@inflectra.com"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/authors": {
+			"get": {
+				"operationId": "GetAuthors",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Author"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Return all authors in the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateAuthor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Author"
+								}
+							}
+						}
+					},
+					"405": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Add a new author to the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AuthorCreationParams"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"operationId": "UpdateAuthor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Author"
+								}
+							}
+						}
+					},
+					"405": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Update an author",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AuthorUpdateParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/authors/count": {
+			"get": {
+				"operationId": "Count",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get number of available authors",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/authors/{idOrName}": {
+			"get": {
+				"operationId": "GetAuthor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Author"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get an author by name or id",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "idOrName",
+						"required": true,
+						"schema": {}
+					}
+				]
+			}
+		},
+		"/authors/find": {
+			"get": {
+				"operationId": "FindAuthor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Author"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Find all authors with matching name. Partial matching is supported.",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "namePart",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/authors/{id}": {
+			"delete": {
+				"operationId": "DeleteAuthor",
+				"responses": {
+					"200": {
+						"description": "Deleted Successfully"
+					},
+					"405": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Delete an author from the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/books": {
+			"get": {
+				"operationId": "GetBooks",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Book"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Return all books in the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateBook",
+				"responses": {
+					"200": {
+						"description": "Created Successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Book"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Add a new book to the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/BookCreationParams"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"operationId": "UpdateBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Book"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Update a book the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/BookUpdateParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/books/count": {
+			"get": {
+				"operationId": "Count",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get number of available books",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/books/{idOrName}": {
+			"get": {
+				"operationId": "GetBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Book"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get a book by id or name or id",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "idOrName",
+						"required": true,
+						"schema": {}
+					}
+				]
+			}
+		},
+		"/books/find": {
+			"get": {
+				"operationId": "FindBook",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Book"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Find all books with matching name. Partial matching is supported.",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "namePart",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/books/{id}": {
+			"delete": {
+				"operationId": "DeleteBook",
+				"responses": {
+					"200": {
+						"description": "Deleted Successfully"
+					},
+					"405": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Delete a book from the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/genres": {
+			"get": {
+				"operationId": "GetGenres",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Genre"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Return all genres in the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateGenre",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Genre"
+								}
+							}
+						}
+					}
+				},
+				"description": "Add a new genre to the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/GenreCreationParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/genres/count": {
+			"get": {
+				"operationId": "Count",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get number of available genres",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/genres/{idOrName}": {
+			"get": {
+				"operationId": "GetGenre",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Genre"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get a genre by name or id",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "idOrName",
+						"required": true,
+						"schema": {}
+					}
+				]
+			}
+		},
+		"/genres/{id}": {
+			"delete": {
+				"operationId": "DeleteGenre",
+				"responses": {
+					"200": {
+						"description": "Deleted Successfully"
+					},
+					"405": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Delete a genre from the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/users/login": {
+			"get": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/User"
+										},
+										{
+											"properties": {
+												"token": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"token"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Start new session",
+				"security": [
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"description": "login name (unless you specify it as basic authorization)",
+						"in": "query",
+						"name": "username",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "password (unless pass it as basic authorization)",
+						"in": "query",
+						"name": "password",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users/keepalive": {
+			"get": {
+				"operationId": "KeepAlive",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"description": "Keep current session. If anything but 200 is returned, current session is over (or token is expired).",
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/users/logout": {
+			"get": {
+				"operationId": "Logout",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "boolean"
+								}
+							}
+						}
+					}
+				},
+				"description": "End current session",
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/users": {
+			"get": {
+				"operationId": "GetUsers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/User"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get all users in the system",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/User"
+										},
+										{
+											"type": "boolean"
+										}
+									]
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Create a new user",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/User"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/org": {
+			"get": {
+				"operationId": "GetOrg",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get organization Id for this API",
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/users/test": {
+			"get": {
+				"operationId": "SelfTest",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"description": "Quick test. Check that endpoint is alive. No auth required.",
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/users/{username}": {
+			"get": {
+				"operationId": "GetUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				},
+				"description": "Get user by name",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "username",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users/update": {
+			"post": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/User"
+										},
+										{
+											"type": "boolean"
+										}
+									]
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"errorMessage": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"errorMessage"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"description": "Update information about user (anything except username)",
+				"security": [
+					{
+						"bearerAuth": []
+					},
+					{
+						"basicAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"allOf": [
+									{
+										"$ref": "#/components/schemas/Partial_User_"
+									},
+									{
+										"$ref": "#/components/schemas/Pick_User.username_"
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
