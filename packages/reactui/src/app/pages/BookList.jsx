@@ -1,5 +1,5 @@
 import React,{ useState, useEffect, useCallback } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 import Layout from "../components/Layout"
@@ -16,6 +16,7 @@ function formatDate(d)
 
 function BookList(props) {
     const [bookList, setBookList] = useState([])
+    const location = useLocation();
     const [filter, setFilter] = useState('')
     const [sortField, setSortField] = useState("")
     const [order, setOrder] = useState("asc")
@@ -54,6 +55,18 @@ function BookList(props) {
     useEffect(() => {
         fetchBookList()
     }, [fetchBookList])
+
+    // Scroll to book if scrollToId is present in navigation state
+    useEffect(() => {
+        if (location.state && location.state.scrollToId && bookList.length > 0) {
+            setTimeout(() => {
+                const el = document.getElementById(`book-row-${location.state.scrollToId}`);
+                if (el) {
+                    el.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            }, 100);
+        }
+    }, [location.state, bookList]);
   
 
     const isEdit = props.permission>=permissions.edit;
@@ -160,7 +173,7 @@ function BookList(props) {
                                     type="text"
                                     className="form-control"
                                     id="filter"
-                                    name="authorFilter"
+                                    name="filter"
                                     placeholder="Find book"
                                     />
                             </div>
@@ -183,9 +196,13 @@ function BookList(props) {
                                     book.name.toLowerCase().includes(filter.toLowerCase())
                                     ||book.authorObj?.name.toLowerCase().includes(filter.toLowerCase())
                                     ||book.genreObj?.name.toLowerCase().includes(filter.toLowerCase())
-                                    ).map((book, key)=>{
+                                    ).map((book)=>{
                                     return (
-                                        <tr onDoubleClick={()=>navigate('/books/show/'+book.id)} key={key}>
+                                        <tr
+                                            id={`book-row-${book.id}`}
+                                            onDoubleClick={()=>navigate('/books/show/'+book.id)}
+                                            key={book.id}
+                                        >
                                             <td>{book.id}</td>
                                             <td>{book.name}</td>
                                             <td>{book.authorObj?.name}</td>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback} from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 import Layout from "../components/Layout"
@@ -18,6 +18,7 @@ export const authorsMeta = {
 
 function AuthorList(props) {
     const [authorList, setAuthorList] = useState([])
+    const location = useLocation();
     const [filter, setFilter] = useState('');
     const [sortField, setSortField] = useState("");
     const [order, setOrder] = useState("asc");
@@ -37,6 +38,18 @@ function AuthorList(props) {
     useEffect(() => {
         fetchAuthorList()
     }, [fetchAuthorList])
+
+    // Scroll to author if scrollToId is present in navigation state
+    useEffect(() => {
+        if (location.state && location.state.scrollToId && authorList.length > 0) {
+            setTimeout(() => {
+                const el = document.getElementById(`author-row-${location.state.scrollToId}`);
+                if (el) {
+                    el.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            }, 100);
+        }
+    }, [location.state, authorList])
 
 
     const handleDelete = (id) => {
@@ -132,7 +145,7 @@ function AuthorList(props) {
                                 type="text"
                                 className="form-control"
                                 id="filter"
-                                name="authorFilter"
+                                name="filter"
                                 placeholder="Find author"
                             />
                         </div>
@@ -151,9 +164,13 @@ function AuthorList(props) {
                             <tbody>
                                 {authorList.filter((author) => 
                                     author.name.toLowerCase().includes(filter.toLowerCase())
-                                    ).map((author, key) => {
+                                    ).map((author) => {
                                     return (
-                                        <tr key={key} onDoubleClick={()=>navigate('/authors/show/'+author.id)} >
+                                        <tr
+                                            key={author.id}
+                                            id={`author-row-${author.id}`}
+                                            onDoubleClick={()=>navigate('/authors/show/'+author.id)}
+                                        >
                                             <td>{author.id}</td>
                                             <td>{author.name}</td>
                                             <td>{author.age}</td>

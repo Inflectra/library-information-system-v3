@@ -46,7 +46,13 @@ function AuthorEdit(props) {
                 title: 'Author saved successfully!',
                 showConfirmButton: false,
                 timer: 3000
-            }).then(()=>navigate('/authors', { replace: true }))
+            }).then(() => {
+                if (id) {
+                    navigate('/authors', { state: { scrollToId: id }, replace: true });
+                } else {
+                    navigate('/authors', { replace: true });
+                }
+            })
           })
           .catch(function (error) {
             Swal.fire({
@@ -98,13 +104,30 @@ function AuthorEdit(props) {
                                     />
                             </div>
 
-                            <button 
-                                disabled={isSaving}
-                                onClick={handleSave} 
-                                type="button"
-                                className="btn btn-outline-primary mt-3">
-                                Save Author
-                            </button>
+                            <div className="d-flex gap-3 mt-3">
+                                <button 
+                                    disabled={isSaving}
+                                    onClick={handleSave} 
+                                    type="button"
+                                    className="btn btn-outline-primary">
+                                    Save Author
+                                </button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button
+                                    disabled={isSaving}
+                                    onClick={() => {
+                                        if (id) {
+                                            navigate('/authors', { state: { scrollToId: id }, replace: true });
+                                        } else {
+                                            navigate('/authors', { replace: true });
+                                        }
+                                    }}
+                                    type="button"
+                                    className="btn"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
