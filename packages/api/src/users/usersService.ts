@@ -56,15 +56,17 @@ export class UsersService {
     }
   }
 
-  public update(db:Db, data: Partial<User>&Pick<User,"username">): User {
-    const user = this.get(db,data.username);
-    if(data) {
-      for(let k in data) {
+  public update(db:Db, data: Partial<User>&Pick<User,"username">): User|null {
+    const user = db.data.users.find(usr=>usr.username==data.username) as User;
+    if(!user) {
+      return null;
+    }
+    for(let k in data) {
+      if(k !== "username") {
         (<Record<string,any>>user)[k] = (<Record<string,any>>data)[k];
       }
-      db.data.users.push(user);
-      db.write();
     }
-    return user;  
+    db.write();
+    return this.hidePass(user);
   }
 }
