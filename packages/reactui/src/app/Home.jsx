@@ -54,6 +54,7 @@ const Home = (props) => {
   }, [fetchData])
 
   return (
+  <div className="container-fluid">
   <div className="row well">
     {!props.permission&&
     <div>
@@ -128,6 +129,7 @@ const Home = (props) => {
   }
   </div>
 
+  </div>
 ) // render
 };
 
